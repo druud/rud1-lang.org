@@ -47,6 +47,16 @@ compiled with the program, and `unpack` reads bytes by it, `pack` writes them.
 [rud1] pack(t{id:n flags:C size:V}, [id:258, flags:7, size:16])  \\ b"\x{01}\x{02}\x{07}\x{10}\x{00}\x{00}\x{00}"
 ```
 
+**Templates and comments are first-class.** A template is a value of its own type, as an
+integer is: it is bound to a name, kept in a list, joined with `~`, compared, shown. So is a
+doc comment `/*{ … }*/`: `_doc_()` gives the one of the block it stands in (a format handler
+can turn its text into data).
+
+```
+[rud1] my(t= t{id:n flags:C}); [str(t), t ~ t{V}]  \\ ["id:n flags:C",t{id:n flags:C V}]
+[rud1] my(help()= { /*{ prints help }*/ _doc_() }); help()  \\ " prints help "
+```
+
 **No silent ambiguity.** `unpack` never tries again: two variants that can read the same
 text are refused when the template is compiled, before any data is read, unless `||` says
 which one wins. And `pack` reads back what it wrote: bytes that would not read back as the
@@ -102,8 +112,7 @@ named arguments, lazy lists.
 | [Gotchas](docs/rud1_gotchas.md) | what might surprise a coder who comes from Perl or gp |
 | [Not yet](docs/rud1_not_yet.md) | what is decided or proposed and not yet built |
 
-Each example in them is run again before a document is published. The site is
-[rud1-lang.org](https://rud1-lang.org).
+Each example in them is run again before a document is published.
 
 ## Licence
 

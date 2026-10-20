@@ -226,6 +226,14 @@ and <code>unpack</code> reads bytes by it, <code>pack</code> writes
 them.</p>
 <pre><code>[rud1] unpack(t{id:n flags:C size:V}, b&quot;\x{01}\x{02}\x{07}\x{10}\x{00}\x{00}\x{00}&quot;)  \\ [id:258,flags:7,size:16]
 [rud1] pack(t{id:n flags:C size:V}, [id:258, flags:7, size:16])  \\ b&quot;\x{01}\x{02}\x{07}\x{10}\x{00}\x{00}\x{00}&quot;</code></pre>
+<p><strong>Templates and comments are first-class.</strong> A template
+is a value of its own type, as an integer is: it is bound to a name,
+kept in a list, joined with <code>~</code>, compared, shown. So is a doc
+comment <code>/*{ … }*/</code>: <code>_doc_()</code> gives the one of
+the block it stands in (a format handler can turn its text into
+data).</p>
+<pre><code>[rud1] my(t= t{id:n flags:C}); [str(t), t ~ t{V}]  \\ [&quot;id:n flags:C&quot;,t{id:n flags:C V}]
+[rud1] my(help()= { /*{ prints help }*/ _doc_() }); help()  \\ &quot; prints help &quot;</code></pre>
 <p><strong>No silent ambiguity.</strong> <code>unpack</code> never tries
 again: two variants that can read the same text are refused when the
 template is compiled, before any data is read, unless <code>||</code>
@@ -303,8 +311,7 @@ headers, Rosetta tasks</td>
 </tr>
 </tbody>
 </table>
-<p>Each example in them is run again before a document is published. The
-site is <a href="https://rud1-lang.org">rud1-lang.org</a>.</p>
+<p>Each example in them is run again before a document is published.</p>
 <h2 id="licence">Licence</h2>
 <ul>
 <li>Code (Lean, Python, scripts): MIT, see <code>LICENSE</code>.</li>

@@ -4,7 +4,7 @@ rud1 is a mostly functional programming language inspired by pari/gp, Perl and C
 prototype is written in Lean; ports to C++, Rust and the JVM are to follow it. The spec states the aim as making
 things "easy for the coder, without giving up quality or provability", and as much as
 possible is decided when a program is compiled: "whatever can feasibly be solved (or proved)
-at compile time is". The project's site is rud1-lang.org.
+at compile time is". The project's domain is rud1-lang.org.
 
 This document covers what is **built**: every example was run on the prototype as it is
 written here, and the output shown is what came out. Where a thing is **decided** (designed,
