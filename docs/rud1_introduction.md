@@ -1,7 +1,7 @@
 # Introduction to rud1
 
-rud1 is a mostly functional programming language inspired by pari/gp. Its prototype is
-written in Lean; ports to C++ and Rust are to follow it. The spec states the aim as making
+rud1 is a mostly functional programming language inspired by pari/gp, Perl and C++. Its
+prototype is written in Lean; ports to C++, Rust and the JVM are to follow it. The spec states the aim as making
 things "easy for the coder, without giving up quality or provability", and as much as
 possible is decided when a program is compiled: "whatever can feasibly be solved (or proved)
 at compile time is". The project's site is rud1-lang.org.
@@ -472,6 +472,6 @@ reads back what it wrote, and refuses bytes that would read as another list), an
 |---|---|
 | `rud1_differences.md` | rud1 beside other languages |
 | `rud1_examples.md` | longer programs |
-| `rud1_gotchas.md` | what surprises a coder who comes from Perl or gp |
-| `rud1_not_yet.md` | what is decided or proposed and not built |
+| `rud1_gotchas.md` | what might surprise a coder who comes from Perl or gp |
+| `rud1_not_yet.md` | what is decided or proposed and not yet built |
 | `rud1_spec.md` | the spec, the authority on every rule (a draft, not published yet) |

@@ -190,20 +190,27 @@
 <p><strong>Exact numbers, errors as states of a value, and one checked
 template language that reads and writes binary and text
 formats.</strong></p>
-<p>rud1 (<code>.rud</code>) started out inspired by pari/gp, and keeps
-its terse one-liners. It has grown its own character: what can be
-decided before a program runs is decided then, a result that went wrong
-is a state that travels with it, and reading and writing data share one
-description. The prototype is written in <a
+<p>rud1 (<code>.rud</code>) started out inspired by pari/gp, Perl and
+C++, and keeps their terse one-liners. It has grown its own character:
+what can be decided before a program runs is decided then, a result that
+went wrong is a state that travels with it, and reading and writing data
+share one description. The prototype is written in <a
 href="https://lean-lang.org">Lean 4</a>, with proofs of parts of its
-semantics; ports to C++ and Rust are to follow.</p>
+semantics; ports to C++, Rust and the JVM are to follow.</p>
+<p>rud1 is meant for more than coders. Auditors, companies and AI tools
+are expected to welcome it too, because it caters for their needs
+wherever feasible: no silent limits and no silent ambiguity, checks
+before a program runs, errors that say where, and data formats described
+once for reading and writing.</p>
 <p>Every example below was run on the prototype; <code>\\</code> starts
-a comment, and what follows it is what came out.</p>
+a comment, and what follows is what came out.</p>
 <h2 id="what-is-special-already-built">What is special already
 (built)</h2>
-<p><strong>Exact by default.</strong> Whole numbers have no size limit,
-<code>/</code> gives a fraction when the division does not come out, and
-the remainder is never negative.</p>
+<p><strong>Exact by default.</strong> Numbers have no size limit by
+default: whole numbers and fractions in the prototype, and a default
+float of unlimited precision is decided. <code>/</code> gives a fraction
+when the division does not come out, and the remainder is never
+negative.</p>
 <pre><code>[rud1] [7 / 2, 2^100, -7 % 2, 1/10 + 2/10 == 3/10]  \\ [7/2,1267650600228229401496703205376,1,1]</code></pre>
 <p><strong>Errors are states, not exceptions.</strong> A
 <code>uint</code> below zero is the state <code>underflow</code> where
@@ -244,8 +251,11 @@ static.</li>
 conversions; later <code>pandoc.rud</code>.</li>
 <li>Templates that change what they read next from the data (hooks), and
 the rest of text: normalization, word boundaries.</li>
-<li>A compiler, with ports of the prototype to C++ and Rust; a compiled
-program that carries enough to give back its normalized source.</li>
+<li>A compiler, with ports of the prototype to C++, Rust and the JVM; a
+compiled program that carries enough to give back its normalized
+source.</li>
+<li>Migration tools, such as <code>pari2rud1.rud</code> from pari/gp
+(its rules are collected in the <code>pari2rud1</code> manual).</li>
 <li><code>gp.rud</code>: pari/gp's names, for coders who come from
 gp.</li>
 </ul>
@@ -273,11 +283,11 @@ headers, Rosetta tasks</td>
 </tr>
 <tr>
 <td><a href="rud1_gotchas.html">Gotchas</a></td>
-<td>what surprises a coder who comes from Perl or gp</td>
+<td>what might surprise a coder who comes from Perl or gp</td>
 </tr>
 <tr>
 <td><a href="rud1_not_yet.html">Not yet</a></td>
-<td>what is decided or proposed and not built</td>
+<td>what is decided or proposed and not yet built</td>
 </tr>
 </tbody>
 </table>

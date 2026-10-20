@@ -5,19 +5,25 @@
 **Exact numbers, errors as states of a value, and one checked template language that reads
 and writes binary and text formats.**
 
-rud1 (`.rud`) started out inspired by pari/gp, and keeps its terse one-liners. It has grown
-its own character: what can be decided before a program runs is decided then, a result that
+rud1 (`.rud`) started out inspired by pari/gp, Perl and C++, and keeps their terse one-liners.
+It has grown its own character: what can be decided before a program runs is decided then, a result that
 went wrong is a state that travels with it, and reading and writing data share one
 description. The prototype is written in [Lean 4](https://lean-lang.org), with proofs of
-parts of its semantics; ports to C++ and Rust are to follow.
+parts of its semantics; ports to C++, Rust and the JVM are to follow.
 
-Every example below was run on the prototype; `\\` starts a comment, and what follows it is
-what came out.
+rud1 is meant for more than coders. Auditors, companies and AI tools are expected to
+welcome it too, because it caters for their needs wherever feasible: no silent limits and no
+silent ambiguity, checks before a program runs, errors that say where, and data formats
+described once for reading and writing.
+
+Every example below was run on the prototype; `\\` starts a comment, and what follows is what
+came out.
 
 ## What is special already (built)
 
-**Exact by default.** Whole numbers have no size limit, `/` gives a fraction when the division
-does not come out, and the remainder is never negative.
+**Exact by default.** Numbers have no size limit by default: whole numbers and fractions in
+the prototype, and a default float of unlimited precision is decided. `/` gives a fraction
+when the division does not come out, and the remainder is never negative.
 
 ```
 [rud1] [7 / 2, 2^100, -7 % 2, 1/10 + 2/10 == 3/10]  \\ [7/2,1267650600228229401496703205376,1,1]
@@ -71,8 +77,10 @@ named arguments, lazy lists.
   sub-formats are functions, so that modules add conversions; later `pandoc.rud`.
 - Templates that change what they read next from the data (hooks), and the rest of text:
   normalization, word boundaries.
-- A compiler, with ports of the prototype to C++ and Rust; a compiled program that carries
-  enough to give back its normalized source.
+- A compiler, with ports of the prototype to C++, Rust and the JVM; a compiled program that
+  carries enough to give back its normalized source.
+- Migration tools, such as `pari2rud1.rud` from pari/gp (its rules are collected in the
+  `pari2rud1` manual).
 - `gp.rud`: pari/gp's names, for coders who come from gp.
 
 ## Documents
@@ -82,8 +90,8 @@ named arguments, lazy lists.
 | [Introduction](docs/rud1_introduction.md) | the language as built, from the first line |
 | [Examples](docs/rud1_examples.md) | longer programs: Unicode, errors, standard input, PNG and gzip headers, Rosetta tasks |
 | [Differences](docs/rud1_differences.md) | rud1 beside other languages, point by point |
-| [Gotchas](docs/rud1_gotchas.md) | what surprises a coder who comes from Perl or gp |
-| [Not yet](docs/rud1_not_yet.md) | what is decided or proposed and not built |
+| [Gotchas](docs/rud1_gotchas.md) | what might surprise a coder who comes from Perl or gp |
+| [Not yet](docs/rud1_not_yet.md) | what is decided or proposed and not yet built |
 
 Each example in them is run again before a document is published. The site is
 [rud1-lang.org](https://rud1-lang.org).
