@@ -1,7 +1,7 @@
 # rud1 gotchas
 
 Places where rud1 does something a coder may not expect, each
-with the smallest case. Started in generation 25 (the user: "it should be listed in a
+with the smallest case. Started in generation 25 (the author: "it should be listed in a
 `rud1-gotchas` doc"). Most entries are about the template language of `unpack` and `pack`
 (spec §5d). **Designed** means decided and not built; **built** means the prototype does it
 today. "Run" means the counterpart was run in Perl 5.38.2, gp 2.15.4 or the prototype.
@@ -286,7 +286,7 @@ built (run in generation 30), but for the rows that say "not built" or "none".
     comments and without a policy header. `say(t)` writes it; a result shows `t{a4}`. Two
     templates compare by it (`t{C  n} == t{C n}`), which is the same spelling, not the same
     meaning (`t{%[0-9]} !== t{&d}`); `t === "C n"` is false without an `error`. Built
-    (generation 29), the user's rules; a type of your own may allow more.
+    (generation 29), the author's rules; a type of your own may allow more.
 
 47. **`t ~ u` of two templates is not their texts glued.** It is the template that reads
     `t`, then `u`: a join of the two trees. `t{C} ~ t{n}`

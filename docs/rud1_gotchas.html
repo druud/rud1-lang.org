@@ -190,7 +190,7 @@
 </header>
 <h1 id="rud1-gotchas">rud1 gotchas</h1>
 <p>Places where rud1 does something a coder may not expect, each
-with the smallest case. Started in generation 25 (the user: "it should be listed in a
+with the smallest case. Started in generation 25 (the author: "it should be listed in a
 <code>rud1-gotchas</code> doc"). Most entries are about the template language of <code>unpack</code> and <code>pack</code>
 (spec §5d). <strong>Designed</strong> means decided and not built; <strong>built</strong> means the prototype does it
 today. "Run" means the counterpart was run in Perl 5.38.2, gp 2.15.4 or the prototype.</p>
@@ -561,7 +561,7 @@ is the normalized form: <code>str(t{a[4]})</code> is <code>"a4"</code>, <code>st
 comments and without a policy header. <code>say(t)</code> writes it; a result shows <code>t{a4}</code>. Two
 templates compare by it (<code>t{C  n} == t{C n}</code>), which is the same spelling, not the same
 meaning (<code>t{%[0-9]} !== t{&amp;d}</code>); <code>t === "C n"</code> is false without an <code>error</code>. Built
-(generation 29), the user's rules; a type of your own may allow more.</li>
+(generation 29), the author's rules; a type of your own may allow more.</li>
 <li><strong><code>t ~ u</code> of two templates is not their texts glued.</strong> It is the template that reads
 <code>t</code>, then <code>u</code>: a join of the two trees. <code>t{C} ~ t{n}</code>
 is <code>t{C n}</code> (<code>"C" ~ "n"</code> is <code>"Cn"</code>), and <code>t ~* 2</code> is <code>t</code> joined twice. A
