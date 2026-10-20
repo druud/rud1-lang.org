@@ -461,6 +461,7 @@ each, and a digit right after one is a compile error too (`"\012"`).
 ```
 [rud1] b"\x{89}PNG" ~ b"\o{15}\b{00001010}" \\ b"\x{89}PNG\x{0d}\x{0a}"
 [rud1] b"\x89PNG" \\ 1:1 error \x needs braces: \x{...}
+[rud1] [b"\x{0}", b"\0", b"\o{0}", b"\b{0}"] \\ [b"\x{00}",b"\x{00}",b"\x{00}",b"\x{00}"]
 ```
 
 `perl -e 'print "\012" eq "\n" ? "LF" : "other"'` prints `LF`.

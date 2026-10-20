@@ -484,7 +484,8 @@ says so), the rules of a language.</p>
 shown the same way. <code>\x89</code> without braces is a compile error. <code>\0</code> to <code>\7</code> are one digit
 each, and a digit right after one is a compile error too (<code>"\012"</code>).</p>
 <pre class="text"><code>[rud1] b&quot;\x{89}PNG&quot; ~ b&quot;\o{15}\b{00001010}&quot; \\ b&quot;\x{89}PNG\x{0d}\x{0a}&quot;
-[rud1] b&quot;\x89PNG&quot; \\ 1:1 error \x needs braces: \x{...}</code></pre>
+[rud1] b&quot;\x89PNG&quot; \\ 1:1 error \x needs braces: \x{...}
+[rud1] [b&quot;\x{0}&quot;, b&quot;\0&quot;, b&quot;\o{0}&quot;, b&quot;\b{0}&quot;] \\ [b&quot;\x{00}&quot;,b&quot;\x{00}&quot;,b&quot;\x{00}&quot;,b&quot;\x{00}&quot;]</code></pre>
 <p><code>perl -e 'print "\012" eq "\n" ? "LF" : "other"'</code> prints <code>LF</code>.</p>
 <p>Reason: the author, generation 23: "Let's make braces required for now"; they balance,
 which a <code>t{…}</code> literal needs (section 25). <code>"\012"</code> would be three bytes here and is one
