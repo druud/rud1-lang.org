@@ -389,7 +389,9 @@ time it is asked for. The spec's rule (computed once, then kept) is not built.</
 function as a value. The names are sealed: a script can't rebind <code>_+_</code>.</p>
 <pre class="text"><code>[rud1] [fold(_+_, [1..10]), _*_(6, 7), scan(_+_, [3, 1, 2])] \\ [55,42,[3,4,6]]
 [rud1] my(_+_= 5); 1 \\ 1:4 error &#39;_+_&#39;: names starting with &#39;_&#39; belong to the language</code></pre>
-<p>Reason: operators are calls of internal names, as in gp, where <code>_+_</code> is a help name only.
+<p>Reason: operators are calls of internal names, as in gp, where <code>_+_</code> is the operator's
+internal name in the help (<code>?_+_</code>), in error messages (<code>_+_: forbidden addition</code>) and for
+<code>alias("add", "_+_")</code>, though gp can't call <code>_+_(1,2)</code> itself (gp 2.19.0, run).
 The spec's example of what sealing prevents: <code>_+_</code> rebound to a concatenation. Status: the
 binary names as values are built; the prefix names (<code>-_</code>, <code>#_</code>) and operators declared by
 a module are not.</p>

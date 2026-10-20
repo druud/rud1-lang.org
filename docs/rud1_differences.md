@@ -314,7 +314,9 @@ function as a value. The names are sealed: a script can't rebind `_+_`.
 [rud1] my(_+_= 5); 1 \\ 1:4 error '_+_': names starting with '_' belong to the language
 ```
 
-Reason: operators are calls of internal names, as in gp, where `_+_` is a help name only.
+Reason: operators are calls of internal names, as in gp, where `_+_` is the operator's
+internal name in the help (`?_+_`), in error messages (`_+_: forbidden addition`) and for
+`alias("add", "_+_")`, though gp can't call `_+_(1,2)` itself (gp 2.19.0, run).
 The spec's example of what sealing prevents: `_+_` rebound to a concatenation. Status: the
 binary names as values are built; the prefix names (`-_`, `#_`) and operators declared by
 a module are not.
