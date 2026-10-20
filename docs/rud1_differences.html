@@ -326,7 +326,7 @@ the spec still marks the rule of <code>===</code> as proposed.</p>
 [rud1] 1 &lt; 2 != 3 \\ 1:7 error &#39;!=&#39; doesn&#39;t chain</code></pre>
 <p><code>echo '3 &gt; 2 &gt; 1' | gp -q</code> gives <code>0</code> (the result of <code>3 &gt; 2</code> against 1);
 <code>python3.12 -c 'print(1 &lt; 3 &gt; 2)'</code> prints <code>True</code>.</p>
-<p>Reason (history): the chain replaces "gp's useless <code>(a&lt;b)&lt;c</code>". Status: built.</p>
+<p>Status: built.</p>
 <h2 id="12-errors-are-states-of-a-value-not-exceptions">12. Errors are states of a value, not exceptions</h2>
 <p>A result is a value, or a state with an origin. <code>undef</code> is soft: it is bound, passed and
 combined, and the code around it goes on. <code>error</code> is hard: it ends each sequence, loop and
@@ -363,8 +363,7 @@ end of the list as in Python; several indices gather. A position
 out of range is an <code>error</code>, reading as well as storing.</p>
 <pre class="text"><code>[rud1] my(v= [10, 20, 30, 40]); [v[0], v[-1], v[0, -1]] \\ [10,40,[10,40]]
 [rud1] [10, 20, 30][3] \\ we exited &lt;error(&quot;[10, 20, 30][3]: index 3 is outside 0 .. 2&quot;)&gt; at 1:1</code></pre>
-<p>It departs from gp: <code>echo '[10, 20, 30][1]' | gp -q</code> gives <code>10</code>. Status: built. A 1-based
-list type for translated gp code is proposed.</p>
+<p>It departs from gp: <code>echo '[10, 20, 30][1]' | gp -q</code> gives <code>10</code>. Status: built.</p>
 <h2 id="14-ranges-hold-both-ends-take-a-step-after--and-splice">14. Ranges hold both ends, take a step after <code>;</code>, and splice</h2>
 <p><code>[a..b]</code> runs from <code>a</code> to <code>b</code>, both included; backwards it is empty. A step follows a <code>;</code>
 and its sign is the direction: <code>[a..b;s]</code>. A range among the other elements of a list is

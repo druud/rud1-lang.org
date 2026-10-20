@@ -215,7 +215,7 @@ the spec still marks the rule of `===` as proposed.
 `echo '3 > 2 > 1' | gp -q` gives `0` (the result of `3 > 2` against 1);
 `python3.12 -c 'print(1 < 3 > 2)'` prints `True`.
 
-Reason (history): the chain replaces "gp's useless `(a<b)<c`". Status: built.
+Status: built.
 
 ## 12. Errors are states of a value, not exceptions
 
@@ -269,8 +269,7 @@ out of range is an `error`, reading as well as storing.
 [rud1] [10, 20, 30][3] \\ we exited <error("[10, 20, 30][3]: index 3 is outside 0 .. 2")> at 1:1
 ```
 
-It departs from gp: `echo '[10, 20, 30][1]' | gp -q` gives `10`. Status: built. A 1-based
-list type for translated gp code is proposed.
+It departs from gp: `echo '[10, 20, 30][1]' | gp -q` gives `10`. Status: built.
 
 ## 14. Ranges hold both ends, take a step after `;`, and splice
 
