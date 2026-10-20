@@ -363,7 +363,8 @@ end of the list as in Python; several indices gather. A position
 out of range is an <code>error</code>, reading as well as storing.</p>
 <pre class="text"><code>[rud1] my(v= [10, 20, 30, 40]); [v[0], v[-1], v[0, -1]] \\ [10,40,[10,40]]
 [rud1] [10, 20, 30][3] \\ we exited &lt;error(&quot;[10, 20, 30][3]: index 3 is outside 0 .. 2&quot;)&gt; at 1:1</code></pre>
-<p>It departs from gp: <code>echo '[10, 20, 30][1]' | gp -q</code> gives <code>10</code>. Status: built.</p>
+<p>It departs from gp: <code>echo '[10, 20, 30][1]' | gp -q</code> gives <code>10</code>. Status: built. A 1-based
+list type for translated gp code, <code>vector</code>, is proposed.</p>
 <h2 id="14-ranges-hold-both-ends-take-a-step-after--and-splice">14. Ranges hold both ends, take a step after <code>;</code>, and splice</h2>
 <p><code>[a..b]</code> runs from <code>a</code> to <code>b</code>, both included; backwards it is empty. A step follows a <code>;</code>
 and its sign is the direction: <code>[a..b;s]</code>. A range among the other elements of a list is
