@@ -258,7 +258,9 @@ source.</li>
 <li>A small core, with the rest written in rud1 itself: a port to a host
 language replaces a feature by the host's own where that is faster, and
 is checked against the rud1 implementation on generated data; an install
-may also keep to rud1's own, slower and purer.</li>
+may also keep to rud1's own, slower and purer. Where proof matters, an
+executable with only the core ported runs the program, or gives the
+final check of a faster one's results.</li>
 <li>Migration tools, such as <code>pari2rud1.rud</code> from pari/gp
 (its rules are collected in the <code>pari2rud1</code> manual).</li>
 <li><code>gp.rud</code>: pari/gp's names, for coders who come from

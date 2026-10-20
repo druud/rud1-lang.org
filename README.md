@@ -83,6 +83,8 @@ named arguments, lazy lists.
 - A small core, with the rest written in rud1 itself: a port to a host language replaces a
   feature by the host's own where that is faster, and is checked against the rud1
   implementation on generated data; an install may also keep to rud1's own, slower and purer.
+  Where proof matters, an executable with only the core ported runs the program, or gives
+  the final check of a faster one's results.
 - Migration tools, such as `pari2rud1.rud` from pari/gp (its rules are collected in the
   `pari2rud1` manual).
 - `gp.rud`: pari/gp's names, for coders who come from gp.
