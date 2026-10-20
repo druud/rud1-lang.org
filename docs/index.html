@@ -231,7 +231,7 @@ kept in a list, joined with <code>~</code>, compared, shown. So is a doc
 comment <code>/*{ … }*/</code>: <code>_doc_()</code> gives the one of
 the block it stands in (a format handler can turn its text into
 data).</p>
-<pre><code>[rud1] my(t= t{id:n flags:C}); [str(t), t ~ t{V}]  \\ [&quot;id:n flags:C&quot;,t{id:n flags:C V}]
+<pre><code>[rud1] my(t= t{id:n flags:C}); [str(t), t{[t, t{V}]}]  \\ [&quot;id:n flags:C&quot;,t{id:n flags:C V}]
 [rud1] my(help()= { /*{ prints help }*/ _doc_() }); help()  \\ &quot; prints help &quot;</code></pre>
 <p><strong>No silent ambiguity.</strong> <code>unpack</code> never tries
 again: two variants that can read the same text are refused when the

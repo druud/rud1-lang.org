@@ -914,12 +914,6 @@ Sentences of the spec that still say "<code>unpack</code> is not built" are olde
 <td style="text-align: left;"><code>unpack(template(q{C n}), b"A\x{00}\x{01}") \\ [65,1]</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>t{C} ~ "n"</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error '~' of a template and a str: write str(t) ~ s, or t ~ template(s)</code> (the cast from <code>str</code> to a template)</td>
-<td style="text-align: left;"><code>t{C} ~ template("n") \\ t{C n}</code></td>
-</tr>
-<tr>
 <td style="text-align: left;"><code>my(hex= t{%[0-9a-f]}); unpack(t{&amp;hex}, b"a")</code></td>
 <td style="text-align: left;">proposed</td>
 <td style="text-align: left;"><code>1:31 error template 1:1: the pattern &amp;hex is not defined</code></td>

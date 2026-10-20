@@ -52,7 +52,7 @@ doc comment `/*{ … }*/`: `_doc_()` gives the one of the block it stands in (a 
 can turn its text into data).
 
 ```
-[rud1] my(t= t{id:n flags:C}); [str(t), t ~ t{V}]  \\ ["id:n flags:C",t{id:n flags:C V}]
+[rud1] my(t= t{id:n flags:C}); [str(t), t{[t, t{V}]}]  \\ ["id:n flags:C",t{id:n flags:C V}]
 [rud1] my(help()= { /*{ prints help }*/ _doc_() }); help()  \\ " prints help "
 ```
 
