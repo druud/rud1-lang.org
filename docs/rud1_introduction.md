@@ -1,7 +1,7 @@
 # Introduction to rud1
 
-rud1 is a mostly functional programming language inspired by pari/gp, Perl and C++. Its
-prototype is written in Lean; ports to C++, Rust and the JVM are to follow it. The spec states the aim as making
+rud1 is a mostly functional programming language. Its prototype is written in Lean; ports to
+C++, Rust and the JVM are to follow it. The spec states the aim as making
 things "easy for the coder, without giving up quality or provability", and as much as
 possible is decided when a program is compiled: "whatever can feasibly be solved (or proved)
 at compile time is". The project's domain is rud1-lang.org.

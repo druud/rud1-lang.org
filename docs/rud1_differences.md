@@ -1,7 +1,6 @@
 # What rud1 does differently
 
-rud1 is a new, mostly functional language in the line of pari/gp (project domain:
-`rud1-lang.org`). This file lists where its choices depart from what most languages do,
+This file lists where the choices of rud1 depart from what most languages do,
 from what a newcomer meets first to the specialised. Each section gives the rule, an example
 that was run, the reason as the spec or the project's history gives it (none where none is
 written), and the status: **built** (the prototype does it today), **decided** (designed,
