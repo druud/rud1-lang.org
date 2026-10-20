@@ -235,12 +235,11 @@ number, <code>===</code> asks for the same kind as well. Comparisons chain. Ther
 <code>||</code>: <code>and</code> and <code>or</code> are functions that stop at the first argument that decides, and <code>!</code> is
 "not". False are <code>0</code>, <code>0.0</code> and <code>false</code>; an empty list and an empty string are true.</p>
 <pre class="text"><code>[rud1] [1 == 1.0, 1 === 1.0, 1 &lt; 2 &lt;= 2, 1 &lt;=&gt; 2, and(1, 0), or(0, 3), !0]  \\ [1,0,1,-1,0,1,1]</code></pre>
-<p>A <code>uint</code> minus a larger <code>uint</code> is not a negative number: where the value leaves the expression
-it is the state <code>underflow</code> ("Errors are states" below tells what that means), while inside
-it the sign is held back, so <code>3 - 5 + 4</code> is <code>2</code>. A sum with a negative number, or the cast <code>sint(…)</code>, gives the
-<code>sint</code>:</p>
+<p>A <code>uint</code> minus a larger <code>uint</code> does not silently become a negative number, which protects
+an index ("Lists" below). A sum with a negative number, a prefix <code>+</code>, or the cast <code>sint(…)</code> gives
+the <code>sint</code>:</p>
 <pre class="text"><code>[rud1] [3 + -5, sint(3) - 5]  \\ [-2,-2]
-[rud1] 3 - 5  \\ we exited &lt;underflow&gt; at 011.rud:1:1</code></pre>
+[rud1] +3 - 5  \\ -2</code></pre>
 <p>A number never becomes text by itself, nor text a number: the casts are <code>str(x)</code>, <code>uint(s)</code>
 and <code>sint(s)</code>.</p>
 <pre class="text"><code>[rud1] [str(42), uint(&quot;42&quot;), sint(&quot;-7&quot;), &quot;n = &quot; ~ str(5)]  \\ [&quot;42&quot;,42,-7,&quot;n = 5&quot;]</code></pre>
@@ -402,7 +401,7 @@ from the first day:</p>
 <ul>
 <li><code>undef</code>: there is no value. An <code>if</code> without "else" whose condition was false, a loop
 without a round, <code>max([])</code>, <code>read_line()</code> at the end of the input.</li>
-<li><code>underflow</code>: a <code>uint</code> below 0 where the value leaves the expression (<code>3 - 5</code>).</li>
+<li><code>underflow</code>: a <code>uint</code> that would go below 0.</li>
 <li><code>error</code>: something went wrong. <code>1/0</code>, a position outside a list, a text
 that is no number in <code>uint(s)</code>, and <code>error("message")</code> in your own code.</li>
 </ul>

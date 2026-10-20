@@ -76,14 +76,13 @@ number, `===` asks for the same kind as well. Comparisons chain. There is no `&&
 [rud1] [1 == 1.0, 1 === 1.0, 1 < 2 <= 2, 1 <=> 2, and(1, 0), or(0, 3), !0]  \\ [1,0,1,-1,0,1,1]
 ```
 
-A `uint` minus a larger `uint` is not a negative number: where the value leaves the expression
-it is the state `underflow` ("Errors are states" below tells what that means), while inside
-it the sign is held back, so `3 - 5 + 4` is `2`. A sum with a negative number, or the cast `sint(…)`, gives the
-`sint`:
+A `uint` minus a larger `uint` does not silently become a negative number, which protects
+an index ("Lists" below). A sum with a negative number, a prefix `+`, or the cast `sint(…)` gives
+the `sint`:
 
 ```
 [rud1] [3 + -5, sint(3) - 5]  \\ [-2,-2]
-[rud1] 3 - 5  \\ we exited <underflow> at 011.rud:1:1
+[rud1] +3 - 5  \\ -2
 ```
 
 A number never becomes text by itself, nor text a number: the casts are `str(x)`, `uint(s)`
@@ -346,7 +345,7 @@ from the first day:
 
 - `undef`: there is no value. An `if` without "else" whose condition was false, a loop
   without a round, `max([])`, `read_line()` at the end of the input.
-- `underflow`: a `uint` below 0 where the value leaves the expression (`3 - 5`).
+- `underflow`: a `uint` that would go below 0.
 - `error`: something went wrong. `1/0`, a position outside a list, a text
   that is no number in `uint(s)`, and `error("message")` in your own code.
 

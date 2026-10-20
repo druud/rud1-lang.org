@@ -259,15 +259,14 @@ gives a float: today an IEEE binary64 value, shown in 15 digits.</p>
 of infinite precision." Status: <code>uint</code>, <code>sint</code> and rationals are built. Decided, not built: a
 default float of infinite precision, native floats under names like <code>float8</code>, a native
 <code>i64</code> for whoever asks for it.</p>
-<h2 id="6-uint---uint-below-zero-is-the-state-underflow-prefix--makes-an-sint">6. <code>uint - uint</code> below zero is the state <code>underflow</code>; prefix <code>+</code> makes a <code>sint</code></h2>
-<p>A literal without a sign is a <code>uint</code>, and the difference of two <code>uint</code>s is a <code>uint</code>: below 0
-it is the state <code>underflow</code>, checked where the value leaves the expression, so <code>3 - 5 + 4</code> is
-<code>2</code>; the state names the <code>-</code> that first went below 0 (generation 38). A prefix <code>+</code> gives a <code>sint</code>, and the subtraction then happens in <code>sint</code>.
-The rule protects an index: a position that went below 0 is not read as "from the end".</p>
-<pre class="text"><code>[rud1] 2 - 3 \\ we exited &lt;underflow&gt; at 1:1
-[rud1] +2 - 3 \\ -1
+<h2 id="6-uint---uint-below-zero-is-the-state-underflow-prefix--makes-an-sint">6. A <code>uint</code> does not go below zero silently; prefix <code>+</code> makes a <code>sint</code></h2>
+<p>A literal without a sign is a <code>uint</code>, and the difference of two <code>uint</code>s is a <code>uint</code>: it does
+not silently become negative. A prefix <code>+</code> gives a <code>sint</code>, and the subtraction then happens
+in <code>sint</code>. The rule protects an index: a position that went below 0 is not read as "from the
+end", while a literal negative position is.</p>
+<pre class="text"><code>[rud1] +2 - 3 \\ -1
 [rud1] my(a= 3, b= 5); abs(+a - b) \\ 2
-[rud1] my(v= [10, 20, 30], i= 0); v[i - 1] \\ we exited &lt;underflow&gt; at 1:30</code></pre>
+[rud1] my(v= [10, 20, 30], i= 0); [v[-1], guard(v[i - 1], &quot;none&quot;)] \\ [30,&quot;none&quot;]</code></pre>
 <p><code>python3.12 -c 'print([10, 20, 30][0 - 1])'</code> prints <code>30</code>.</p>
 <p>Reason (history, generation 11): the author reasons from full types, <code>nat 3 - nat 5</code> "will
 of course error in nat-context but not in int-context"; a <code>uint - uint</code> of type <code>sint</code> with a

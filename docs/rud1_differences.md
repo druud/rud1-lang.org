@@ -109,18 +109,17 @@ of infinite precision." Status: `uint`, `sint` and rationals are built. Decided,
 default float of infinite precision, native floats under names like `float8`, a native
 `i64` for whoever asks for it.
 
-## 6. `uint - uint` below zero is the state `underflow`; prefix `+` makes a `sint`
+## 6. A `uint` does not go below zero silently; prefix `+` makes a `sint`
 
-A literal without a sign is a `uint`, and the difference of two `uint`s is a `uint`: below 0
-it is the state `underflow`, checked where the value leaves the expression, so `3 - 5 + 4` is
-`2`; the state names the `-` that first went below 0 (generation 38). A prefix `+` gives a `sint`, and the subtraction then happens in `sint`.
-The rule protects an index: a position that went below 0 is not read as "from the end".
+A literal without a sign is a `uint`, and the difference of two `uint`s is a `uint`: it does
+not silently become negative. A prefix `+` gives a `sint`, and the subtraction then happens
+in `sint`. The rule protects an index: a position that went below 0 is not read as "from the
+end", while a literal negative position is.
 
 ```
-[rud1] 2 - 3 \\ we exited <underflow> at 1:1
 [rud1] +2 - 3 \\ -1
 [rud1] my(a= 3, b= 5); abs(+a - b) \\ 2
-[rud1] my(v= [10, 20, 30], i= 0); v[i - 1] \\ we exited <underflow> at 1:30
+[rud1] my(v= [10, 20, 30], i= 0); [v[-1], guard(v[i - 1], "none")] \\ [30,"none"]
 ```
 
 `python3.12 -c 'print([10, 20, 30][0 - 1])'` prints `30`.
