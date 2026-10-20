@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.12.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>rud1: Introduction</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      color: light-dark(#1a1a1a, #fdfdfd);
+      background-color: #fdfdfd;
+      background-color: light-dark(#fdfdfd, #1a1a1a);
+      color-scheme: light dark;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        color-scheme: light only;
+      }
+      html, body, pre, code {
+        background-color: transparent;
+      }
+      body, a, a:visited, blockquote {
+        color: black;
+      }
+      pre, code {
+        padding: 0;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a, a:visited {
+      color: inherit;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid;
+      border-color: #e6e6e6;
+      border-color: light-dark(#e6e6e6, #4c4c4c);
+      color: #606060;
+      color: light-dark(#606060, #b6b6b6);
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid currentColor;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid currentColor;
+      border-bottom: 1px solid currentColor;
+    }
+    th {
+      border-top: 1px solid currentColor;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+<style>body{max-width:52em;margin:2em auto;padding:0 1em;font-family:serif}code,pre{font-family:monospace}.greyparen{color:#8c8c8c}table{border-collapse:collapse}td,th{padding:.15em .6em;vertical-align:top}</style>
+<link rel="stylesheet" href="site.css" />
+</head>
+<body>
+<nav class="site"><a href="index.html"><img src="rud1_logo.svg" alt="rud1"></a><a href="rud1_introduction.html" class="here">Introduction</a><a href="rud1_examples.html">Examples</a><a href="rud1_differences.html">Differences</a><a href="rud1_gotchas.html">Gotchas</a><a href="rud1_not_yet.html">Not yet</a><a href="https://github.com/isolution-nl/rud1-lang.org">GitHub</a></nav>
+<header id="title-block-header">
+<h1 class="title">rud1_introduction</h1>
+</header>
+<h1 id="introduction-to-rud1">Introduction to rud1</h1>
+<p>rud1 is a mostly functional programming language inspired by pari/gp. Its prototype is
+written in Lean; ports to C++ and Rust are to follow it. The spec states the aim as making
+things "easy for the coder, without giving up quality or provability", and as much as
+possible is decided when a program is compiled: "whatever can feasibly be solved (or proved)
+at compile time is". The project's site is rud1-lang.org.</p>
+<p>This document covers what is <strong>built</strong>: every example was run on the prototype as it is
+written here, and the output shown is what came out. Where a thing is <strong>decided</strong> (designed,
+waiting for a build) or <strong>proposed</strong> (not confirmed by the author), it says so.</p>
+<h2 id="running-code">Running code</h2>
+<p><code>rud1 'code'</code> runs a one-liner, <code>rud1 file.rud</code> a file. <code>rud1</code> is a small shell
+function around the executable, which is named <code>rud1_run</code> (<code>rud1_run -e 'code'</code>,
+<code>rud1_run file.rud</code>); source files end in <code>.rud</code>.</p>
+<p>A program is a sequence of expressions separated by <code>;</code>. Its value is the value of the last
+one, and that value is shown after the program's output, unless the source ends in <code>;</code>.
+<code>say</code> writes its arguments and a newline, and its value is its last argument:</p>
+<pre class="text"><code>[rud1]
+say(&quot;hello&quot;)</code></pre>
+<p>Output:</p>
+<pre class="text"><code>hello
+&quot;hello&quot;</code></pre>
+<p>With a final <code>;</code>, the usual form of a script, only the output is left:</p>
+<pre class="text"><code>[rud1] say(&quot;hello&quot;);  \\ hello
+[rud1] 2 + 3 * 4  \\ 14</code></pre>
+<p>In this document a one-liner is followed by <code>\\</code> and what it gave; <code>\\</code> starts a comment
+that runs to the end of the line, so each example line is valid code. The main form of a
+comment is <code>/* … */</code>. White space and line ends carry no meaning.</p>
+<h2 id="numbers">Numbers</h2>
+<p>Whole numbers have no size limit. A literal without a sign is a <code>uint</code> (natural number), a
+negative number a <code>sint</code>; <code>nat</code>, <code>int</code> and <code>rat</code> are short aliases of <code>uint</code>, <code>sint</code>
+and <code>urat</code> (built). <code>/</code> is exact and gives a <code>urat</code> (a fraction), or a <code>srat</code> with a signed
+operand, when the division does not come out; <code>//</code> is the whole quotient and <code>%</code> the remainder, which is never negative.
+<code>^</code> is the power.</p>
+<pre class="text"><code>[rud1] [7 / 2, 7 // 2, 7 % 2, 12 / 4, 1/3 + 1/6]  \\ [7/2,3,1,3,1/2]
+[rud1] [-7 // 2, -7 % 2, 7 // -2, 7 % -2]  \\ [-4,1,-3,1]
+[rud1] [2^100, 2^-3, -3^2]  \\ [1267650600228229401496703205376,1/8,-9]</code></pre>
+<p>A literal with a dot is a float (binary, 64 bits, in the prototype; a default float of
+infinite precision is decided, not built); a digit is needed on both sides of the
+dot (<code>1.0</code>, not <code>1.</code>). A float shows all its 15 digits. An operation with one float operand
+gives a float.</p>
+<pre class="text"><code>[rud1] [1.5 + 1, 7 / 2.0, 1e3]  \\ [2.50000000000000,3.50000000000000,1000.00000000000]
+[rud1] [0.1 + 0.2 == 0.3, 1/10 + 2/10 == 3/10]  \\ [0,1]</code></pre>
+<p>A comparison gives a <code>bool</code>, shown as <code>1</code> or <code>0</code>. <code>==</code> compares values across the kinds of
+number, <code>===</code> asks for the same kind as well. Comparisons chain. There is no <code>&amp;&amp;</code> and no
+<code>||</code>: <code>and</code> and <code>or</code> are functions that stop at the first argument that decides, and <code>!</code> is
+"not". False are <code>0</code>, <code>0.0</code> and <code>false</code>; an empty list and an empty string are true.</p>
+<pre class="text"><code>[rud1] [1 == 1.0, 1 === 1.0, 1 &lt; 2 &lt;= 2, 1 &lt;=&gt; 2, and(1, 0), or(0, 3), !0]  \\ [1,0,1,-1,0,1,1]</code></pre>
+<p>A <code>uint</code> minus a larger <code>uint</code> is not a negative number: where the value leaves the expression
+it is the state <code>underflow</code> ("Errors are states" below tells what that means), while inside
+it the sign is held back, so <code>3 - 5 + 4</code> is <code>2</code>. A sum with a negative number, or the cast <code>sint(…)</code>, gives the
+<code>sint</code>:</p>
+<pre class="text"><code>[rud1] [3 + -5, sint(3) - 5]  \\ [-2,-2]
+[rud1] 3 - 5  \\ we exited &lt;underflow&gt; at 011.rud:1:1</code></pre>
+<p>A number never becomes text by itself, nor text a number: the casts are <code>str(x)</code>, <code>uint(s)</code>
+and <code>sint(s)</code>.</p>
+<pre class="text"><code>[rud1] [str(42), uint(&quot;42&quot;), sint(&quot;-7&quot;), &quot;n = &quot; ~ str(5)]  \\ [&quot;42&quot;,42,-7,&quot;n = 5&quot;]</code></pre>
+<h2 id="names">Names</h2>
+<p><code>my(…)</code> declares names. A name is immutable unless it is declared with <code>mut my(…)</code>; an
+assignment to an immutable name is refused when the program is compiled. The initializers
+run in order, so a later one sees the earlier names.</p>
+<pre class="text"><code>[rud1] my(a= 3, b= a + 1); a * b  \\ 12
+[rud1] my(x= 3); x= 4  \\ 014.rud:1:11 error assignment to immutable &#39;x&#39;
+[rud1] mut my(x= 3); x+= 4; x*= 2; x  \\ 14</code></pre>
+<p>The assignment forms are <code>=</code>, the compound ones (<code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>//=</code>, <code>%=</code>, <code>^=</code>,
+<code>~=</code>, <code>~*=</code>), an element (<code>v[i]= e</code>), a field (<code>p.x= e</code>) and a list of names. An assignment
+is an expression, with the assigned value as its value. The layout used here, no space
+before the <code>=</code> and one after, is the style of the language, not a rule of the parser.
+<code>{ … }</code> is a block: a sequence with its own names, whose value is that of its last
+expression.</p>
+<pre class="text"><code>[rud1] mut my(a= 1, b= 2); [a, b]= [b, a]; [a, b]  \\ [2,1]
+[rud1] { my(a= 2); a * 3 } + 1  \\ 7</code></pre>
+<h2 id="functions">Functions</h2>
+<p>A function is declared in <code>my(…)</code> as <code>name(parameters)= body</code>. A lambda is <code>x -&gt; body</code> or
+<code>(a, b) -&gt; body</code>, a value like any other. A function can call itself, and functions that
+follow one another in a <code>my(…)</code> can call each other.</p>
+<pre class="text"><code>[rud1] my(sq(x)= x^2, cube= x -&gt; x^3); [sq(5), cube(2)]  \\ [25,8]
+[rud1] my(add= (a, b) -&gt; a + b); add(1, 2)  \\ 3
+[rud1] my(fact(n)= if(n &lt; 2, 1, n * fact(n - 1))); fact(30)  \\ 265252859812191058636308480000000</code></pre>
+<p>A parameter can have a default, which sees the parameters before it. An empty argument
+takes the default. An argument can be given by the parameter's name, <code>name: value</code>.</p>
+<pre class="text"><code>[rud1]
+my(box(text, left= &quot;[&quot;, right= left)= left ~ text ~ right);
+[box(&quot;a&quot;), box(&quot;a&quot;, &quot;&lt;&quot;), box(&quot;a&quot;, , &quot;&gt;&quot;), box(&quot;a&quot;, right: &quot;)&quot;)]  \\ [&quot;[a[&quot;,&quot;&lt;a&lt;&quot;,&quot;[a&gt;&quot;,&quot;[a)&quot;]</code></pre>
+<p>A rest parameter <code>v[...]</code> takes the arguments that are left, as a list; <code>L[...]</code> in a call
+spreads a list over the arguments. A longer <code>my(…)</code> is laid out with leading commas, one
+item per line.</p>
+<pre class="text"><code>[rud1]
+my
+( count(first, v[...])= [first, #v, v]
+, L= [3, 4]
+);
+[count(1), count(1, 2, L[...])]  \\ [[1,0,[]],[1,3,[2,3,4]]]</code></pre>
+<p>A function that takes a function is called with a lambda, with a placeholder (<code>_1</code> is the
+first argument, <code>_2</code> the second) or with an operator's name (<code>_+_</code>, <code>_*_</code>). The startup
+functions <code>fold</code>, <code>max</code>, <code>min</code>, <code>prod</code>, <code>scan</code> and <code>sum</code> work so. A lambda takes the value
+a name has when the lambda is made, and it cannot assign a <code>mut</code> of the code around it.</p>
+<pre class="text"><code>[rud1] my(v= [3, 1, 2]); [fold(_*_, v), fold((a, b) -&gt; a + b, v), scan(_+_, v)]  \\ [6,6,[3,4,6]]
+[rud1] my(v= [3, 1, 2]); [sum(v), sum(v, _1^2), sum(v, x -&gt; 2 * x), max(v)]  \\ [6,14,12,3]
+[rud1] mut my(n= 1); my(f= () -&gt; n); n= 2; [f(), n]  \\ [1,2]</code></pre>
+<h2 id="conditions-and-loops">Conditions and loops</h2>
+<p><code>if</code> is an expression. <code>if(c, a, b)</code> is <code>a</code> when <code>c</code> is true, else <code>b</code>. With more arguments
+it is a chain: condition, value, condition, value, and an odd last argument is the "else".
+Each part can be a sequence with <code>;</code>.</p>
+<pre class="text"><code>[rud1]
+my
+( fizzbuzz(n)= if
+  ( 0 == n % 15, &quot;FizzBuzz&quot;
+  , 0 == n %  5, &quot;Buzz&quot;
+  , 0 == n %  3, &quot;Fizz&quot;
+  , n
+  )
+);
+[fizzbuzz(i) | i &lt;- [9..15]]  \\ [&quot;Fizz&quot;,&quot;Buzz&quot;,11,&quot;Fizz&quot;,13,14,&quot;FizzBuzz&quot;]</code></pre>
+<p>An <code>if</code> without an "else" whose condition is false has no value: its result is <code>undef</code>
+("Errors are states").</p>
+<p><code>while(c, body)</code> runs <code>body</code> as long as <code>c</code> is true; <code>until(c, body)</code> runs it and then
+tests. <code>for(i=a, b, body)</code> counts from <code>a</code> to <code>b</code>, both included; <code>for(x &lt;- L, body)</code> walks a
+list. The counter is immutable in the body (<code>for(mut i=a, b, …)</code> makes it changeable).</p>
+<pre class="text"><code>[rud1]
+my(step(n)= if(n % 2, 3 * n + 1, n // 2));
+mut my(n= 27, k= 0);
+while
+( 1 != n
+, n= step(n);
+  k+= 1
+);
+k  \\ 111</code></pre>
+<p><code>leave()</code> ends the innermost loop or block, <code>leave(, v)</code> ends it with the value <code>v</code>,
+<code>leave(2)</code> ends two; <code>next()</code> goes to the next round.</p>
+<pre class="text"><code>[rud1] mut my(r); for(i=1, 9, if(3 == i, next()); if(6 == i, leave()); r~= [i]); r  \\ [1,2,4,5]</code></pre>
+<p><code>r</code> has no initial value: a <code>mut</code> that is first used in <code>r~= […]</code> starts as the empty list
+(with <code>+=</code> as 0, with <code>*=</code> as 1).</p>
+<p>A loop has a value: that of its last round, or what <code>leave(, v)</code> gives it, and <code>undef</code> when
+no round ran. A script that ends in a loop, or in an <code>if</code> without "else", can so end without
+a value, which is a failure ("Errors are states"). The compiler warns on every run:</p>
+<pre class="text"><code>[rud1]
+for(i=1, 99, if(i^2 &gt; 200, leave(, i)))</code></pre>
+<p>Output:</p>
+<pre class="text"><code>029.rud:1:1 warning: the script ends in a &#39;for&#39;, which can be undef (exit status 1): end it with &#39;0;&#39;
+15</code></pre>
+<p>End such a script with <code>0;</code>, as the examples here do.</p>
+<h2 id="lists">Lists</h2>
+<p>A list is written <code>[a, b, c]</code> and can hold anything. <code>#v</code> is its length, <code>~</code> joins two
+lists, <code>~*</code> repeats one. <code>[a..b]</code> is the range from <code>a</code> to <code>b</code>, both included, and it is
+empty when <code>b</code> is below <code>a</code>. A step follows a <code>;</code>: <code>[a..b;s]</code>.</p>
+<pre class="text"><code>[rud1] [[1..5], [1..10;3], [10..1;-3], [5..1]]  \\ [[1,2,3,4,5],[1,4,7,10],[10,7,4,1],[]]
+[rud1] [#[7, 8, 9], [1, 2] ~ [3], [0] ~* 3]  \\ [3,[1,2,3],[0,0,0]]</code></pre>
+<p>A comprehension builds a list from another: <code>[expression | name &lt;- list, condition]</code>.
+Several generators stand in an inner pair of brackets. A list is lazy, so a range may run
+to <code>oo</code> when only a part of it is used.</p>
+<pre class="text"><code>[rud1] [x^2 | x &lt;- [1..10], 0 == x % 2]  \\ [4,16,36,64,100]
+[rud1] [[i, j] | [i &lt;- [1..3], j &lt;- [i..3]]]  \\ [[1,1],[1,2],[1,3],[2,2],[2,3],[3,3]]
+[rud1] my(squares= [n^2 | n &lt;- [1..oo]]); squares[0..4]  \\ [1,4,9,16,25]</code></pre>
+<p>Positions count from 0; a literal negative one counts from the end (<code>v[-1]</code> is <code>v[#__ - 1]</code>,
+where <code>__</code> is the list being indexed), a computed one below 0 is an <code>error</code>. An index can
+be a range or a
+list of positions, and then gives a list. A position outside the list is an <code>error</code>.</p>
+<pre class="text"><code>[rud1]
+my(v= [10, 20, 30, 40, 50]);
+[v[0], v[-1], v[1..3], v[0, -1], v[#v-1..0;-1]]  \\ [10,50,[20,30,40],[10,50],[50,40,30,20,10]]</code></pre>
+<p>Assigning an element needs a <code>mut</code> name, and cannot make the list longer; <code>~=</code> does that.
+A list is a value: a copy does not change with the original.</p>
+<pre class="text"><code>[rud1] mut my(v= [1, 2, 3]); my(w= v); v[0]= 9; v~= [4]; [v, w]  \\ [[9,2,3,4],[1,2,3]]</code></pre>
+<p>An element can have a name; a list of named elements serves as a record. A field is read
+and assigned as <code>p.name</code>, and is still reached by its position. A matrix is a list of rows,
+written with <code>;</code> between the rows.</p>
+<pre class="text"><code>[rud1] my(p= [name: &quot;Ada&quot;, born: 1815]); [p.name, p[1], names(p)]  \\ [&quot;Ada&quot;,1815,[&quot;name&quot;,&quot;born&quot;]]
+[rud1] mut my(p= [x: 1, y: 2]); p.x+= 10; p  \\ [x:11,y:2]
+[rud1] my(M= [1, 2, 3; 4, 5, 6]); [M[1][2], M[1], [r[0] | r &lt;- M]]  \\ [6,[4,5,6],[1,4]]</code></pre>
+<h2 id="strings-and-bytes">Strings and bytes</h2>
+<p>A <code>str</code> is text, always well-formed UTF-8, written between double quotes with the escapes
+<code>\n \t \r \e \" \\</code> and <code>\u{…}</code> for a code point in hex. <code>~</code> joins, <code>~*</code> repeats, <code>#s</code> is the
+length in code points, and the comparisons compare by code point.</p>
+<pre class="text"><code>[rud1] my(s= &quot;héllo&quot;); [#s, s ~ &quot; world&quot;, &quot;&quot; != s]  \\ [5,&quot;héllo world&quot;,1]
+[rud1] [&quot;ab&quot; ~* 3, &quot;abc&quot; &lt; &quot;abd&quot;]  \\ [&quot;ababab&quot;,1]</code></pre>
+<p>A string has no index. The functions on strings carry the type's name in front, the <code>str.</code>
+family:</p>
+<pre class="text"><code>[rud1] [str.split(&quot;a,b,c&quot;, &quot;,&quot;), str.join([&quot;a&quot;, &quot;b&quot;], &quot;-&quot;)]  \\ [[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;],&quot;a-b&quot;]
+[rud1] [str.substr(&quot;héllo&quot;, 1, 3), str.substr(&quot;héllo&quot;, -2)]  \\ [&quot;éll&quot;,&quot;lo&quot;]
+[rud1] [str.to_characters(&quot;hé&quot;), str.to_codepoints(&quot;hé&quot;)]  \\ [[&quot;h&quot;,&quot;é&quot;],[104,233]]
+[rud1] [str.from_codepoints([104, 233]), str.to_titlecase_first(&quot;ada&quot;)]  \\ [&quot;hé&quot;,&quot;Ada&quot;]
+[rud1] [str.to_uppercase(&quot;straße&quot;), str.to_lowercase(&quot;ABC&quot;)]  \\ [&quot;STRASSE&quot;,&quot;abc&quot;]
+[rud1] str.join([str(x) | x &lt;- [1, 2, 3]], &quot;, &quot;)  \\ &quot;1, 2, 3&quot;</code></pre>
+<p>The family, in full: <code>str.eq_caseless</code>, <code>str.from_codepoints</code>, <code>str.is_cased</code>,
+<code>str.is_lowercase</code>, <code>str.is_uppercase</code>, <code>str.join</code>, <code>str.split</code>, <code>str.substr</code>,
+<code>str.to_casefold</code>, <code>str.to_characters</code>, <code>str.to_codepoints</code>, <code>str.to_lowercase</code>,
+<code>str.to_lowercase_first</code>, <code>str.to_titlecase_first</code>, <code>str.to_uppercase</code>,
+<code>str.unicode_version</code>. Three more names exist and give an <code>error</code> that says "not built
+yet": <code>str.is_casefolded</code>, <code>str.is_titlecase</code>, <code>str.to_titlecase</code>. A formatted print
+(<code>printf</code>, <code>str.printf</code>) is not built.</p>
+<p><code>bytes</code> is the type of raw bytes, written <code>b"…"</code>, with <code>\x{89}</code> for a byte in hex. <code>#b</code> counts
+bytes, <code>b[i]</code> is a byte as a number, and <code>str(b)</code> is the text when the bytes are well-formed
+UTF-8 (an <code>error</code> when they are not). A <code>str</code> and a <code>bytes</code> value do not mix under <code>~</code> or a
+comparison.</p>
+<pre class="text"><code>[rud1] my(b= b&quot;\x{c3}\x{a9}t&quot;); [b, #b, b[0], b[-1]]  \\ [b&quot;\x{c3}\x{a9}t&quot;,3,195,116]
+[rud1] my(b= b&quot;\x{c3}\x{a9}t&quot;); [str(b), #str(b), b ~ b&quot;!&quot;]  \\ [&quot;ét&quot;,2,b&quot;\x{c3}\x{a9}t!&quot;]</code></pre>
+<h2 id="printing">Printing</h2>
+<p><code>say(…)</code> writes the texts of its arguments without anything between them, then a newline;
+<code>print(…)</code> does the same without the newline. A string is written as it is, any other value
+as it is shown. Both give their last argument as their value.</p>
+<pre class="text"><code>[rud1]
+my(total= 3, parts= [1, 1/2, &quot;x&quot;]);
+print(&quot;total: &quot;);
+say(total, &quot; items, &quot;, parts);
+say(&quot;half: &quot;, total / 2, &quot;, as a float: &quot;, total / 2.0);</code></pre>
+<p>Output:</p>
+<pre class="text"><code>total: 3 items, [1,1/2,&quot;x&quot;]
+half: 3/2, as a float: 1.50000000000000</code></pre>
+<h2 id="errors-are-states">Errors are states</h2>
+<p>Every result has a state. A value is a result in the state <code>def</code>. Two other states matter
+from the first day:</p>
+<ul>
+<li><code>undef</code>: there is no value. An <code>if</code> without "else" whose condition was false, a loop
+without a round, <code>max([])</code>, <code>read_line()</code> at the end of the input.</li>
+<li><code>underflow</code>: a <code>uint</code> below 0 where the value leaves the expression (<code>3 - 5</code>).</li>
+<li><code>error</code>: something went wrong. <code>1/0</code>, a position outside a list, a text
+that is no number in <code>uint(s)</code>, and <code>error("message")</code> in your own code.</li>
+</ul>
+<p>A state is no value: there is no literal for one and no <code>==</code> against one. An <code>error</code> ends
+the sequence, the loop and the call it occurs in, and so travels outward until something
+catches it. <code>guard(x, fallback)</code> is <code>x</code> when <code>x</code> is defined, else <code>fallback</code>, which is not
+evaluated before it is needed. <code>is_defined(x)</code> tells whether a result is there, for the
+states below <code>error</code>; an <code>error</code> passes through it.</p>
+<pre class="text"><code>[rud1] my(half(n)= if(0 == n % 2, n // 2)); [half(10), guard(half(7), &quot;odd&quot;)]  \\ [5,&quot;odd&quot;]
+[rud1] my(v= [1, 2, 3]); [guard(v[5], -1), guard(1/0, 0), guard(uint(&quot;12x&quot;), 0)]  \\ [-1,0,0]
+[rud1] [is_defined(max([])), guard(is_defined(1/0), &quot;an error&quot;)]  \\ [0,&quot;an error&quot;]</code></pre>
+<p>A program whose last value is not defined ends with the dying message on standard error,
+<code>we exited &lt;state&gt; at file:line:column</code>, with the calls that led there, and with exit status 1.
+Nothing is shown as a result. Otherwise the status is 0.</p>
+<pre class="text"><code>[rud1]
+my
+( price(item)= if(&quot;tea&quot; == item, 3, error(&quot;no such item: &quot; ~ item))
+, total(items)= { mut my(t= 0); for(i &lt;- items, t+= price(i)); t }
+);
+say(total([&quot;tea&quot;, &quot;tea&quot;]));
+say(total([&quot;tea&quot;, &quot;milk&quot;]));
+say(&quot;not reached&quot;);</code></pre>
+<p>Output:</p>
+<pre class="text"><code>6
+we exited &lt;error(&quot;no such item: milk&quot;)&gt; at 054.rud:2:37
+  in price at 054.rud:3:53
+  in total at 054.rud:6:5</code></pre>
+<p>The exit status of that run is 1. <code>exit(n)</code> ends the program at once with status <code>n</code> (0 to
+255), and <code>exit(n, message)</code> writes the message to standard error first. This one ends with
+status 2:</p>
+<pre class="text"><code>[rud1] my(n= guard(uint(&quot;12x&quot;), -1)); if(n &lt; 0, exit(2, &quot;not a number&quot;)); n  \\ not a number</code></pre>
+<p>The other states (<code>missing</code>: a <code>my(r)</code> without a value, or an argument left out; <code>inf</code>;
+<code>overflow</code>; <code>pending</code>) are in the spec, section 8.</p>
+<h2 id="reading">Reading</h2>
+<p><code>read_line()</code> gives the next line of standard input as a <code>str</code>, its line feed included, and
+<code>undef</code> when the input has ended. A program takes the line feed off and converts the text
+itself. With the input <code>12 30</code>, a line feed, <code>7 -8 1</code> and a line feed:</p>
+<pre class="text"><code>[rud1]
+my(numbers(s)= [sint(w) | w &lt;- str.split(str.split(s, &quot;\n&quot;)[0], &quot; &quot;), &quot;&quot; != w]);
+mut my(line= read_line());
+while
+( is_defined(line)
+, say(numbers(line), &quot; sum &quot;, sum(numbers(line)));
+  line= read_line()
+);
+0;</code></pre>
+<p>Output:</p>
+<pre class="text"><code>[12,30] sum 42
+[7,-8,1] sum 0</code></pre>
+<p>Files are not built: standard input is all a program reads.</p>
+<h2 id="templates-and-unpack">Templates and <code>unpack</code></h2>
+<p>Binary data and text formats are read with a template: a description of the data, in a
+language of its own, written <code>t{…}</code>. <code>unpack(t, b)</code> reads the <code>bytes</code> value <code>b</code> by the
+template <code>t</code> and gives a list in which each named field is a named element.</p>
+<p>A few fixed fields. <code>n</code> is a 16-bit number with the high byte first, <code>C</code> one byte, <code>V</code> a
+32-bit number with the low byte first; <code>name:</code> in front names the field.</p>
+<pre class="text"><code>[rud1]
+my(header= t{id:n flags:C size:V});
+unpack(header, b&quot;\x{01}\x{02}\x{07}\x{10}\x{00}\x{00}\x{00}&quot;)  \\ [id:258,flags:7,size:16]</code></pre>
+<p>A text with its length in front. <code>C/a</code> is a count in one byte, then that many bytes of
+text; the count is part of the result. A quoted text has to be there as it is written, and
+<code>x*</code> skips what is left. A text field is <code>bytes</code>, to be cast when it is text.</p>
+<pre class="text"><code>[rud1]
+my(r= unpack(t{&quot;ID&quot; name:C/a age:C x*}, b&quot;ID\x{03}Ada\x{24}rest&quot;));
+say(r);
+say(str(r.name), &quot; is &quot;, r.age);</code></pre>
+<p>Output:</p>
+<pre class="text"><code>[b&quot;ID&quot;,3,name:b&quot;Ada&quot;,age:36,b&quot;rest&quot;]
+Ada is 36</code></pre>
+<p><code>unpack</code> has to cover its data, and the data has to cover the template: bytes left over,
+or data that ends too early, are an <code>error</code> whose message says where.</p>
+<p>The template language is large: repeats, counts taken from earlier fields, alternatives,
+sets of bytes, patterns that call each other, text and caseless groups. The spec's section
+5d describes it, and marks what is built. <code>pack(t, r)</code> is the way back from a list to bytes (it
+reads back what it wrote, and refuses bytes that would read as another list), and
+<code>unpack(t)</code> reads standard input.</p>
+<h2 id="where-to-go-next">Where to go next</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Document</th>
+<th style="text-align: left;">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>rud1_differences.md</code></td>
+<td style="text-align: left;">rud1 beside other languages</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>rud1_examples.md</code></td>
+<td style="text-align: left;">longer programs</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>rud1_gotchas.md</code></td>
+<td style="text-align: left;">what surprises a coder who comes from Perl or gp</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>rud1_not_yet.md</code></td>
+<td style="text-align: left;">what is decided or proposed and not built</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>rud1_spec.md</code></td>
+<td style="text-align: left;">the spec, the authority on every rule (a draft, not published yet)</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

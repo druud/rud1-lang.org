@@ -1,0 +1,5 @@
+nav.site{display:flex;flex-wrap:wrap;gap:.3em 1.2em;align-items:center;
+  max-width:52em;margin:1em auto 0;padding:0 1em;font-family:sans-serif;font-size:.95em}
+nav.site img{height:1.8em;vertical-align:middle}
+nav.site a{text-decoration:none}
+nav.site a.here{font-weight:bold}

@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.12.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>rud1: Not yet</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      color: light-dark(#1a1a1a, #fdfdfd);
+      background-color: #fdfdfd;
+      background-color: light-dark(#fdfdfd, #1a1a1a);
+      color-scheme: light dark;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        color-scheme: light only;
+      }
+      html, body, pre, code {
+        background-color: transparent;
+      }
+      body, a, a:visited, blockquote {
+        color: black;
+      }
+      pre, code {
+        padding: 0;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a, a:visited {
+      color: inherit;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid;
+      border-color: #e6e6e6;
+      border-color: light-dark(#e6e6e6, #4c4c4c);
+      color: #606060;
+      color: light-dark(#606060, #b6b6b6);
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid currentColor;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid currentColor;
+      border-bottom: 1px solid currentColor;
+    }
+    th {
+      border-top: 1px solid currentColor;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+<style>body{max-width:52em;margin:2em auto;padding:0 1em;font-family:serif}code,pre{font-family:monospace}.greyparen{color:#8c8c8c}table{border-collapse:collapse}td,th{padding:.15em .6em;vertical-align:top}</style>
+<link rel="stylesheet" href="site.css" />
+</head>
+<body>
+<nav class="site"><a href="index.html"><img src="rud1_logo.svg" alt="rud1"></a><a href="rud1_introduction.html">Introduction</a><a href="rud1_examples.html">Examples</a><a href="rud1_differences.html">Differences</a><a href="rud1_gotchas.html">Gotchas</a><a href="rud1_not_yet.html" class="here">Not yet</a><a href="https://github.com/isolution-nl/rud1-lang.org">GitHub</a></nav>
+<header id="title-block-header">
+<h1 class="title">rud1_not_yet</h1>
+</header>
+<h1 id="rud1-not-yet-implemented">rud1: not yet implemented</h1>
+<p>A program written from the spec can end in an error because the form is not built. This
+file lists those forms by area, in the order of the spec: what the prototype says today,
+and what to write meanwhile.</p>
+<p>Three words are used with one meaning each:</p>
+<ul>
+<li><strong>built</strong>: the prototype does it.</li>
+<li><strong>decided</strong>: designed, a rule of the spec; it waits for a build.</li>
+<li><strong>proposed</strong>: written in the spec, not confirmed by the author.</li>
+</ul>
+<p>The Status column has two more: <strong>backlog</strong> (wanted, not designed) and <strong>open</strong> (the spec
+lists the question as open, or two of its lines disagree). A rule that the spec states
+without a mark counts as decided here. A dash in Status: the spec has no plan for the form
+as written; the note in Today says more.</p>
+<p>The prototype is the one written in Lean (generation 29); there is no other implementation.
+Its executable is named <code>rud1_run</code> and files end in <code>.rud</code>; <code>rud1 'code'</code> and
+<code>rud1 file.rud</code> below stand for a shell function around it.</p>
+<p>How to read the tables:</p>
+<ul>
+<li>Form is a whole program, run as <code>rud1 'code'</code>. Today is all it printed. Run from a file,
+a position <code>1:1</code> shows as <code>file.rud:1:1</code>.</li>
+<li><code>L:C error …</code> is a compile error. <code>we exited &lt;state&gt; at L:C</code> is a run that ended in a
+failed result, with its message in the brackets. Both end with exit
+status 1.</li>
+<li>Meanwhile is a program that works today, with its result after <code>\\</code>. A dash: nothing
+shorter than writing it out yourself.</li>
+<li>A form without a row is not thereby built: the list follows the audit of generation 30
+and the spec's own marks.</li>
+</ul>
+<h2 id="lexical-and-literals-spec-1">Lexical and literals (spec §1)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>0x1F</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>1:1 error malformed number '0x1F'</code> (stays an error: no hex or binary literals, spec §1)</td>
+<td style="text-align: left;"><code>unpack(t{$hex+}, b"1F")[0] \\ 31</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[1, 2] &gt;&gt;+&lt;&lt; [3, 4]</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error not in the core yet: '&gt;&gt;+&lt;&lt;'</code></td>
+<td style="text-align: left;">a comprehension: Lists and numbers, (a)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(_&lt;+&gt;_ : _+_ = (a, b) -&gt; a + b); 1 &lt;+&gt; 2</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:5 error expected ')', got op '&lt;'</code></td>
+<td style="text-align: left;"><code>my(plus(a, b)= a + b); plus(1, 2) \\ 3</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(x= 5); f"x = {x}"</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:11 error not in the core yet: prefixed literal 'f"…"'</code></td>
+<td style="text-align: left;"><code>my(x= 5); "x = " ~ str(x) \\ "x = 5"</code></td>
+</tr>
+</tbody>
+</table>
+<p>The other hyper operators (<code>&gt;&gt;*</code>, <code>*&lt;&lt;</code>, <code>&gt;&gt;[</code>) give the same message with their own
+token. A number in a base can be read by a template today (<code>$bin</code>, <code>$oct</code>, <code>$dec</code>, <code>$hex</code>).</p>
+<h2 id="declarations-and-types-spec-4-6">Declarations and types (spec §4, §6)</h2>
+<p>No declared type is used yet: the type pass (spec §10, "infer types") is not built. A type
+word before a name is parsed and then ignored, so no check and no cast comes from it.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>my(uint x= -1); x</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>-1</code> (no check)</td>
+<td style="text-align: left;"><code>my(x= uint(5)); x \\ 5</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(bool b= 5); b</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>5</code> (no cast)</td>
+<td style="text-align: left;"><code>my(b= bool(5)); b \\ 1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(sint d= 3 - 5); d</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;underflow&gt; at 1:12</code> (<code>uint - uint</code> below 0; the <code>sint</code> gives no context)</td>
+<td style="text-align: left;"><code>my(d= +3 - 5); d \\ -2</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(foo a= 1); a</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>1</code> (an unknown type word passes; the spec has the check for parameters only)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sint my(a= 1, b= 2); [a, b]</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:5 error expected ';', got ident 'my'</code> (a type before the group types every name of it; for the type pass)</td>
+<td style="text-align: left;"><code>my(sint a= 1, sint b= 2); [a, b] \\ [1,2]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>type T = uint {default: none}; my(T dn); dn= 1</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:6 error expected ';', got ident 'T'</code> (decided: a compile error at <code>my(T dn)</code>, the value is given at the declaration)</td>
+<td style="text-align: left;"><code>my(dn= 1); dn \\ 1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>if(1, 1, "a")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1</code> (branch types are not unified)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(x); x= 1; x</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:8 error assignment to immutable 'x'</code> (late init)</td>
+<td style="text-align: left;"><code>mut my(x); x= 1; x \\ 1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f(sint a) : sint = a + 1); f(1)</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:14 error expected '=', got punct ':'</code></td>
+<td style="text-align: left;"><code>my(f(sint a)= a + 1); f(1) \\ 2</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>type Pct = sint {0..100}; 1</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:6 error expected ';', got ident 'Pct'</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>i64(5)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'i64'</code> (also <code>f64</code>)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>#bool()</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:2 error wrong number of arguments to 'bool'</code> (multis and index types, spec §6.4)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(r); state(r)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:8 error undeclared 'state'</code></td>
+<td style="text-align: left;"><code>my(r); is_defined(r) \\ 0</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(x= [1][5]); origin(x)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:16 error undeclared 'origin'</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+</tbody>
+</table>
+<p>The check that <code>my(uint x= -1)</code> does not make, written out:</p>
+<pre class="text"><code>[rud1] my(x= uint(-1)); x \\ we exited &lt;error(&quot;uint(-1): -1 is negative&quot;)&gt; at 1:7</code></pre>
+<h2 id="functions-spec-4a-8">Functions (spec §4a, §8)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>my(f(lazy v[...])= 1); f(1, 2)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:6 error not in the core yet: a lazy or sym rest parameter</code></td>
+<td style="text-align: left;"><code>my(f(v[...])= #v); f(1, 2) \\ 2</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f(sym v[...])= 1); f(1, 2)</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:6 error not in the core yet: a lazy or sym rest parameter</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f(lazy x= 1)= x); f()</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:6 error not in the core yet: default on a lazy or sym parameter</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f(lazy x)= x + x); f({say("once"); 2})</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>once</code><br /><code>once</code><br /><code>4</code> (by name: decided is by need, memoized, and a compile error for an argument with an effect)</td>
+<td style="text-align: left;"><code>my(f(x)= x + x); f({say("once"); 2})</code> prints <code>once</code><br /><code>4</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(sq(x)= x^2); sq</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>sq</code> (decided: <code>(x) -&gt; x^2</code>)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>x -&gt; x^2</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>(lam (params x) (pow x 2))</code> (the core term)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(diff(x, y) : sint = x - y); diff(3, 5)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:15 error expected '=', got punct ':'</code> (variants by return type need the return type, which is proposed and does not parse)</td>
+<td style="text-align: left;"><code>my(diff(x, y)= +x - y); diff(3, 5) \\ -2</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f(sint n, str s)= s ~* n); f("ab", 2)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("2 ~* \"ab\": the left side is a str, a list or a template")&gt; at 1:22</code><br /><code>  in f at 1:31</code> (binding by type)</td>
+<td style="text-align: left;"><code>my(f(sint n, str s)= s ~* n); f(s: "ab", n: 2) \\ "abab"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f(e)= 5); guard(error("x"), f)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>f</code> (the handler <code>f</code> is not called)</td>
+<td style="text-align: left;"><code>guard(error("x"), 5) \\ 5</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>{ amend((r) -&gt; 9); 5 }</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:3 error undeclared 'amend'</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f(x, y)= x - y, g= f(_, 2)); g(5)</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:25 error undeclared '_'</code></td>
+<td style="text-align: left;"><code>my(f(x, y)= x - y, g= x -&gt; f(x, 2)); g(5) \\ 3</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-_(3)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:2 error undeclared '_'</code> (also <code>#_</code>, <code>!_</code>, <code>_[_]</code>)</td>
+<td style="text-align: left;"><code>my(neg(x)= -x); neg(3) \\ -3</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>len(today())</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>10</code> (decided: a compile error, the top level is pure unless marked <code>impure;</code>, spec §2, generation 37)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f()= len(today())); f()</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>10</code> (decided: a compile error, <code>f</code> reads the clock and is not marked <code>impure</code>)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>impure; impure my(f()= len(today())); f()</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:16 error expected ';', got ident 'my'</code></td>
+<td style="text-align: left;"><code>my(f()= len(today())); f() \\ 10</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(main()= 144)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>main</code> (decided: <code>main()</code> runs, <code>144</code>; spec §5b, generation 37)</td>
+<td style="text-align: left;"><code>my(main()= 144); main() \\ 144</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(at.main_start= () -&gt; 1); 2</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:6 error expected ')', got punct '.'</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+</tbody>
+</table>
+<p>The names of the binary operators are built: <code>[rud1] _+_(1, 2) \\ 3</code>.</p>
+<h2 id="lists-and-numbers-spec-5-7-81">Lists and numbers (spec §5, §7, §8.1)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>[1, 2] + [10, 20]</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("[1, 2] + [10, 20]: no '+' for a list and a list")&gt; at 1:1</code></td>
+<td style="text-align: left;">(a) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[[1, 2], [3, 4]] * [[5, 6], [7, 8]]</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("[[1, 2], [3, 4]] * [[5, 6], [7, 8]]: no '*' for a list and a list")&gt; at 1:1</code></td>
+<td style="text-align: left;">(b) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>transpose([[1, 2], [3, 4]])</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'transpose'</code></td>
+<td style="text-align: left;">(c) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>dot([1, 2], [3, 4])</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'dot'</code></td>
+<td style="text-align: left;">(d) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>col([1, 2])</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'col'</code></td>
+<td style="text-align: left;">(e) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>binand(12, 10)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'binand'</code> (also <code>binor</code>, <code>binxor</code>, <code>binnot</code>)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>shift(1, 10)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'shift'</code></td>
+<td style="text-align: left;"><code>1 * 2^10 \\ 1024</code> (to the right: <code>1000 // 2^3</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sort([3, 1, 2], (a, b) -&gt; a &lt;=&gt; b)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'sort'</code></td>
+<td style="text-align: left;">(f) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>mut my(v= [1, 2, 3]); v[0..1]= [8, 9]; v</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:23 error not in the core yet: range in a scatter target</code></td>
+<td style="text-align: left;"><code>mut my(v= [1, 2, 3]); v[0, 1]= [8, 9]; v \\ [8,9,3]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(L= [10, 20, 30]); L[1..]</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:27 error unexpected punct ']'</code></td>
+<td style="text-align: left;"><code>my(L= [10, 20, 30]); L[1..#L-1] \\ [20,30]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[0..^3]</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:6 error '^' needs a name, got uint '3'</code></td>
+<td style="text-align: left;"><code>[0..2] \\ [0,1,2]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(v= [10, 20, 30]); v[^1]</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:25 error '^' needs a name, got uint '1'</code></td>
+<td style="text-align: left;">(g) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Map(["a", 42; "b", -1])</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'Map'</code></td>
+<td style="text-align: left;"><code>my(m= [a: 42, b: -1]); m.a \\ 42</code> (a record: fixed names)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>round(5/2)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'round'</code> (also <code>round.half_to_even</code> and its family, <code>sgn</code>)</td>
+<td style="text-align: left;"><code>(5/2 + 1/2) // 1 \\ 3</code> (a half towards +oo)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>floor(7/2)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'floor'</code></td>
+<td style="text-align: left;"><code>(7/2) // 1 \\ 3</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ceil(7/2)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'ceil'</code></td>
+<td style="text-align: left;"><code>-((-7/2) // 1) \\ 4</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>truncate(-7/2)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'truncate'</code></td>
+<td style="text-align: left;"><code>-((7/2) // 1) \\ -3</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>3 - 5</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;underflow&gt; at 1:1</code> (the state built in generation 38; decided: under <code>{underflow: keep}</code> its payload is the <code>sint</code> result)</td>
+<td style="text-align: left;"><code>+3 - 5 \\ -2</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sint(5/2)</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>we exited &lt;error("sint(5/2): a urat is not cast to a whole number")&gt; at 1:1</code> (also <code>sint(2.5)</code>, <code>uint(2.5)</code>)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>2^0.5</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>we exited &lt;error("2 ^ 0.500000000000000: the exponent is a whole number")&gt; at 1:1</code> (a float exponent)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-0.0</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>0.00000000000000</code> (no negative zero: a bug of the prototype's float)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>1.0/0 + 1</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>we exited &lt;inf(1)&gt; at 1:1</code> (no arithmetic and no comparison on <code>inf</code>: every one ends so)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>5 &lt; oo</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:5 error not in the core yet: 'oo' outside a range bound</code></td>
+<td style="text-align: left;"><code>[1..oo][3] \\ 4</code> (<code>oo</code> as a range bound is built)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>len([1..oo])</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>out of fuel</code> (spec §8.1: <code>+oo</code>)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(pow(str s, uint k)= s ~* k); "2"^3</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("\"2\" ^ 3: no '^' for a str and a uint")&gt; at 1:33</code> (dispatch through the lexical scope)</td>
+<td style="text-align: left;"><code>"2" ~* 3 \\ "222"</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>(a) <code>[rud1] my(a= [1, 2], b= [10, 20]); [a[i] + b[i] | i &lt;- [0..#a-1]] \\ [11,22]</code></li>
+<li>(c) <code>[rud1] my(M= [[1, 2], [3, 4]]); [[r[j] | r &lt;- M] | j &lt;- [0..#M[0]-1]] \\ [[1,3],[2,4]]</code></li>
+<li>(d) <code>[rud1] my(v= [1, 2], w= [3, 4]); sum([v[i] * w[i] | i &lt;- [0..#v-1]]) \\ 11</code></li>
+<li>(e) <code>[rud1] [[x] | x &lt;- [1, 2]] \\ [[1],[2]]</code></li>
+<li>(g) <code>[rud1] my(v= [10, 20, 30]); [v[i] | i &lt;- [0..#v-1], 1 != i] \\ [10,30]</code></li>
+</ul>
+<p>(b):</p>
+<pre class="text"><code>[rud1]
+my
+( A= [[1, 2], [3, 4]]
+, B= [[5, 6], [7, 8]]
+, N= #B
+, P= #B[0]
+);
+[[sum([r[k] * B[k][j] | k &lt;- [0..N-1]]) | j &lt;- [0..P-1]] | r &lt;- A] \\ [[19,22],[43,50]]</code></pre>
+<p>(f):</p>
+<pre class="text"><code>[rud1]
+my
+( sorted(L)=
+    if
+    ( #L &lt; 2
+    , L
+    , { my(p= L[0]);
+        sorted([x | x &lt;- L, x &lt; p]) ~ [x | x &lt;- L, p == x] ~ sorted([x | x &lt;- L, p &lt; x])
+      }
+    )
+);
+sorted([3, 1, 2, 3]) \\ [1,2,3,3]</code></pre>
+<p>The comprehensions with <code>#a-1</code> are an <code>error</code> for an empty list (<code>uint - uint</code> below 0).
+§8.1 of the spec gives rules for <code>inf</code>; its §11 lists the <code>inf</code> algebra as open.</p>
+<h2 id="strings-spec-7a-5a">Strings (spec §7a, §5a)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>str.to_titlecase("o'neil")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("str.to_titlecase(\"o'neil\"): not built yet (it waits for the word boundaries of UAX #29)")&gt; at 1:1</code></td>
+<td style="text-align: left;"><code>str.to_titlecase_first("o'neil") \\ "O'neil"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>str.is_titlecase("A")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("str.is_titlecase(\"A\"): not built yet (it waits for the word boundaries of UAX #29)")&gt; at 1:1</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>str.is_casefolded("a")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("str.is_casefolded(\"a\"): not built yet (it waits for normalization)")&gt; at 1:1</code></td>
+<td style="text-align: left;"><code>"a" == str.to_casefold("a") \\ 1</code> (without normalization)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>str.eq_canonical("a", "a")</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:1 error no function 'str.eq_canonical'</code> (no normalization function exists; the names are proposed)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>str.to_graphemes("x")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error no function 'str.to_graphemes'</code></td>
+<td style="text-align: left;"><code>str.to_characters("x") \\ ["x"]</code> (code points)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>str.printf("%5d", 42)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error no function 'str.printf'</code> (the format language: open)</td>
+<td style="text-align: left;"><code>my(s= str(42)); " " ~* (5 - #s) ~ s \\ "   42"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>printf("%d\n", 42)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'printf'</code> (also <code>sayf</code>)</td>
+<td style="text-align: left;"><code>say(42); \\ 42</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>str.pretty([1, 2])</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error no function 'str.pretty'</code></td>
+<td style="text-align: left;"><code>str([1, 2]) \\ "[1,2]"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>str.substr("hello", 1, 2, "XX")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error call of 'str.substr': 'n' takes 0 to 1 arguments, got 2</code></td>
+<td style="text-align: left;"><code>my(s= "hello"); str.substr(s, 0, 1) ~ "XX" ~ str.substr(s, 3) \\ "hXXlo"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f= str.is_cased); f("a")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:7 error undeclared 'str'</code> (a startup <code>str.</code> function as a value)</td>
+<td style="text-align: left;"><code>my(f(s)= str.is_cased(s)); f("a") \\ 1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>str.uc("a")</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:1 error no function 'str.uc'</code> (short names: a module, which needs <code>use</code>)</td>
+<td style="text-align: left;"><code>my(uc= str.to_uppercase); uc("a") \\ "A"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>"abc"[0]</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("\"abc\"[0]: a str has no positions (str.to_characters(s) lists its characters)")&gt; at 1:1</code> (decided: a compile error that names <code>s.to_characters[i]</code>)</td>
+<td style="text-align: left;"><code>str.substr("abc", 0, 1) \\ "a"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>re"a+"</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error not in the core yet: prefixed literal 're"…"'</code> (also <code>match</code>, <code>regex</code>: undeclared)</td>
+<td style="text-align: left;"><code>unpack(t{%[^a]* "a"+ x*}, b"caab") \\ [b"c",[b"a",b"a"],b"b"]</code> (a template)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(s= "ab"); s.to_characters[1]</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("\"ab\".to_characters: a str has no named parts: only a list has")&gt; at 1:14</code> (a call on the value's type; for the type pass)</td>
+<td style="text-align: left;"><code>my(chars= str.to_characters); my(s= "ab"); chars(s)[1] \\ "b"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>to_characters("ab")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'to_characters'</code> (dispatch on the type of the first argument; for the type pass)</td>
+<td style="text-align: left;"><code>str.to_characters("ab") \\ ["a","b"]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>bytes("abc")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'bytes'</code></td>
+<td style="text-align: left;"><code>b"abc" \\ b"abc"</code> (a literal only)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>b"ab" ~* 2</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("b\"ab\" ~* 2: no '~*' for a bytes value and a uint")&gt; at 1:1</code></td>
+<td style="text-align: left;"><code>b"ab" ~ b"ab" \\ b"abab"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>for(x &lt;- b"ab", say(x)); 0</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("… &lt;- b\"ab\": a bytes value is no list (a generator, a loop or a spread walks a list)")&gt; at 1:1</code></td>
+<td style="text-align: left;">(a) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>uint.split(91, base: 2)</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'uint'</code></td>
+<td style="text-align: left;">(b) below</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>(a) <code>[rud1] my(b= b"ab"); [b[i] | i &lt;- [0..#b-1]] \\ [97,98]</code></li>
+</ul>
+<p>(b):</p>
+<pre class="text"><code>[rud1]
+my(BASE= 2, digits(n)= if(n &lt; BASE, [n], digits(n // BASE) ~ [n % BASE]));
+digits(91) \\ [1,0,1,1,0,1,1]</code></pre>
+<h2 id="input-and-output-spec-5a-5c">Input and output (spec §5a, §5c)</h2>
+<p>Built: <code>read_line()</code> on standard input, <code>say</code> and <code>print</code> on standard output, <code>exit(n)</code> and
+<code>exit(n, msg)</code> (the message goes to standard error). Nothing else.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>write(stdout, "x")</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'write'</code> (handles, also <code>stderr</code>)</td>
+<td style="text-align: left;"><code>print("x"); \\ x</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>stdout.say("x")</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'stdout'</code></td>
+<td style="text-align: left;"><code>say("x"); \\ x</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f= open("data.txt")); read(f)</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:7 error undeclared 'open'</code></td>
+<td style="text-align: left;">the shell: <code>rud1 file.rud &lt; data.txt &gt; out.txt</code>, and (a) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>read_line(1)</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:1 error call of 'read_line': too many arguments</code> (the other read verbs, timeouts, layers: their names are open)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-p.kept_bytes.max=N</code> (a switch of <code>rud1_run</code>)</td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>usage: rud1_run [-c] [-f FUEL] [-e SRC | FILE...]</code> (and the other lines of the help, status 2; decided: a cap on the bytes kept of standard input when it is a pipe, also a template header)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>now()</code>, <code>today()</code>, <code>time()</code>, <code>process.…</code> in a function not marked <code>impure</code>, or a hook</td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;">(runs: effects are not inferred yet; decided: a compile error, as they are <code>impure</code>, spec §2, generation 37)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">a mark from pure code: a fire-and-forget write to a logging pipe</td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;">(no form to try; its name and the pipe are open)</td>
+<td style="text-align: left;">—</td>
+</tr>
+</tbody>
+</table>
+<p>(a) Every line of standard input, here the three lines <code>3</code>, <code>4</code>, <code>5</code>:</p>
+<pre class="text"><code>[rud1]
+mut my(total= 0);
+mut my(line= read_line());
+while
+( is_defined(line)
+, total+= sint(str.split(line, &quot;\n&quot;)[0]);
+  line= read_line()
+);
+total \\ 12</code></pre>
+<h2 id="templates-spec-5d">Templates (spec §5d)</h2>
+<p>Built: <code>unpack(t, b)</code> and <code>unpack(t, b, given: g)</code> on a <code>bytes</code> value, with every form that
+the template parser reads; <code>pack(t, r)</code>, the simple version (generation 41, spec §5d "The writer's rules");
+the template parser reads, and the <code>template</code> value (<code>t{…}</code>, <code>template(s)</code>, <code>~</code>, <code>~*</code>).
+Sentences of the spec that still say "<code>unpack</code> is not built" are older than that build.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>pack(t{("ab" &amp;K) C}, [[2], 1])</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("pack(t{(\"ab\" &amp;K) C}, [[2], 1]): template 1:7: &amp;K (the bytes before it are not in the tree): not written yet")&gt; at 1:1</code> (alternatives, look-ahead and the read-back check are written since generation 42)</td>
+<td style="text-align: left;"><code>pack(t{"ab" C}, [1]) \\ b"ab\x{01}"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">the uncondensed tree (every item with position and length)</td>
+<td style="text-align: left;">decided; how it is asked for: open</td>
+<td style="text-align: left;">no form to try</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>unpack(t{"\N{DIGIT ONE}"}, b"1")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:8 error template 1:1: \N{name} is not built yet (it waits for the table of names)</code></td>
+<td style="text-align: left;"><code>unpack(t{"\x{31}"}, b"1") \\ [b"1"]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>unpack(t{&amp;X}, b"e\x{cc}\x{81}")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:8 error template 1:1: the built-in pattern &amp;X is not built yet</code></td>
+<td style="text-align: left;"><code>unpack(t{(?u: a2)}, b"e\x{cc}\x{81}") \\ ["é"]</code> (code points, counted by hand)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>unpack(b"C n", b"A\x{00}\x{01}")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("unpack(b\"C n\", b\"A\\x{00}\\x{01}\"): the first argument is not a template (template(s) makes one of a str)")&gt; at 1:1</code> (a template in a <code>bytes</code> value)</td>
+<td style="text-align: left;"><code>unpack(template(b"C n"), b"A\x{00}\x{01}") \\ [65,1]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>unpack(q{C n}, b"A\x{00}\x{01}")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("unpack(\"C n\", b\"A\\x{00}\\x{01}\"): the first argument is not a template (template(s) makes one of a str)")&gt; at 1:1</code></td>
+<td style="text-align: left;"><code>unpack(template(q{C n}), b"A\x{00}\x{01}") \\ [65,1]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>t{C} ~ "n"</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error '~' of a template and a str: write str(t) ~ s, or t ~ template(s)</code> (the cast from <code>str</code> to a template)</td>
+<td style="text-align: left;"><code>t{C} ~ template("n") \\ t{C n}</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(hex= t{%[0-9a-f]}); unpack(t{&amp;hex}, b"a")</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:31 error template 1:1: the pattern &amp;hex is not defined</code></td>
+<td style="text-align: left;"><code>unpack(t{&amp;hex ::= %[0-9a-f] ; &amp;hex}, b"a") \\ [b"a"]</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>template(t{C}, ranking: 2)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error wrong number of arguments to 'template'</code> (settings from a program; also <code>use template(…)</code>, a configuration)</td>
+<td style="text-align: left;">"or else" between the variants: (a) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>unpack(t{f}, b"\x{00}\x{00}\x{80}\x{7f}")</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>we exited &lt;error("unpack(t{f}, b\"\\x{00}\\x{00}\\x{80}\\x{7f}\"): template 1:1: 'f' on an infinity or a NaN: not read yet")&gt; at 1:1</code> (a float that is an infinity or a NaN)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">hooks (a function on a group or a brace pair)</td>
+<td style="text-align: left;">open: not designed</td>
+<td style="text-align: left;">no form to try</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>P"%d"</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:1 error not in the core yet: prefixed literal 'P"…"'</code> (formats as templates: ideas, not decided)</td>
+<td style="text-align: left;">—</td>
+</tr>
+</tbody>
+</table>
+<p>(a) Two variants that can read the same text are a compile error while ranking is
+strict; <code>||</code> ("or else") says that the first one wins:</p>
+<pre class="text"><code>[rud1] unpack(t{&amp;hex ::= %[0-9A-Fa-f]+ ; &amp;dec ::= %[0-9]+ ; &amp;hex | &amp;dec}, b&quot;15&quot;)
+\\ 1:8 error template 1:45: variants 1 and 2 can read the same text, &quot;1&quot;: make one of them narrower, or write &#39;||&#39; where the first is to win</code></pre>
+<pre class="text"><code>[rud1] unpack(t{&amp;hex ::= %[0-9A-Fa-f]+ ; &amp;dec ::= %[0-9]+ ; &amp;hex || &amp;dec}, b&quot;15&quot;) \\ [[b&quot;15&quot;]]</code></pre>
+<h2 id="modules-spec-9a-9b">Modules (spec §9a, §9b)</h2>
+<p>All of §9a is proposed. A program is one file; the startup module (<code>sum</code>, <code>max</code>,
+<code>say</code>, …) is the only module, and it is always there.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>my(nt= use("numtheory")); nt</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:8 error undeclared 'use'</code></td>
+<td style="text-align: left;">the functions in the same file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>divisors(12)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'divisors'</code> (a name of gp)</td>
+<td style="text-align: left;">(a) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CORE.say("hi")</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'CORE'</code> (spec §9a, generation 37: <code>CORE.x</code> names the startup binding)</td>
+<td style="text-align: left;"><code>say("hi") \\ hi</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>__NAME__</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:1 error undeclared '__NAME__'</code> (also <code>__MAIN__</code>, <code>__DIE__</code>)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>__CORE__.sum([1, 2])</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:1 error undeclared '__CORE__'</code></td>
+<td style="text-align: left;"><code>sum([1, 2]) \\ 3</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CORE.exit_status()</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'CORE'</code></td>
+<td style="text-align: left;"><code>{ defer({ say("status ", exit_status()) }); exit(3) } \\ status 3</code> (exit status 3)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>exit.max</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("exit.max: a function has no named parts: only a list has")&gt; at 1:1</code> (the largest exit status, a constant of the host)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>naming(p_= {private}); 1</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'naming'</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>const(1 + 2)</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'const'</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>(a) <code>[rud1] my(divisors(n)= [d | d &lt;- [1..n], 0 == n % d]); divisors(12) \\ [1,2,3,4,6,12]</code></li>
+</ul>
+<p>Certified modules and capabilities (spec §9b) are proposed and have no form to try
+beyond <code>use</code>.</p>
+<h2 id="policies-and-configuration-spec-8-9a">Policies and configuration (spec §8, §9a)</h2>
+<p>The spec lets a policy (of a company, of a project) turn a warning into an error or into
+silence. The switches, the configuration file (its format is open) and strict mode (open)
+are not built: <code>rud1_run</code> has no option for one (<code>rud1_run -h</code> lists
+<code>-c</code>, <code>-e</code>, <code>-f</code>) and no form in a program sets one. Every check has its default. The one
+policy that can be asked for today stands in the header of a template:</p>
+<pre class="text"><code>[rud1] unpack(t{%[.]}, b&quot;.&quot;)
+\\ 1:8 error template 1:3: the byte &#39;.&#39; of a set is escaped (\.) or stands in an inner bracket ([.])</code></pre>
+<pre class="text"><code>[rud1] unpack(t{(*policy.punctuation.bare: 2) %[.]}, b&quot;.&quot;) \\ [b&quot;.&quot;]</code></pre>
+<h2 id="concurrency-spec-9a">Concurrency (spec §9a)</h2>
+<p>Proposed, all of it: <code>async</code> and <code>await</code>, the state <code>pending</code>, the parallel
+forms with gp's names.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>async(1)</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'async'</code> (also <code>await</code>)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>parapply(x -&gt; x^2, [1, 2, 3])</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'parapply'</code> (also <code>parvector</code>, <code>parsum</code>, <code>parselect</code>)</td>
+<td style="text-align: left;">(a) below</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>parfor(i &lt;- [1..3], say(i))</code></td>
+<td style="text-align: left;">proposed</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'parfor'</code></td>
+<td style="text-align: left;"><code>for(i &lt;- [1..3], say(i)); 0</code> prints <code>1</code><br /><code>2</code><br /><code>3</code><br /><code>0</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>(a) <code>[rud1] [x^2 | x &lt;- [1, 2, 3]] \\ [1,4,9]</code></li>
+</ul>
+<h2 id="the-symbolic-layer-spec-9">The symbolic layer (spec §9)</h2>
+<p>§9 states it; §11 lists the quoting as open ("tentative").</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>'(1 + 2)</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:1 error not in the core yet: '''</code> (a quoted expression; also <code>'x</code>)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(y= 1); $y</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:11 error not in the core yet: '$'</code> (a splice)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>eval(1)</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'eval'</code> (decided: no <code>eval</code>)</td>
+<td style="text-align: left;">a function value: <code>my(f()= 1); f() \\ 1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>my(f(sym e)= e[0]); f(1 + 2)</code></td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;"><code>we exited &lt;error("3[0]: a uint has no positions")&gt; at 1:14</code><br /><code>  in f at 1:21</code> (a <code>sym</code> parameter is by name; its expression can't be inspected)</td>
+<td style="text-align: left;"><code>my(f(sym e)= e); f(1 + 2) \\ 3</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>x^2 + 1</code></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;"><code>1:1 error undeclared 'x'</code> (a free variable; polynomials are to be a library)</td>
+<td style="text-align: left;"><code>my(p(x)= x^2 + 1); p(3) \\ 10</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="tools-spec-10">Tools (spec §10)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Form</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Today</th>
+<th style="text-align: left;">Meanwhile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">a formatter to the one preferred layout (spec §10a)</td>
+<td style="text-align: left;">backlog</td>
+<td style="text-align: left;">no executable (the tree has <code>rud1_lex</code>, <code>rud1_parse</code>, <code>rud1_run</code>, <code>rud1_template</code>)</td>
+<td style="text-align: left;"><code>rud1_template -e 'T'</code> normalizes a template</td>
+</tr>
+<tr>
+<td style="text-align: left;">a compiler mode that writes the standard version of a program</td>
+<td style="text-align: left;">backlog</td>
+<td style="text-align: left;">no such mode</td>
+<td style="text-align: left;"><code>rud1_run -c</code>: the core term, (a) below</td>
+</tr>
+<tr>
+<td style="text-align: left;">a tool that finds holes in templates (two templates that read one text differently, bytes that do not come back)</td>
+<td style="text-align: left;">backlog: not designed</td>
+<td style="text-align: left;">nothing</td>
+<td style="text-align: left;">the compile error for two variants that read one text (Templates, (a))</td>
+</tr>
+<tr>
+<td style="text-align: left;">a REPL (spec §4a: <code>x= 1</code> at its top level declares)</td>
+<td style="text-align: left;">decided</td>
+<td style="text-align: left;">no executable</td>
+<td style="text-align: left;"><code>rud1 'code'</code></td>
+</tr>
+</tbody>
+</table>
+<p>(a) <code>rud1_run -c -e '1 + 2'</code>:</p>
+<pre class="text"><code>[rud1] 1 + 2
+\\ (add 1 2)
+\\ 3</code></pre>
+<h2 id="built-but-different-from-the-spec-today">Built, but different from the spec today</h2>
+<p>None of the confirmed bugs of the audit of generation 30 is left.</p>
+<p>Repaired in generation 37: output lost on a full disk is told (spec §5a).
+<code>rud1_run -e 'say("hi"); 5' &gt; /dev/full</code> gave status 0 and nothing on <code>stderr</code>; now
+<code>rud1_run: cannot write standard output: resource exhausted (error code: 28, no space left on device)</code> and status 1 (an <code>exit(n)</code> with n not 0 keeps its status). A name twice in a
+destructuring assignment is a compile error (spec §2):<br />
+<code>[rud1] mut my(a= 0); [a, a]= [3, 4]; a \\ 1:15 error name 'a' twice in one destructuring assignment</code></p>
+<p>Repaired in generation 32: <code>defer</code> evaluates the strict arguments of its call when the
+<code>defer</code> is met (spec §8, "Go rule").<br />
+<code>[rud1] my(f(x)= say("f ", x)); mut my(a= 1); { defer(f(a)); a= 2; say("body") }; 0</code><br />
+<code>\\ body</code><br />
+<code>\\ f 1</code><br />
+<code>\\ 0</code></p>
+<p>Repaired in generation 31 (the other ten items of this list as it stood after the audit),
+each with what it prints now:</p>
+<ul>
+<li>Two spreads in one call are a compile error (spec §4a).<br />
+<code>[rud1] my(f(a, b, c)= [a, b, c]); f([1][...], 0, [3][...])</code><br />
+<code>\\ 1:43 error a second spread in one call: at most one (a list takes any number: call(f, [L[...], M[...]]))</code></li>
+<li>The same name twice in one destructuring declaration is a compile error (spec §4).<br />
+<code>[rud1] my([q, q]= [1, 2]); q \\ 1:1 error duplicate declaration 'q'</code></li>
+<li>A template can be made of a <code>bytes</code> value (spec §5d: the way to names that are not
+UTF-8).<br />
+<code>[rud1] template(b"C n") \\ t{C n}</code></li>
+<li>A pattern that is recursive through another pattern can be a variant.<br />
+<code>[rud1] unpack(t{&amp;val ::= &amp;arr | $dec+ ; &amp;arr ::= "[" &amp;val "]" ; &amp;val}, b"7") \\ [[7]]</code></li>
+<li>A repeat of a pattern inside itself ends.<br />
+<code>[rud1] unpack(t{&amp;p ::= "(" &amp;p* ")" ; &amp;p}, b"()") \\ [[b"(",[],b")"]]</code></li>
+<li>A failure deep inside a recursive pattern is final: once a variant or a round has read
+bytes and then enters a recursive pattern, nothing else takes over.<br />
+<code>[rud1] unpack(t{&amp;r ::= "(" &amp;r ")" | "a" ; &amp;r || x*}, b"((a")</code><br />
+<code>\\ we exited &lt;error("unpack(t{&amp;r ::= \"(\" &amp;r \")\" | \"a\" ; &amp;r || x*}, b\"((a\"): template 1:15: the data ends inside the literal \")\": 1 wanted at byte 3, 0 left")&gt; at 1:1</code></li>
+<li>A failure after <code>(*commit)</code> is final out of alternatives and repeats too.<br />
+<code>[rud1] unpack(t{"a" (*commit) ("b" | "c") || x*}, b"ad")</code><br />
+<code>\\ we exited &lt;error("unpack(t{\"a\" (*commit) (\"b\" | \"c\") || x*}, b\"ad\"): template 1:16: the literal \"b\" is not at byte 1: \"d\"")&gt; at 1:1</code></li>
+<li>A size on a pattern that is one set is applied.<br />
+<code>[rud1] unpack(t{&amp;[3]d}, b"1")</code><br />
+<code>\\ we exited &lt;error("unpack(t{&amp;[3]d}, b\"1\"): template 1:1: the size 3 at byte 0 goes beyond the end, 1 left")&gt; at 1:1</code></li>
+<li>A value of the call used as a count is a whole number.<br />
+<code>[rud1] unpack(t{(*given: at) @[=at] x*}, b"hello", given: [at: "abc"])</code><br />
+<code>\\ we exited &lt;error("unpack(t{(*given: at) @[=at] x*}, b\"hello\", given: [at: \"abc\"]): template 1:14: =at is a value of the call that is no whole number")&gt; at 1:1</code></li>
+<li>Inside <code>(?u: … )</code> the room that <code>*</code> leaves for what follows is counted in code points
+where the items count them.<br />
+<code>[rud1] unpack(t{(?u: s:a* t:a2)}, b"ab\x{c3}\x{a9}\x{c3}\x{a9}") \\ [s:"ab",t:"éé"]</code></li>
+</ul>
+<h2 id="known-limits-of-the-prototype">Known limits of the prototype</h2>
+<ul>
+<li>Fuel. A run has a budget of evaluation depth, 100000 by default. A loop of about
+100000 rounds uses it up, and what was written before is lost with it.<br />
+<code>[rud1] say("start"); mut my(n= 0); while(n &lt; 200000, n+= 1); n \\ out of fuel</code></li>
+<li><code>rud1_run -f N</code> sets the budget. The same program with <code>-f 1000000</code>:<br />
+<code>[rud1] say("start"); mut my(n= 0); while(n &lt; 200000, n+= 1); n</code><br />
+<code>\\ start</code><br />
+<code>\\ 200000</code></li>
+<li>Indexing a list is linear in the index, and a list made by a range or a
+comprehension is by name: it is computed again at each use (decided: memoized).
+So a loop over the indices is quadratic.<br />
+<code>[rud1] my(N= 2000, L= [1..N]); mut my(s= 0); for(i &lt;- [0..N-1], s+= L[i]); s \\ 2001000</code></li>
+<li>A walk is linear.<br />
+<code>[rud1] my(N= 2000, L= [1..N]); mut my(s= 0); for(x &lt;- L, s+= x); s \\ 2001000</code><br />
+On the machine of this run the first took 6.1 s and the second 0.02 s; with
+<code>N= 4000</code> the first took 22 s.</li>
+<li><code>read_line()</code> in a loop is quadratic in the number of lines. On 4000 lines
+<code>abcdefghij</code> (<code>yes abcdefghij | head -4000</code>):<br />
+<code>[rud1] mut my(n= 0, l= read_line()); while(is_defined(l), n+= 1; l= read_line()); n \\ 4000</code><br />
+That took 0.17 s; 8000 lines 0.60 s, 16000 lines 2.16 s.</li>
+<li>Not run again here, from the audit: no end within 20 s for 200000 lines; 35 s for a
+<code>b"…"</code> literal of 240000 bytes. From the Handover: <code>rud1_run</code> writes its output after
+the run and fetches standard input whole at the first read, so it is not interactive.</li>
+<li>Since generation 38 a <code>uint</code> below 0 is the state <code>underflow</code>, not an <code>error</code>; it carries no
+message (under <code>{underflow: keep}</code>, not built, the <code>sint</code> result).<br />
+<code>[rud1] 3 - 5 \\ we exited &lt;underflow&gt; at 1:1</code></li>
+<li>Some origins are terms of the core, not places in the source.<br />
+<code>[rud1] my(v= [10, 20, 30, 40]); v[0, 9] \\ we exited &lt;error("[10, 20, 30, 40][9]: index 9 is outside 0 .. 3")&gt; at (index #0 #2)</code></li>
+<li>A column counts bytes, not characters: this <code>zz</code> is the sixth character.<br />
+<code>[rud1] "é"; zz \\ 1:7 error undeclared 'zz'</code></li>
+<li>Values: a float shows 15 digits; there is no negative zero; a function shows as its
+name or as a core term (rows above).</li>
+</ul>
+</body>
+</html>

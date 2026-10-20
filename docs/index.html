@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.12.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>rud1</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      color: light-dark(#1a1a1a, #fdfdfd);
+      background-color: #fdfdfd;
+      background-color: light-dark(#fdfdfd, #1a1a1a);
+      color-scheme: light dark;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        color-scheme: light only;
+      }
+      html, body, pre, code {
+        background-color: transparent;
+      }
+      body, a, a:visited, blockquote {
+        color: black;
+      }
+      pre, code {
+        padding: 0;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a, a:visited {
+      color: inherit;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid;
+      border-color: #e6e6e6;
+      border-color: light-dark(#e6e6e6, #4c4c4c);
+      color: #606060;
+      color: light-dark(#606060, #b6b6b6);
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid currentColor;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid currentColor;
+      border-bottom: 1px solid currentColor;
+    }
+    th {
+      border-top: 1px solid currentColor;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+<link rel="stylesheet" href="site.css" />
+</head>
+<body>
+<nav class="site"><a href="index.html" class="here"><img src="rud1_logo.svg" alt="rud1"></a><a href="rud1_introduction.html">Introduction</a><a href="rud1_examples.html">Examples</a><a href="rud1_differences.html">Differences</a><a href="rud1_gotchas.html">Gotchas</a><a href="rud1_not_yet.html">Not yet</a><a href="https://github.com/isolution-nl/rud1-lang.org">GitHub</a></nav>
+<p align="center"><img src="rud1_logo.svg" alt="rud1" width="200"></p>
+
+<h1 id="rud1">rud1</h1>
+<p><strong>Exact numbers, errors as states of a value, and one checked
+template language that reads and writes binary and text
+formats.</strong></p>
+<p>rud1 (<code>.rud</code>) started out inspired by pari/gp, and keeps
+its terse one-liners. It has grown its own character: what can be
+decided before a program runs is decided then, a result that went wrong
+is a state that travels with it, and reading and writing data share one
+description. The prototype is written in <a
+href="https://lean-lang.org">Lean 4</a>, with proofs of parts of its
+semantics; ports to C++ and Rust are to follow.</p>
+<p>Every example below was run on the prototype; <code>\\</code> starts
+a comment, and what follows it is what came out.</p>
+<h2 id="what-is-special-already-built">What is special already
+(built)</h2>
+<p><strong>Exact by default.</strong> Whole numbers have no size limit,
+<code>/</code> gives a fraction when the division does not come out, and
+the remainder is never negative.</p>
+<pre><code>[rud1] [7 / 2, 2^100, -7 % 2, 1/10 + 2/10 == 3/10]  \\ [7/2,1267650600228229401496703205376,1,1]</code></pre>
+<p><strong>Errors are states, not exceptions.</strong> A
+<code>uint</code> below zero is the state <code>underflow</code> where
+its value leaves the expression, not a silent negative number; an
+<code>if</code> without "else" whose condition is false is
+<code>undef</code>. <code>guard</code> gives a fallback.</p>
+<pre><code>[rud1] [3 - 5 + 10, guard(3 - 5, &quot;below zero&quot;)]  \\ [8,&quot;below zero&quot;]
+[rud1] my(half(n)= if(0 == n % 2, n // 2)); [half(10), guard(half(7), &quot;odd&quot;)]  \\ [5,&quot;odd&quot;]</code></pre>
+<p><strong>One description for reading and writing.</strong> A template
+<code>t{…}</code> is a checked literal: it is compiled with the program,
+and <code>unpack</code> reads bytes by it, <code>pack</code> writes
+them.</p>
+<pre><code>[rud1] unpack(t{id:n flags:C size:V}, b&quot;\x{01}\x{02}\x{07}\x{10}\x{00}\x{00}\x{00}&quot;)  \\ [id:258,flags:7,size:16]
+[rud1] pack(t{id:n flags:C size:V}, [id:258, flags:7, size:16])  \\ b&quot;\x{01}\x{02}\x{07}\x{10}\x{00}\x{00}\x{00}&quot;</code></pre>
+<p><strong>No silent ambiguity.</strong> <code>unpack</code> never tries
+again: two variants that can read the same text are refused when the
+template is compiled, before any data is read, unless <code>||</code>
+says which one wins. And <code>pack</code> reads back what it wrote:
+bytes that would not read back as the same tree are an error, not a file
+that some other reader takes differently.</p>
+<pre><code>[rud1] unpack(t{$dec+ | $hex[2]}, b&quot;15&quot;)  \\ 1:8 error template 1:1: variants 1 and 2 can read the same text, &quot;11&quot;: make one of them narrower, or write &#39;||&#39; where the first is to win
+[rud1] unpack(t{$dec+ || $hex[2]}, b&quot;15&quot;)  \\ [15]</code></pre>
+<p><strong>Unicode as the Standard has it.</strong> A <code>str</code>
+is code points, <code>bytes</code> is another type, and case mapping is
+the Standard's full one.</p>
+<pre><code>[rud1] str.to_uppercase(&quot;straße&quot;)  \\ &quot;STRASSE&quot;</code></pre>
+<p><strong>Terse where it counts.</strong> Comprehensions, ranges that
+hold both ends, placeholders, <code>defer</code>, named arguments, lazy
+lists.</p>
+<pre><code>[rud1] [x^2 | x &lt;- [1..10], 0 == x % 3]  \\ [9,36,81]</code></pre>
+<h2 id="what-is-to-come-decided-or-planned">What is to come (decided or
+planned)</h2>
+<ul>
+<li>A type pass: types inferred, the run-time checks of today made
+static.</li>
+<li>The format translator, written with templates as their first user;
+<code>printf</code> whose sub-formats are functions, so that modules add
+conversions; later <code>pandoc.rud</code>.</li>
+<li>Templates that change what they read next from the data (hooks), and
+the rest of text: normalization, word boundaries.</li>
+<li>A compiler, with ports of the prototype to C++ and Rust; a compiled
+program that carries enough to give back its normalized source.</li>
+<li><code>gp.rud</code>: pari/gp's names, for coders who come from
+gp.</li>
+</ul>
+<h2 id="documents">Documents</h2>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="rud1_introduction.html">Introduction</a></td>
+<td>the language as built, from the first line</td>
+</tr>
+<tr>
+<td><a href="rud1_examples.html">Examples</a></td>
+<td>longer programs: Unicode, errors, standard input, PNG and gzip
+headers, Rosetta tasks</td>
+</tr>
+<tr>
+<td><a href="rud1_differences.html">Differences</a></td>
+<td>rud1 beside other languages, point by point</td>
+</tr>
+<tr>
+<td><a href="rud1_gotchas.html">Gotchas</a></td>
+<td>what surprises a coder who comes from Perl or gp</td>
+</tr>
+<tr>
+<td><a href="rud1_not_yet.html">Not yet</a></td>
+<td>what is decided or proposed and not built</td>
+</tr>
+</tbody>
+</table>
+<p>Each example in them is run again before a document is published. The
+site is <a href="https://rud1-lang.org">rud1-lang.org</a>.</p>
+<h2 id="licence">Licence</h2>
+<ul>
+<li>Code (Lean, Python, scripts): MIT, see <code>LICENSE</code>.</li>
+<li>Text, figures and other documents (papers, <code>.md</code>,
+<code>.tex</code>, images): CC BY 4.0, see
+<code>LICENSE-CC-BY-4.0</code>.</li>
+</ul>
+</body>
+</html>
