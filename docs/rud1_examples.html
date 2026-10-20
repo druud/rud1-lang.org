@@ -307,7 +307,7 @@ for(i=1, N, say(str.join([str(i * j) | j &lt;- [1..N]], &quot; &quot;)));
 <p><strong><code>while</code> and <code>until</code>.</strong> <code>until</code> tests after the body, so its body runs at least once.</p>
 <pre class="text"><code>[rud1] mut my(i= 0, s= 0); while(i &lt; 5, i+= 1; s+= i); [i, s] \\ [5,15]
 [rud1] mut my(n= 27, k= 0); while(1 != n, n= if(n % 2, 3 * n + 1, n // 2); k+= 1); k \\ 111
-[rud1] mut my(n= 1); until(n &gt; 1000, n*= 2); n \\ 1024</code></pre>
+[rud1] mut my(n= 1234); until(n &gt; 1000, n*= 2); n \\ 2468</code></pre>
 <p><strong><code>leave</code>.</strong> <code>leave(, v)</code> ends the loop with the value <code>v</code>; <code>leave(2, v)</code> ends two levels.</p>
 <pre class="text"><code>[rud1] my(first(L, p)= for(x &lt;- L, if(p(x), leave(, x)))); first([3, 8, 12, 5], _1 &gt; 10) \\ 12
 [rud1] mut my(k= 0); while(1, k+= 1; if(k^2 &gt; 50, leave())); k \\ 8

@@ -214,7 +214,7 @@ Output:
 ```
 [rud1] mut my(i= 0, s= 0); while(i < 5, i+= 1; s+= i); [i, s] \\ [5,15]
 [rud1] mut my(n= 27, k= 0); while(1 != n, n= if(n % 2, 3 * n + 1, n // 2); k+= 1); k \\ 111
-[rud1] mut my(n= 1); until(n > 1000, n*= 2); n \\ 1024
+[rud1] mut my(n= 1234); until(n > 1000, n*= 2); n \\ 2468
 ```
 
 **`leave`.** `leave(, v)` ends the loop with the value `v`; `leave(2, v)` ends two levels.
