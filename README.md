@@ -80,6 +80,9 @@ named arguments, lazy lists.
   normalization, word boundaries.
 - A compiler, with ports of the prototype to C++, Rust and the JVM; a compiled program that
   carries enough to give back its normalized source.
+- A small core, with the rest written in rud1 itself: a port to a host language replaces a
+  feature by the host's own where that is faster, and is checked against the rud1
+  implementation on generated data; an install may also keep to rud1's own, slower and purer.
 - Migration tools, such as `pari2rud1.rud` from pari/gp (its rules are collected in the
   `pari2rud1` manual).
 - `gp.rud`: pari/gp's names, for coders who come from gp.
