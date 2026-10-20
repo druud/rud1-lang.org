@@ -30,12 +30,11 @@ when the division does not come out, and the remainder is never negative.
 [rud1] [7 / 2, 2^100, -7 % 2, 1/10 + 2/10 == 3/10]  \\ [7/2,1267650600228229401496703205376,1,1]
 ```
 
-**Errors are states, not exceptions.** A `uint` below zero is the state `underflow` where its
-value leaves the expression, not a silent negative number; an `if` without "else" whose
-condition is false is `undef`. `guard` gives a fallback.
+**Errors are states, not exceptions.** A result that went wrong carries its state (`error`,
+`undef`, …) and travels outward until something catches it: an `if` without "else" whose
+condition is false is `undef`, and `guard` gives a fallback.
 
 ```
-[rud1] [3 - 5 + 10, guard(3 - 5, "below zero")]  \\ [8,"below zero"]
 [rud1] my(half(n)= if(0 == n % 2, n // 2)); [half(10), guard(half(7), "odd")]  \\ [5,"odd"]
 ```
 

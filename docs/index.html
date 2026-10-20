@@ -213,13 +213,12 @@ types derived with a fixed width) remain available where speed matters.
 <code>/</code> gives a fraction when the division does not come out, and
 the remainder is never negative.</p>
 <pre><code>[rud1] [7 / 2, 2^100, -7 % 2, 1/10 + 2/10 == 3/10]  \\ [7/2,1267650600228229401496703205376,1,1]</code></pre>
-<p><strong>Errors are states, not exceptions.</strong> A
-<code>uint</code> below zero is the state <code>underflow</code> where
-its value leaves the expression, not a silent negative number; an
-<code>if</code> without "else" whose condition is false is
-<code>undef</code>. <code>guard</code> gives a fallback.</p>
-<pre><code>[rud1] [3 - 5 + 10, guard(3 - 5, &quot;below zero&quot;)]  \\ [8,&quot;below zero&quot;]
-[rud1] my(half(n)= if(0 == n % 2, n // 2)); [half(10), guard(half(7), &quot;odd&quot;)]  \\ [5,&quot;odd&quot;]</code></pre>
+<p><strong>Errors are states, not exceptions.</strong> A result that
+went wrong carries its state (<code>error</code>, <code>undef</code>, …)
+and travels outward until something catches it: an <code>if</code>
+without "else" whose condition is false is <code>undef</code>, and
+<code>guard</code> gives a fallback.</p>
+<pre><code>[rud1] my(half(n)= if(0 == n % 2, n // 2)); [half(10), guard(half(7), &quot;odd&quot;)]  \\ [5,&quot;odd&quot;]</code></pre>
 <p><strong>One description for reading and writing.</strong> A template
 <code>t{…}</code> is a checked literal: it is compiled with the program,
 and <code>unpack</code> reads bytes by it, <code>pack</code> writes
