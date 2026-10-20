@@ -22,7 +22,8 @@ came out.
 ## What is special already (built)
 
 **Exact by default.** Numbers have no size limit by default: whole numbers and fractions in
-the prototype, and a default float of unlimited precision is decided. `/` gives a fraction
+the prototype, and a default float of unlimited precision is decided. Native types (`f64`,
+types derived with a fixed width) remain available where speed matters. `/` gives a fraction
 when the division does not come out, and the remainder is never negative.
 
 ```

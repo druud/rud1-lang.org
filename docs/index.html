@@ -208,9 +208,10 @@ a comment, and what follows is what came out.</p>
 (built)</h2>
 <p><strong>Exact by default.</strong> Numbers have no size limit by
 default: whole numbers and fractions in the prototype, and a default
-float of unlimited precision is decided. <code>/</code> gives a fraction
-when the division does not come out, and the remainder is never
-negative.</p>
+float of unlimited precision is decided. Native types (<code>f64</code>,
+types derived with a fixed width) remain available where speed matters.
+<code>/</code> gives a fraction when the division does not come out, and
+the remainder is never negative.</p>
 <pre><code>[rud1] [7 / 2, 2^100, -7 % 2, 1/10 + 2/10 == 3/10]  \\ [7/2,1267650600228229401496703205376,1,1]</code></pre>
 <p><strong>Errors are states, not exceptions.</strong> A
 <code>uint</code> below zero is the state <code>underflow</code> where
