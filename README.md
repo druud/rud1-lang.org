@@ -83,6 +83,9 @@ named arguments, lazy lists.
 - Migration tools, such as `pari2rud1.rud` from pari/gp (its rules are collected in the
   `pari2rud1` manual).
 - `gp.rud`: pari/gp's names, for coders who come from gp.
+- For auditors: a mode that traces a value dynamically through a process, and through the
+  systems it passes (databases, requests, streams), with near-real-time analysis that flags
+  anomalies and violations, such as guarded data that crosses to where it may not go.
 
 ## Documents
 
