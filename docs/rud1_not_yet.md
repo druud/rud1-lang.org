@@ -236,7 +236,6 @@ Sentences of the spec that still say "`unpack` is not built" are older than that
 
 | Form | Status | Today | Meanwhile |
 |---|---|---|---|
-| `pack(t{("ab" &K) C}, [[2], 1])` | decided | `we exited <error("pack(t{(\"ab\" &K) C}, [[2], 1]): template 1:7: &K (the bytes before it are not in the tree): not written yet")> at 1:1` (alternatives, look-ahead and the read-back check are written since generation 42) | `pack(t{"ab" C}, [1]) \\ b"ab\x{01}"` |
 | the uncondensed tree (every item with position and length) | decided; how it is asked for: open | no form to try | — |
 | `unpack(t{"\N{DIGIT ONE}"}, b"1")` | decided | `1:8 error template 1:1: \N{name} is not built yet (it waits for the table of names)` | `unpack(t{"\x{31}"}, b"1") \\ [b"1"]` |
 | `unpack(t{&X}, b"e\x{cc}\x{81}")` | decided | `1:8 error template 1:1: the built-in pattern &X is not built yet` | `unpack(t{(?u: a2)}, b"e\x{cc}\x{81}") \\ ["é"]` (code points, counted by hand) |
