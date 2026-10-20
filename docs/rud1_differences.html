@@ -223,7 +223,9 @@ width * height \\ 12</code></pre>
 style is decided; a formatter that applies it is on the backlog.</p>
 <h2 id="3-immutable-by-default">3. Immutable by default</h2>
 <p>A name declared with <code>my(…)</code> can't be assigned again; <code>mut my(…)</code> makes it changeable.
-Values are always immutable: <code>w[0]= 9</code> builds a new list and rebinds <code>w</code>. A function
+Values are immutable unless their type says otherwise: if <code>w</code> is a (dynamic or fixed length)
+array, then by default <code>w[0]= 9</code> builds a new list and rebinds <code>w</code>; in-place change comes
+with the <code>{mut}</code> type attribute (decided, with the type pass). A function
 captures the values of the names it uses, not the names.</p>
 <pre class="text"><code>[rud1] my(a= 1); a= 2 \\ 1:11 error assignment to immutable &#39;a&#39;
 [rud1] mut my(a= 1); a= 2; a \\ 2

@@ -52,7 +52,9 @@ style is decided; a formatter that applies it is on the backlog.
 ## 3. Immutable by default
 
 A name declared with `my(…)` can't be assigned again; `mut my(…)` makes it changeable.
-Values are always immutable: `w[0]= 9` builds a new list and rebinds `w`. A function
+Values are immutable unless their type says otherwise: if `w` is a (dynamic or fixed length)
+array, then by default `w[0]= 9` builds a new list and rebinds `w`; in-place change comes
+with the `{mut}` type attribute (decided, with the type pass). A function
 captures the values of the names it uses, not the names.
 
 ```
