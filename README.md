@@ -105,13 +105,10 @@ named arguments, lazy lists.
 
 | Document | Content |
 |---|---|
-| [Introduction](docs/rud1_introduction.md) | the language as built, from the first line |
-| [Examples](docs/rud1_examples.md) | longer programs: Unicode, errors, standard input, PNG and gzip headers, Rosetta tasks |
-| [Differences](docs/rud1_differences.md) | rud1 beside other languages, point by point |
-| [Gotchas](docs/rud1_gotchas.md) | what might surprise a coder who comes from Perl or gp |
 | [Not yet](docs/rud1_not_yet.md) | what is decided or proposed and not yet built |
 
-Each example in them is run again before a document is published.
+An introduction, examples, the differences from other languages and the gotchas are coming
+soon. Each example in the documents is run again before a document is published.
 
 ## Licence
 
