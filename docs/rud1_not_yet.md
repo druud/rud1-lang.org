@@ -45,20 +45,16 @@ token. A number in a base can be read by a template today (`$bin`, `$oct`, `$dec
 
 ## Declarations and types (spec §4, §6)
 
-No declared type is used yet: the type pass (spec §10, "infer types") is not built. A type
-word before a name is parsed and then ignored, so no check and no cast comes from it.
+Declared types are built (generation 45): a declaration, a parameter, a return type
+(`my(sint f(uint a)= a + 1)`) and a group type (`sint my(a= 1, b= 2)`) cast the value to the type,
+along the promotion diamond. Where the compiler knows the kind of the value, one that does not
+fit is a compile error (`my(uint x= -1)`); elsewhere it is an `error` when the program runs. What
+the type pass of spec §10 adds beyond that (dispatch, variants, binding by type) is below.
 
 | Form | Status | Today | Meanwhile |
 |---|---|---|---|
-| `my(uint x= -1); x` | decided | `-1` (no check) | `my(x= uint(5)); x \\ 5` |
-| `my(bool b= 5); b` | decided | `5` (no cast) | `my(b= bool(5)); b \\ 1` |
-| `my(sint d= 3 - 5); d` | decided | `we exited <underflow> at 1:12` (`uint - uint` below 0; the `sint` gives no context) | `my(d= +3 - 5); d \\ -2` |
-| `my(foo a= 1); a` | — | `1` (an unknown type word passes; the spec has the check for parameters only) | — |
-| `sint my(a= 1, b= 2); [a, b]` | decided | `1:5 error expected ';', got ident 'my'` (a type before the group types every name of it; for the type pass) | `my(sint a= 1, sint b= 2); [a, b] \\ [1,2]` |
 | `type T = uint {default: none}; my(T dn); dn= 1` | decided | `1:6 error expected ';', got ident 'T'` (decided: a compile error at `my(T dn)`, the value is given at the declaration) | `my(dn= 1); dn \\ 1` |
-| `if(1, 1, "a")` | decided | `1` (branch types are not unified) | — |
 | `my(x); x= 1; x` | decided | `1:8 error assignment to immutable 'x'` (late init) | `mut my(x); x= 1; x \\ 1` |
-| `my(f(sint a) : sint = a + 1); f(1)` | proposed | `1:14 error expected '=', got punct ':'` | `my(f(sint a)= a + 1); f(1) \\ 2` |
 | `type Pct = sint {0..100}; 1` | decided | `1:6 error expected ';', got ident 'Pct'` | — |
 | `i64(5)` | decided | `1:1 error undeclared 'i64'` (also `f64`) | — |
 | `#bool()` | decided | `1:2 error wrong number of arguments to 'bool'` (multis and index types, spec §6.4) | — |
@@ -81,15 +77,15 @@ The check that `my(uint x= -1)` does not make, written out:
 | `my(f(lazy x)= x + x); f({say("once"); 2})` | decided | `once`<br>`once`<br>`4` (by name: decided is by need, memoized, and a compile error for an argument with an effect) | `my(f(x)= x + x); f({say("once"); 2})` prints `once`<br>`4` |
 | `my(sq(x)= x^2); sq` | decided | `sq` (decided: `(x) -> x^2`) | — |
 | `x -> x^2` | decided | `(lam (params x) (pow x 2))` (the core term) | — |
-| `my(diff(x, y) : sint = x - y); diff(3, 5)` | decided | `1:15 error expected '=', got punct ':'` (variants by return type need the return type, which is proposed and does not parse) | `my(diff(x, y)= +x - y); diff(3, 5) \\ -2` |
-| `my(f(sint n, str s)= s ~* n); f("ab", 2)` | decided | `we exited <error("2 ~* \"ab\": the left side is a str, a list or a template")> at 1:22`<br>`  in f at 1:31` (binding by type) | `my(f(sint n, str s)= s ~* n); f(s: "ab", n: 2) \\ "abab"` |
+| `my(sint diff(x, y)= x - y); diff(3, 5)` | decided | `-2` (the return type is built; variants by return type are not) | `my(diff(x, y)= +x - y); diff(3, 5) \\ -2` |
+| `my(f(sint n, str s)= s ~* n); f("ab", 2)` | decided | `1:33 error sint n: a str is no sint` (binding by type) | `my(f(sint n, str s)= s ~* n); f(s: "ab", n: 2) \\ "abab"` |
 | `my(f(e)= 5); guard(error("x"), f)` | decided | `f` (the handler `f` is not called) | `guard(error("x"), 5) \\ 5` |
 | `{ amend((r) -> 9); 5 }` | proposed | `1:3 error undeclared 'amend'` | — |
 | `my(f(x, y)= x - y, g= f(_, 2)); g(5)` | open | `1:25 error undeclared '_'` | `my(f(x, y)= x - y, g= x -> f(x, 2)); g(5) \\ 3` |
 | `-_(3)` | decided | `1:2 error undeclared '_'` (also `#_`, `!_`, `_[_]`) | `my(neg(x)= -x); neg(3) \\ -3` |
 | `len(today())` | decided | `10` (decided: a compile error, the top level is pure unless marked `impure;`, spec §2, generation 37) | — |
 | `my(f()= len(today())); f()` | decided | `10` (decided: a compile error, `f` reads the clock and is not marked `impure`) | — |
-| `impure; impure my(f()= len(today())); f()` | decided | `1:16 error expected ';', got ident 'my'` | `my(f()= len(today())); f() \\ 10` |
+| `impure; impure my(f()= len(today())); f()` | decided | `1:1 error undeclared 'impure'` | `my(f()= len(today())); f() \\ 10` |
 | `my(main()= 144)` | decided | `main` (decided: `main()` runs, `144`; spec §5b, generation 37) | `my(main()= 144); main() \\ 144` |
 | `my(at.main_start= () -> 1); 2` | decided | `1:6 error expected ')', got punct '.'` | — |
 

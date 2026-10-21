@@ -257,8 +257,11 @@ and the spec's own marks.</li>
 <p>The other hyper operators (<code>&gt;&gt;*</code>, <code>*&lt;&lt;</code>, <code>&gt;&gt;[</code>) give the same message with their own
 token. A number in a base can be read by a template today (<code>$bin</code>, <code>$oct</code>, <code>$dec</code>, <code>$hex</code>).</p>
 <h2 id="declarations-and-types-spec-4-6">Declarations and types (spec §4, §6)</h2>
-<p>No declared type is used yet: the type pass (spec §10, "infer types") is not built. A type
-word before a name is parsed and then ignored, so no check and no cast comes from it.</p>
+<p>Declared types are built (generation 45): a declaration, a parameter, a return type
+(<code>my(sint f(uint a)= a + 1)</code>) and a group type (<code>sint my(a= 1, b= 2)</code>) cast the value to the type,
+along the promotion diamond. Where the compiler knows the kind of the value, one that does not
+fit is a compile error (<code>my(uint x= -1)</code>); elsewhere it is an <code>error</code> when the program runs. What
+the type pass of spec §10 adds beyond that (dispatch, variants, binding by type) is below.</p>
 <table>
 <thead>
 <tr>
@@ -270,58 +273,16 @@ word before a name is parsed and then ignored, so no check and no cast comes fro
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>my(uint x= -1); x</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>-1</code> (no check)</td>
-<td style="text-align: left;"><code>my(x= uint(5)); x \\ 5</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>my(bool b= 5); b</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>5</code> (no cast)</td>
-<td style="text-align: left;"><code>my(b= bool(5)); b \\ 1</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>my(sint d= 3 - 5); d</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>we exited &lt;underflow&gt; at 1:12</code> (<code>uint - uint</code> below 0; the <code>sint</code> gives no context)</td>
-<td style="text-align: left;"><code>my(d= +3 - 5); d \\ -2</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>my(foo a= 1); a</code></td>
-<td style="text-align: left;">—</td>
-<td style="text-align: left;"><code>1</code> (an unknown type word passes; the spec has the check for parameters only)</td>
-<td style="text-align: left;">—</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>sint my(a= 1, b= 2); [a, b]</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:5 error expected ';', got ident 'my'</code> (a type before the group types every name of it; for the type pass)</td>
-<td style="text-align: left;"><code>my(sint a= 1, sint b= 2); [a, b] \\ [1,2]</code></td>
-</tr>
-<tr>
 <td style="text-align: left;"><code>type T = uint {default: none}; my(T dn); dn= 1</code></td>
 <td style="text-align: left;">decided</td>
 <td style="text-align: left;"><code>1:6 error expected ';', got ident 'T'</code> (decided: a compile error at <code>my(T dn)</code>, the value is given at the declaration)</td>
 <td style="text-align: left;"><code>my(dn= 1); dn \\ 1</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>if(1, 1, "a")</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1</code> (branch types are not unified)</td>
-<td style="text-align: left;">—</td>
-</tr>
-<tr>
 <td style="text-align: left;"><code>my(x); x= 1; x</code></td>
 <td style="text-align: left;">decided</td>
 <td style="text-align: left;"><code>1:8 error assignment to immutable 'x'</code> (late init)</td>
 <td style="text-align: left;"><code>mut my(x); x= 1; x \\ 1</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>my(f(sint a) : sint = a + 1); f(1)</code></td>
-<td style="text-align: left;">proposed</td>
-<td style="text-align: left;"><code>1:14 error expected '=', got punct ':'</code></td>
-<td style="text-align: left;"><code>my(f(sint a)= a + 1); f(1) \\ 2</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>type Pct = sint {0..100}; 1</code></td>
@@ -405,15 +366,15 @@ word before a name is parsed and then ignored, so no check and no cast comes fro
 <td style="text-align: left;">—</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>my(diff(x, y) : sint = x - y); diff(3, 5)</code></td>
+<td style="text-align: left;"><code>my(sint diff(x, y)= x - y); diff(3, 5)</code></td>
 <td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:15 error expected '=', got punct ':'</code> (variants by return type need the return type, which is proposed and does not parse)</td>
+<td style="text-align: left;"><code>-2</code> (the return type is built; variants by return type are not)</td>
 <td style="text-align: left;"><code>my(diff(x, y)= +x - y); diff(3, 5) \\ -2</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>my(f(sint n, str s)= s ~* n); f("ab", 2)</code></td>
 <td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>we exited &lt;error("2 ~* \"ab\": the left side is a str, a list or a template")&gt; at 1:22</code><br /><code>  in f at 1:31</code> (binding by type)</td>
+<td style="text-align: left;"><code>1:33 error sint n: a str is no sint</code> (binding by type)</td>
 <td style="text-align: left;"><code>my(f(sint n, str s)= s ~* n); f(s: "ab", n: 2) \\ "abab"</code></td>
 </tr>
 <tr>
@@ -455,7 +416,7 @@ word before a name is parsed and then ignored, so no check and no cast comes fro
 <tr>
 <td style="text-align: left;"><code>impure; impure my(f()= len(today())); f()</code></td>
 <td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:16 error expected ';', got ident 'my'</code></td>
+<td style="text-align: left;"><code>1:1 error undeclared 'impure'</code></td>
 <td style="text-align: left;"><code>my(f()= len(today())); f() \\ 10</code></td>
 </tr>
 <tr>
