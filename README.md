@@ -14,7 +14,7 @@ parts of its semantics; ports to C++, Rust and the JVM are to follow.
 rud1 is meant for more than coders. Auditors, companies and AI tools are expected to
 welcome it too, because it caters for their needs wherever feasible: no silent limits and no
 silent ambiguity, checks before a program runs, errors that say where, and data formats
-described once for reading and writing.
+described once for reading and writing. We aim for love.
 
 Every example below was run on the prototype; `\\` starts a comment, and what follows is what
 came out.
