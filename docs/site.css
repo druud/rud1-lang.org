@@ -3,3 +3,4 @@ nav.site{display:flex;flex-wrap:wrap;gap:.3em 1.2em;align-items:center;
 nav.site img{height:1.8em;vertical-align:middle}
 nav.site a{text-decoration:none}
 nav.site a.here{font-weight:bold}
+h1 small{font-weight:normal}
