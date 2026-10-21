@@ -1,6 +1,8 @@
 <p align="center"><img src="docs/rud1_logo.svg" alt="rud1" width="200"></p>
 
-# rud1&ensp;<small><small>(v0.1.48)</small></small>
+# rud1
+
+<small>(v0.1.48)</small>
 
 **Exact numbers, errors as states of a value, and one checked template language that reads
 and writes binary and text formats.**
