@@ -300,12 +300,12 @@ list. The counter is immutable in the body (`for(mut i=a, b, …)` makes it chan
 `leave(2)` ends two; `next()` goes to the next round.
 
 ```
-? mut my(r); for(i=1, 9, if(3 == i, next()); if(6 == i, leave()); r~= [i]); r
+? mut my(r= []); for(i=1, 9, if(3 == i, next()); if(6 == i, leave()); r~= [i]); r
 > [1,2,4,5]
 ```
 
-`r` has no initial value: a `mut` that is first used in `r~= […]` starts as the empty list
-(with `+=` as 0, with `*=` as 1).
+`r` gets its value, and so its kind, at its declaration: a compound assignment such as
+`r~= […]` to a `mut` that has no value yet is a compile error.
 
 A loop has a value: that of its last round, or what `leave(, v)` gives it, and `undef` when
 no round ran. A script that ends in a loop, or in an `if` without "else", can so end without

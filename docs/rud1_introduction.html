@@ -457,10 +457,10 @@ list. The counter is immutable in the body (<code>for(mut i=a, b, …)</code> ma
 &gt; 111</code></pre>
 <p><code>leave()</code> ends the innermost loop or block, <code>leave(, v)</code> ends it with the value <code>v</code>,
 <code>leave(2)</code> ends two; <code>next()</code> goes to the next round.</p>
-<pre class="text"><code>? mut my(r); for(i=1, 9, if(3 == i, next()); if(6 == i, leave()); r~= [i]); r
+<pre class="text"><code>? mut my(r= []); for(i=1, 9, if(3 == i, next()); if(6 == i, leave()); r~= [i]); r
 &gt; [1,2,4,5]</code></pre>
-<p><code>r</code> has no initial value: a <code>mut</code> that is first used in <code>r~= […]</code> starts as the empty list
-(with <code>+=</code> as 0, with <code>*=</code> as 1).</p>
+<p><code>r</code> gets its value, and so its kind, at its declaration: a compound assignment such as
+<code>r~= […]</code> to a <code>mut</code> that has no value yet is a compile error.</p>
 <p>A loop has a value: that of its last round, or what <code>leave(, v)</code> gives it, and <code>undef</code> when
 no round ran. A script that ends in a loop, or in an <code>if</code> without "else", can so end without
 a value, which is a failure ("Errors are states"). The compiler warns on every run:</p>
