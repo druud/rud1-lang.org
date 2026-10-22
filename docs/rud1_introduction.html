@@ -340,10 +340,11 @@ does not silently become a negative number, which protects an index; the result 
 <code>1.</code>). An operation with one float operand gives a float. The default float of the release
 has infinite precision (decided). The prototype's float is binary, 64 bits, and where that
 would round it stops instead of giving a value rud1 would not give: <code>0.1</code> is an error there,
-<code>1/10</code> is exact. A concession is made only at the interface of a library from outside,
+<code>1/10</code> is exact. Without a dot a literal stays exact: <code>1e3</code> is the whole number 1000,
+<code>2e-3</code> the rational 1/500. A concession is made only at the interface of a library from outside,
 and tightened there as far as it goes.</p>
-<pre class="text"><code>? [1.5 + 1, 7 / 2.0, 1e3]
-&gt; [2.50000000000000,3.50000000000000,1000.00000000000]
+<pre class="text"><code>? [1.5 + 1, 7 / 2.0, 1.0e3, 1e3, 2e-3]
+&gt; [2.50000000000000,3.50000000000000,1000.00000000000,1000,1/500]
 
 ? [0.25 + 0.5 == 0.75, 1/10 + 2/10 == 3/10]
 &gt; [1,1]</code></pre>

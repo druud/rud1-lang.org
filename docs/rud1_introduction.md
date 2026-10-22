@@ -118,12 +118,13 @@ A literal with a dot is a float; a digit is needed on both sides of the dot (`1.
 `1.`). An operation with one float operand gives a float. The default float of the release
 has infinite precision (decided). The prototype's float is binary, 64 bits, and where that
 would round it stops instead of giving a value rud1 would not give: `0.1` is an error there,
-`1/10` is exact. A concession is made only at the interface of a library from outside,
+`1/10` is exact. Without a dot a literal stays exact: `1e3` is the whole number 1000,
+`2e-3` the rational 1/500. A concession is made only at the interface of a library from outside,
 and tightened there as far as it goes.
 
 ```
-? [1.5 + 1, 7 / 2.0, 1e3]
-> [2.50000000000000,3.50000000000000,1000.00000000000]
+? [1.5 + 1, 7 / 2.0, 1.0e3, 1e3, 2e-3]
+> [2.50000000000000,3.50000000000000,1000.00000000000,1000,1/500]
 
 ? [0.25 + 0.5 == 0.75, 1/10 + 2/10 == 3/10]
 > [1,1]
