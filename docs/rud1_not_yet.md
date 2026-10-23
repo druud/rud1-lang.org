@@ -83,8 +83,8 @@ The check that `my(uint x= -1)` does not make, written out:
 | `{ amend((r) -> 9); 5 }` | proposed | `1:3 error undeclared 'amend'` | — |
 | `my(f(x, y)= x - y, g= f(_, 2)); g(5)` | open | `1:25 error undeclared '_'` | `my(f(x, y)= x - y, g= x -> f(x, 2)); g(5) \\ 3` |
 | `-_(3)` | decided | `1:2 error undeclared '_'` (also `#_`, `!_`, `_[_]`) | `my(neg(x)= -x); neg(3) \\ -3` |
-| `len(today())` | decided | `10` (decided: a compile error, the top level is pure unless marked `state.set(impure);`, spec §2, generations 37 and 53) | — |
-| `my(f()= len(today())); f()` | decided | `10` (decided: a compile error, `f` reads the clock and is not marked `impure`) | — |
+| `len(today())` | decided | `10` (decided: `10`, the top level's impurity inferred, spec §2, generation 53; a compile error under `policy.main.impure=1`) | — |
+| `my(f()= len(today())); f()` | decided | `10` (decided: `10`, `f` inferred impure; a compile error under `policy.main.impure=1`) | — |
 | `state.set(impure); impure my(f()= len(today())); f()` | decided | `1:1 error undeclared 'state'` | `my(f()= len(today())); f() \\ 10` |
 | `my(main()= 144)` | decided | `main` (decided: `main()` runs, `144`; spec §5b, generation 37) | `my(main()= 144); main() \\ 144` |
 | `my(at.main_start= () -> 1); 2` | decided | `1:6 error expected ')', got punct '.'` | — |
@@ -206,7 +206,7 @@ Built: `read_line()` on standard input, `say` and `print` on standard output, `e
 | `my(f= open("data.txt")); read(f)` | open | `1:7 error undeclared 'open'` | the shell: `rud1 file.rud < data.txt > out.txt`, and (a) below |
 | `read_line(1)` | open | `1:1 error call of 'read_line': too many arguments` (the other read verbs, timeouts, layers: their names are open) | — |
 | `-p.kept_bytes.max=N` (a switch of `rud1_run`) | decided | `usage: rud1_run [-c] [-f FUEL] [-e SRC \| FILE...]` (and the other lines of the help, status 2; decided: a cap on the bytes kept of standard input when it is a pipe, also a template header) | — |
-| `now()`, `today()`, `time()`, `process.…` in a function not marked `impure`, or a hook | decided | (runs: effects are not inferred yet; decided: a compile error, as they are `impure`, spec §2, generation 37) | — |
+| `now()`, `today()`, `time()`, `process.…` in a function not marked `impure`, or a hook | decided | (runs: effects are not inferred yet; decided: the function inferred impure, in a hook a compile error, spec §2, generation 53) | — |
 | a mark from pure code: a fire-and-forget write to a logging pipe | decided | (no form to try; its name and the pipe are open) | — |
 
 \(a\) Every line of standard input, here the three lines `3`, `4`, `5`:

@@ -35,7 +35,7 @@ holds the proofs about the language's rules; its executable is named `rud1_run`,
 | a float of infinite precision as the default float | decided |
 | templates: `unpack` and `pack` for binary data and text formats | built |
 | a template refused when compiled when reading by it would take time that grows faster than the data | built, the rule proposed |
-| functions pure unless marked `impure` | decided |
+| functions pure unless the compiler finds an effect | decided |
 | status words on declarations: `deprecated_( … )_deprecated` | built |
 | regions with conditions and taint: `SOx_( … )_SOx` | proposed, designed in part |
 | messages with an id and an explanation: `rud1 --explain` | built |
@@ -254,10 +254,12 @@ a name has when the lambda is made, and it cannot assign a `mut` of the code aro
 > [1,2]
 ```
 
-Functions are pure unless marked `impure` (decided, not built): a pure function gives the same
-result for the same arguments, and cannot call an `impure` one; reading the clock or
-standard input is `impure`. The compiler checks it, so that pure code may be folded at
-compile time and run in parallel.
+Functions are pure unless they have an effect (decided, not built): a pure function gives the
+same result for the same arguments, and cannot call an `impure` one; reading the clock or
+standard input is `impure`. The compiler finds which functions, loops and modules are
+impure, also through a `use` of an impure module, so the mark `impure` is needed only on code
+it cannot look into, such as a foreign function. Pure code may be folded at compile time and run
+in parallel.
 
 ## Conditions and loops
 

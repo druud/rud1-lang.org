@@ -404,13 +404,13 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 <tr>
 <td style="text-align: left;"><code>len(today())</code></td>
 <td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>10</code> (decided: a compile error, the top level is pure unless marked <code>state.set(impure);</code>, spec §2, generations 37 and 53)</td>
+<td style="text-align: left;"><code>10</code> (decided: <code>10</code>, the top level's impurity inferred, spec §2, generation 53; a compile error under <code>policy.main.impure=1</code>)</td>
 <td style="text-align: left;">—</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>my(f()= len(today())); f()</code></td>
 <td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>10</code> (decided: a compile error, <code>f</code> reads the clock and is not marked <code>impure</code>)</td>
+<td style="text-align: left;"><code>10</code> (decided: <code>10</code>, <code>f</code> inferred impure; a compile error under <code>policy.main.impure=1</code>)</td>
 <td style="text-align: left;">—</td>
 </tr>
 <tr>
@@ -808,7 +808,7 @@ digits(91) \\ [1,0,1,1,0,1,1]</code></pre>
 <tr>
 <td style="text-align: left;"><code>now()</code>, <code>today()</code>, <code>time()</code>, <code>process.…</code> in a function not marked <code>impure</code>, or a hook</td>
 <td style="text-align: left;">decided</td>
-<td style="text-align: left;">(runs: effects are not inferred yet; decided: a compile error, as they are <code>impure</code>, spec §2, generation 37)</td>
+<td style="text-align: left;">(runs: effects are not inferred yet; decided: the function inferred impure, in a hook a compile error, spec §2, generation 53)</td>
 <td style="text-align: left;">—</td>
 </tr>
 <tr>

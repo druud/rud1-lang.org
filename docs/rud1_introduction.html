@@ -255,7 +255,7 @@ holds the proofs about the language's rules; its executable is named <code>rud1_
 <td style="text-align: left;">built, the rule proposed</td>
 </tr>
 <tr>
-<td style="text-align: left;">functions pure unless marked <code>impure</code></td>
+<td style="text-align: left;">functions pure unless the compiler finds an effect</td>
 <td style="text-align: left;">decided</td>
 </tr>
 <tr>
@@ -424,10 +424,12 @@ a name has when the lambda is made, and it cannot assign a <code>mut</code> of t
 
 ? mut my(n= 1); my(f= () -&gt; n); n= 2; [f(), n]
 &gt; [1,2]</code></pre>
-<p>Functions are pure unless marked <code>impure</code> (decided, not built): a pure function gives the same
-result for the same arguments, and cannot call an <code>impure</code> one; reading the clock or
-standard input is <code>impure</code>. The compiler checks it, so that pure code may be folded at
-compile time and run in parallel.</p>
+<p>Functions are pure unless they have an effect (decided, not built): a pure function gives the
+same result for the same arguments, and cannot call an <code>impure</code> one; reading the clock or
+standard input is <code>impure</code>. The compiler finds which functions, loops and modules are
+impure, also through a <code>use</code> of an impure module, so the mark <code>impure</code> is needed only on code
+it cannot look into, such as a foreign function. Pure code may be folded at compile time and run
+in parallel.</p>
 <h2 id="conditions-and-loops">Conditions and loops</h2>
 <p><code>if</code> is an expression. <code>if(c, a, b)</code> is <code>a</code> when <code>c</code> is true, else <code>b</code>. With more arguments
 it is a chain: condition, value, condition, value, and an odd last argument is the "else".
