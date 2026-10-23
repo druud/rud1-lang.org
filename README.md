@@ -2,7 +2,7 @@
 
 # rud1
 
-<small>(v0.1.51)</small>
+<small>(v0.1.52)</small>
 
 **Exact numbers, errors as states of a value, and one checked template language that reads
 and writes binary and text formats.**
