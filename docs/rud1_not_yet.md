@@ -83,9 +83,9 @@ The check that `my(uint x= -1)` does not make, written out:
 | `{ amend((r) -> 9); 5 }` | proposed | `1:3 error undeclared 'amend'` | — |
 | `my(f(x, y)= x - y, g= f(_, 2)); g(5)` | open | `1:25 error undeclared '_'` | `my(f(x, y)= x - y, g= x -> f(x, 2)); g(5) \\ 3` |
 | `-_(3)` | decided | `1:2 error undeclared '_'` (also `#_`, `!_`, `_[_]`) | `my(neg(x)= -x); neg(3) \\ -3` |
-| `len(today())` | decided | `10` (decided: a compile error, the top level is pure unless marked `impure;`, spec §2, generation 37) | — |
+| `len(today())` | decided | `10` (decided: a compile error, the top level is pure unless marked `state.set(impure);`, spec §2, generations 37 and 53) | — |
 | `my(f()= len(today())); f()` | decided | `10` (decided: a compile error, `f` reads the clock and is not marked `impure`) | — |
-| `impure; impure my(f()= len(today())); f()` | decided | `1:1 error undeclared 'impure'` | `my(f()= len(today())); f() \\ 10` |
+| `state.set(impure); impure my(f()= len(today())); f()` | decided | `1:1 error undeclared 'state'` | `my(f()= len(today())); f() \\ 10` |
 | `my(main()= 144)` | decided | `main` (decided: `main()` runs, `144`; spec §5b, generation 37) | `my(main()= 144); main() \\ 144` |
 | `my(at.main_start= () -> 1); 2` | decided | `1:6 error expected ')', got punct '.'` | — |
 
