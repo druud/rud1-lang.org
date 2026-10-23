@@ -116,9 +116,8 @@ The names of the binary operators are built: `[rud1] _+_(1, 2) \\ 3`.
 | `sint(5/2)` | open | `we exited <error("sint(5/2): a urat is not cast to a whole number")> at 1:1` (also `sint(2.5)`, `uint(2.5)`) | — |
 | `2^0.5` | open | `we exited <error("2 ^ 0.500000000000000: the exponent is a whole number")> at 1:1` (a float exponent) | — |
 | `-0.0` | decided | `0.00000000000000` (no negative zero: a bug of the prototype's float) | — |
-| `1.0/0 + 1` | open | `we exited <inf(1)> at 1:1` (no arithmetic and no comparison on `inf`: every one ends so) | — |
-| `5 < oo` | decided | `1:5 error not in the core yet: 'oo' outside a range bound` | `[1..oo][3] \\ 4` (`oo` as a range bound is built) |
-| `len([1..oo])` | open | `out of fuel` (spec §8.1: `+oo`) | — |
+| `oo // 2` | open | `we exited <error("not in the core yet: '//' with oo")> at 1:1` (also `%`, `^`, `sqrt`; the other operations on `oo` built in generation 55, spec §8.1) | — |
+| `#[x \| x <- [1..oo]]` | open | `out of fuel` (only a range without an end has the length `+oo`; a list made from it, a range of floats, a list of steps are walked) | `#[1..oo] > 1000 \\ 1` |
 | `my(pow(str s, uint k)= s ~* k); "2"^3` | decided | `we exited <error("\"2\" ^ 3: no '^' for a str and a uint")> at 1:33` (dispatch through the lexical scope) | `"2" ~* 3 \\ "222"` |
 
 - \(a\) `[rud1] my(a= [1, 2], b= [10, 20]); [a[i] + b[i] | i <- [0..#a-1]] \\ [11,22]`
