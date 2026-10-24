@@ -107,10 +107,11 @@ named arguments, lazy lists.
 
 | Document | Content |
 |---|---|
+| [Examples](docs/rud1_examples.md) | programs, each with the output it gives |
+| [The language](docs/rud1_spec.pdf) | the specification, written as of the first full release (PDF, 69 pages) |
 | [Not yet](docs/rud1_not_yet.md) | what is decided or proposed and not yet built |
 
-An introduction, examples, the differences from other languages and the gotchas are coming
-soon. Each example in the documents is run again before a document is published.
+An introduction, the differences from other languages and the gotchas are coming soon. Each example in the documents is run again before a document is published.
 
 ## Licence
 

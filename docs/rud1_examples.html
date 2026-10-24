@@ -180,12 +180,801 @@
       vertical-align: middle;
     }
   </style>
+<style>body{max-width:52em;margin:2em auto;padding:0 1em;font-family:serif}code,pre{font-family:monospace}.greyparen{color:#8c8c8c}table{border-collapse:collapse}td,th{padding:.15em .6em;vertical-align:top}</style>
 <link rel="stylesheet" href="site.css" />
 </head>
 <body>
-<nav class="site"><a href="index.html"><img src="rud1_logo.svg" alt="rud1"></a><a href="rud1_introduction.html">Introduction</a><a href="rud1_examples.html" class="here">Examples</a><a href="rud1_differences.html">Differences</a><a href="rud1_gotchas.html">Gotchas</a><a href="rud1_not_yet.html">Not yet</a><a href="https://github.com/isolution-nl/rud1-lang.org">GitHub</a></nav>
-<h1 id="rud1-examples">rud1: Examples</h1>
-<p>Coming soon.</p>
-<p>Back to the <a href="index.html">front page</a>.</p>
+<nav class="site"><a href="index.html"><img src="rud1_logo.svg" alt="rud1"></a><a href="rud1_introduction.html">Introduction</a><a href="rud1_examples.html" class="here">Examples</a><a href="rud1_differences.html">Differences</a><a href="rud1_gotchas.html">Gotchas</a><a href="rud1_not_yet.html">Not yet</a><a href="rud1_spec.pdf">Spec (PDF)</a><a href="https://github.com/isolution-nl/rud1-lang.org">GitHub</a></nav>
+<header id="title-block-header">
+<h1 class="title">rud1_examples</h1>
+</header>
+<h1 id="rud1-examples">rud1 examples</h1>
+<p><em>This document speaks from the future: it shows rud1 as of its first fully operating
+release. Every program in it runs on today's prototype too; what the prototype does not do yet
+is the document "Not yet".</em></p>
+<p>A cookbook for rud1 (on the site <code>rud1-lang.org</code>): programs, each with the output it gives.
+How far today's prototype is, is the document "Not yet".</p>
+<p>Running: <code>rud1 'code'</code> or <code>rud1 file.rud</code>; source files end in <code>.rud</code>. The value of the last expression is shown, unless the source ends
+in <code>;</code>. A one-liner is given as <code>[rud1] code \\&gt; result</code>: <code>\\</code> starts a comment, so the line
+without its <code>[rud1]</code> is valid code; the <code>&gt;</code> marks the value, as in the REPL. A longer program is a block that starts with <code>[rud1]</code>,
+with its result after <code>\\&gt;</code> or in a block headed "Output:".</p>
+<h2 id="one-liners">One-liners</h2>
+<p><strong>Arithmetic.</strong> <code>/</code> is exact, <code>//</code> and <code>%</code> are the Euclidean quotient and its remainder, which is never negative.</p>
+<pre class="text"><code>[rud1] 1 + 2 * 3  \\&gt; 7
+[rud1] [7 / 2, 7 // 2, 7 % 2, -7 // 2, -7 % 2]  \\&gt; [7/2,3,1,-4,1]
+[rud1] [2^10, -3^2, 2^3^2]  \\&gt; [1024,-9,512]
+[rud1] [1 &lt; 2 &lt;= 3, 7 &lt;=&gt; 3, abs(-5)]  \\&gt; [1,1,5]
+[rud1] [1.5 + 0.25, 3.0 / 4]  \\&gt; [1.75000000000000,0.750000000000000]</code></pre>
+<p><strong>Big numbers.</strong> Whole numbers have no upper limit.</p>
+<pre class="text"><code>[rud1] 2^100  \\&gt; 1267650600228229401496703205376</code></pre>
+<p><strong>Rationals.</strong></p>
+<pre class="text"><code>[rud1] 1/3 + 1/6  \\&gt; 1/2
+[rud1] [(2/3)^3, 2^-3, (1/2)^-2]  \\&gt; [8/27,1/8,4]
+[rud1] sum([1/k | k &lt;- [1..10]])  \\&gt; 7381/2520
+[rud1] [1/4 + 0.5, 0.5 == 1/2]  \\&gt; [0.750000000000000,1]</code></pre>
+<p><strong>Ranges.</strong> A step follows <code>;</code>; a range among other elements is spliced in.</p>
+<pre class="text"><code>[rud1] [1..10]  \\&gt; [1,2,3,4,5,6,7,8,9,10]
+[rud1] [[1..9;2], [10..1;-3]]  \\&gt; [[1,3,5,7,9],[10,7,4,1]]
+[rud1] [1, 5..7, 9]  \\&gt; [1,5,6,7,9]
+[rud1] my(L= [1..oo]); L[0..4]  \\&gt; [1,2,3,4,5]</code></pre>
+<p><strong>Comprehensions.</strong> Filters follow the generator; several generators stand in a bracket.</p>
+<pre class="text"><code>[rud1] [x^2 | x &lt;- [1..8]]  \\&gt; [1,4,9,16,25,36,49,64]
+[rud1] [x | x &lt;- [1..30], 0 == x % 7]  \\&gt; [7,14,21,28]
+[rud1] [[a, b] | [a &lt;- [1..3], b &lt;- [a..3]]]  \\&gt; [[1,1],[1,2],[1,3],[2,2],[2,3],[3,3]]
+[rud1] [[i * j | j &lt;- [1..4]] | i &lt;- [1..3]]  \\&gt; [[1,2,3,4],[2,4,6,8],[3,6,9,12]]</code></pre>
+<p><strong>Sums and folds.</strong> <code>fold(f, L)</code> combines the elements from the left, <code>f(f(L[0], L[1]), L[2])</code> and so on; <code>fold(f, a, L)</code> starts from <code>a</code>. <code>scan</code> gives every value the fold passes through.</p>
+<pre class="text"><code>[rud1] sum([1..10], _1^2)  \\&gt; 385
+[rud1] [fold(_+_, [1, 2, 3, 4]), fold(_*_, 1, [1..6])]  \\&gt; [10,720]
+[rud1] scan(_+_, [1, 2, 3, 4])  \\&gt; [1,3,6,10]
+[rud1] [max(3, 9, 4), min([5, 2, 8]), fold(max, [3, 9, 4])]  \\&gt; [9,2,9]</code></pre>
+<p><strong>Strings.</strong> <code>~</code> joins, <code>~*</code> repeats, <code>#</code> counts code points; <code>str</code> gives the text of a number.</p>
+<pre class="text"><code>[rud1] [&quot;abc&quot; ~ &quot;def&quot;, &quot;ab&quot; ~* 3, #&quot;héllo&quot;]  \\&gt; [&quot;abcdef&quot;,&quot;ababab&quot;,5]
+[rud1] [str(42) ~ &quot;!&quot;, sint(&quot;42&quot;) + 1]  \\&gt; [&quot;42!&quot;,43]
+[rud1] str.split(&quot;a,b,c&quot;, &quot;,&quot;)  \\&gt; [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
+[rud1] str.join([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], &quot;-&quot;)  \\&gt; &quot;a-b-c&quot;
+[rud1] say(&quot;x = &quot;, 5);  \\&gt; x = 5</code></pre>
+<h2 id="functions">Functions</h2>
+<p><strong>Recursion.</strong> A function calls itself as <code>__SELF__(…)</code>; the functions of one <code>my(…)</code>
+see each other, in any order, and call each other by name (<code>ev</code> and <code>od</code> below).</p>
+<pre class="text"><code>[rud1] my(fact(n)= if(n &lt; 2, 1, n * __SELF__(n - 1))); fact(30)  \\&gt; 265252859812191058636308480000000
+[rud1] my(ev(n)= if(0 == n, 1, od(n - 1)), od(n)= if(0 == n, 0, ev(n - 1))); ev(10)  \\&gt; 1</code></pre>
+<p>A body of several steps is a block; <code>leave(2, 0)</code> leaves the loop and the block with 0.</p>
+<pre class="text"><code>[rud1]
+my
+( is_prime(n)=
+  { mut my(d= 2);
+    while(d * d &lt;= n, if(0 == n % d, leave(2, 0)); d+= 1);
+    n &gt; 1
+  }
+);
+[n | n &lt;- [1..40], is_prime(n)]  \\&gt; [2,3,5,7,11,13,17,19,23,29,31,37]</code></pre>
+<p><strong>Lambdas.</strong></p>
+<pre class="text"><code>[rud1] my(sq= x -&gt; x^2); [sq(k) | k &lt;- [1..5]]  \\&gt; [1,4,9,16,25]
+[rud1] my(add= (a, b) -&gt; a + b); add(2, 3)  \\&gt; 5
+[rud1] my(f= x -&gt; y -&gt; x + y); f(1)(2)  \\&gt; 3
+[rud1] my(compose(f, g)= x -&gt; f(g(x)), h= compose(x -&gt; x + 1, x -&gt; x * 2)); h(5)  \\&gt; 11</code></pre>
+<p><strong>Defaults and named arguments.</strong> A default may use the parameters before it; an empty
+argument takes the default.</p>
+<pre class="text"><code>[rud1] my(f(a, b= 5, c= a + b)= [a, b, c]); [f(1), f(1, , 9)]  \\&gt; [[1,5,6],[1,5,9]]
+[rud1] my(area(w, h= w)= w * h); [area(3), area(3, 4), area(h: 2, w: 5)]  \\&gt; [9,12,10]
+[rud1] my(f(a, b, c)= [a, b, c]); f(c: 9, a: 1, b: 5)  \\&gt; [1,5,9]</code></pre>
+<p><strong>Rest and spread.</strong> <code>v[...]</code> takes the remaining arguments as a list, <code>v[1...]</code> at least
+one; <code>L[...]</code> spreads a list over the parameters.</p>
+<pre class="text"><code>[rud1] my(f(a, v[...])= [a, v]); [f(1), f(1, 2, 3)]  \\&gt; [[1,[]],[1,[2,3]]]
+[rud1] my(mean(v[1...])= sum(v) / #v); mean(1, 2, 6)  \\&gt; 3
+[rud1] my(f(a, b, c)= a + b * c, L= [2, 3]); f(1, L[...])  \\&gt; 7</code></pre>
+<p><strong>Operators as values.</strong> An operator between two <code>_</code> is a function.</p>
+<pre class="text"><code>[rud1] fold(_~_, [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])  \\&gt; &quot;abc&quot;
+[rud1] [_&lt;=&gt;_(1, 2), _^_(2, 10)]  \\&gt; [-1,1024]</code></pre>
+<p><strong>Placeholders.</strong> <code>_1</code>, <code>_2</code> in an argument make that argument a function of them.</p>
+<pre class="text"><code>[rud1] my(twice(f, x)= f(f(x))); twice(_1 * 3, 5)  \\&gt; 45
+[rud1] fold(_1 + 2 * _2, [1, 2, 3])  \\&gt; 11</code></pre>
+<h2 id="lists-and-records">Lists and records</h2>
+<p><strong>Indexing.</strong> Positions count from 0; a literal negative one counts from the end (<code>v[-1]</code> is
+<code>v[#__ - 1]</code>, <code>__</code> the list being indexed); a computed one below 0 is the state <code>underflow</code>.</p>
+<pre class="text"><code>[rud1] my(v= [10, 20, 30, 40]); [v[0], v[-1], v[1..2], #v]  \\&gt; [10,40,[20,30],4]
+[rud1] mut my(v= [1, 2, 3]); v[1]= 9; v~= [4]; v  \\&gt; [1,9,3,4]
+[rud1] my(M= [1, 2, 3; 4, 5, 6]); [M[1][2], M[0], [r[0] | r &lt;- M]]  \\&gt; [6,[1,2,3],[1,4]]</code></pre>
+<p><strong>Gather and scatter.</strong> Several positions give a list; assigned to, they take a list.</p>
+<pre class="text"><code>[rud1] my(v= [10, 20, 30, 40]); v[3, 0]  \\&gt; [40,10]
+[rud1] mut my(v= [1, 2, 3]); v[0, 2]= v[2, 0]; v  \\&gt; [3,2,1]</code></pre>
+<p><strong>Stepped ranges.</strong> As a list (a list of steps is taken in turn), and as positions: every
+second element, the reverse.</p>
+<pre class="text"><code>[rud1] [[0..20;5], [20..0;-5]]  \\&gt; [[0,5,10,15,20],[20,15,10,5,0]]
+[rud1] my(w= [4, 2, 4, 2, 4, 6, 2, 6]); [7..40;w]  \\&gt; [7,11,13,17,19,23,29,31,37]
+[rud1] my(v= [0, 1, 2, 3, 4]); [v[0 .. #v - 1; 2], v[#v - 1 .. 0; -1]]  \\&gt; [[0,2,4],[4,3,2,1,0]]</code></pre>
+<p><strong>Named lists.</strong> A record is a list with names on its elements.</p>
+<pre class="text"><code>[rud1] my(p= [x: 1, y: 2]); [p.x, p[1], #p, names(p)]  \\&gt; [1,2,2,[&quot;x&quot;,&quot;y&quot;]]
+[rud1] mut my(p= [x: 1, y: 2]); p.x+= 10; p  \\&gt; [x:11,y:2]
+[rud1] [x: 1] ~ [2, y: 3]  \\&gt; [x:1,2,y:3]
+[rud1] my(L= [[x: 1, y: 2], [x: 3, y: 4]]); [p.x * p.y | p &lt;- L]  \\&gt; [2,12]</code></pre>
+<p><strong>Destructuring.</strong></p>
+<pre class="text"><code>[rud1] my([a, b]= [1, 2]); a + b  \\&gt; 3
+[rud1] my(divmod(a, b)= [a // b, a % b], [q, r]= divmod(17, 5)); [q, r]  \\&gt; [3,2]
+[rud1] mut my(a= 1, b= 2); [a, b]= [b, a]; [a, b]  \\&gt; [2,1]</code></pre>
+<h2 id="loops">Loops</h2>
+<p>A script that ends in a loop is ended with <code>0;</code>: a loop that ran no round has no value.</p>
+<p><strong><code>for</code>.</strong></p>
+<pre class="text"><code>[rud1] mut my(s= 0); for(i=1, 100, s+= i); s  \\&gt; 5050
+[rud1] mut my(s= 0); for([a, b] &lt;- [[1, 2], [3, 4]], s+= a * b); s  \\&gt; 14</code></pre>
+<pre class="text"><code>[rud1]
+my(N= 3);
+for(i=1, N, say(str.join([str(i * j) | j &lt;- [1..N]], &quot; &quot;)));
+0;</code></pre>
+<p>Output:</p>
+<pre class="text"><code>1 2 3
+2 4 6
+3 6 9</code></pre>
+<p><strong><code>while</code> and <code>until</code>.</strong> <code>until</code> tests after the body, so its body runs at least once.</p>
+<pre class="text"><code>[rud1] mut my(i= 0, s= 0); while(i &lt; 5, i+= 1; s+= i); [i, s]  \\&gt; [5,15]
+[rud1] mut my(n= 27, k= 0); while(1 != n, n= if(n % 2, 3 * n + 1, n / 2); k+= 1); k  \\&gt; 111
+[rud1] mut my(n= 1234); until(n &gt; 1000, n*= 2); n  \\&gt; 2468</code></pre>
+<p><strong><code>leave</code>.</strong> <code>leave(, v)</code> ends the loop with the value <code>v</code>; <code>leave(2, v)</code> ends two levels.</p>
+<pre class="text"><code>[rud1] my(first(L, p)= for(x &lt;- L, if(p(x), leave(, x)))); first([3, 8, 12, 5], _1 &gt; 10)  \\&gt; 12
+[rud1] mut my(k= 0); while(1, k+= 1; if(k^2 &gt; 50, leave())); k  \\&gt; 8
+[rud1] my(f(L)= { for(x &lt;- L, if(x &gt; 1, leave(2, x))); 0 }); [f([1, 2, 3]), f([1, 1])]  \\&gt; [2,0]</code></pre>
+<p><strong><code>next</code>.</strong> <code>next()</code> goes to the next round of its loop, <code>next(2)</code> to the next round of the loop one level up.</p>
+<pre class="text"><code>[rud1] mut my(s= 0); for(i=1, 10, if(0 == i % 2, next()); s+= i); s  \\&gt; 25
+[rud1] mut my(s= 0); for(x &lt;- [1, 2], for(y &lt;- [10, 20], if(20 == y, next(2)); s+= x + y)); s  \\&gt; 23</code></pre>
+<h2 id="strings-and-unicode">Strings and Unicode</h2>
+<p><strong>The <code>str.</code> family.</strong> A <code>str</code> has no index; <code>str.to_characters</code> splits it into its code points, each a
+<code>str</code> of one.</p>
+<pre class="text"><code>[rud1] str.to_characters(&quot;héllo&quot;)  \\&gt; [&quot;h&quot;,&quot;é&quot;,&quot;l&quot;,&quot;l&quot;,&quot;o&quot;]
+[rud1] [str.substr(&quot;hello&quot;, 1, 3), str.substr(&quot;hello&quot;, -3)]  \\&gt; [&quot;ell&quot;,&quot;llo&quot;]
+[rud1] [str.split(&quot;a,,b&quot;, &quot;,&quot;), str.split(&quot;héé&quot;, &quot;&quot;)]  \\&gt; [[&quot;a&quot;,&quot;&quot;,&quot;b&quot;],[&quot;h&quot;,&quot;é&quot;,&quot;é&quot;]]
+[rud1] my(c= str.to_characters(&quot;hello&quot;)); str.join(c[#c - 1 .. 0; -1])  \\&gt; &quot;olleh&quot;
+[rud1] str.join([str.to_titlecase_first(w) | w &lt;- str.split(&quot;a red fox&quot;, &quot; &quot;)], &quot; &quot;)  \\&gt; &quot;A Red Fox&quot;</code></pre>
+<p><strong>Case mapping.</strong> Unicode's full mappings, untailored.</p>
+<pre class="text"><code>[rud1] [str.to_uppercase(&quot;straße&quot;), str.to_lowercase(&quot;ΟΔΟΣ&quot;)]  \\&gt; [&quot;STRASSE&quot;,&quot;οδος&quot;]
+[rud1] [str.to_titlecase_first(&quot;ijs&quot;), str.to_casefold(&quot;ß&quot;)]  \\&gt; [&quot;Ijs&quot;,&quot;ss&quot;]
+[rud1] [str.eq_caseless(&quot;Straße&quot;, &quot;STRASSE&quot;), &quot;Straße&quot; == &quot;STRASSE&quot;]  \\&gt; [1,0]
+[rud1] [str.is_lowercase(&quot;abc&quot;), str.is_uppercase(&quot;abc&quot;), str.unicode_version()]  \\&gt; [1,0,[17,0,0]]</code></pre>
+<p><strong>Code points.</strong></p>
+<pre class="text"><code>[rud1] str.to_codepoints(&quot;hé&quot;)  \\&gt; [104,233]
+[rud1] str.from_codepoints([c + 1 | c &lt;- str.to_codepoints(&quot;HAL&quot;)])  \\&gt; &quot;IBM&quot;
+[rud1] [&quot;\u{e9}&quot; == &quot;é&quot;, #&quot;e\u{301}&quot;, &quot;a\tb&quot;]  \\&gt; [1,2,&quot;a\x{09}b&quot;]</code></pre>
+<p><strong><code>bytes</code>.</strong> Written <code>b"…"</code>; <code>str(b)</code> decodes it as UTF-8, or is an <code>error</code>. A slice of it is a <code>bytes</code> value, and a slice can be replaced
+(<code>b[0..0]= b"zz"</code>); <code>bytes(s)</code> encodes a <code>str</code> as UTF-8, and a walk gives the bytes as numbers.</p>
+<pre class="text"><code>[rud1] [#&quot;hé&quot;, #b&quot;h\x{c3}\x{a9}&quot;, str(b&quot;h\x{c3}\x{a9}&quot;)]  \\&gt; [2,3,&quot;hé&quot;]
+[rud1] [b&quot;abc&quot;[0], b&quot;abc&quot;[-1], b&quot;abc&quot;[0..1], b&quot;abc&quot;[0, 2]]  \\&gt; [97,99,b&quot;ab&quot;,b&quot;ac&quot;]
+[rud1] b&quot;\x{89}PNG&quot; ~ b&quot;\r\n&quot;  \\&gt; b&quot;\x{89}PNG\x{0d}\x{0a}&quot;
+[rud1] [b&quot;ab&quot; == b&quot;ab&quot;, b&quot;ab&quot; &lt; b&quot;b&quot;, guard(str(b&quot;\x{ff}&quot;), &quot;not UTF-8&quot;)]  \\&gt; [1,1,&quot;not UTF-8&quot;]</code></pre>
+<h2 id="errors">Errors</h2>
+<p><strong><code>guard</code>.</strong> <code>guard(e, d)</code> is <code>e</code>, or <code>d</code> when <code>e</code> is an <code>error</code> or not defined.</p>
+<pre class="text"><code>[rud1] guard(1/0, 0)  \\&gt; 0
+[rud1] my(v= [1, 2]); guard(v[5], &quot;none&quot;)  \\&gt; &quot;none&quot;
+[rud1] my(safe_div(a, b)= guard(a / b, 0)); [safe_div(6, 3), safe_div(1, 0)]  \\&gt; [2,0]</code></pre>
+<p><strong><code>error(msg)</code>.</strong> An <code>error</code> that nothing guards ends the program, with status 1.</p>
+<pre class="text"><code>[rud1] my(half(n)= if(n % 2, error(&quot;odd&quot;), n / 2)); [half(8), guard(half(7), -1)]  \\&gt; [4,-1]</code></pre>
+<pre class="text"><code>[rud1]
+my(half(n)= if(n % 2, error(&quot;odd: &quot; ~ str(n)), n / 2));
+say(half(8));
+say(half(7));
+say(&quot;not reached&quot;);</code></pre>
+<p>Output:</p>
+<pre class="text"><code>4
+we exited &lt;error(&quot;odd: 7&quot;)&gt; at 091.rud:1:23
+  in half at 091.rud:3:5</code></pre>
+<p>Exit status: 1.</p>
+<p><strong><code>is_defined</code>.</strong> A name declared without a value, <code>max</code> of an empty list and <code>read_line()</code>
+at the end of input are not defined (the second line: run with an empty standard input).</p>
+<pre class="text"><code>[rud1] my(r); [is_defined(r), is_defined(1), is_defined(max([]))]  \\&gt; [0,1,0]
+[rud1] is_defined(read_line())  \\&gt; 0</code></pre>
+<p><strong><code>defer</code> and <code>exit</code>.</strong> What a block defers runs when the block ends, the last deferred
+first. <code>exit(n, msg)</code> ends the program with status <code>n</code>; the message of a status other than 0
+goes to standard error, and what was deferred still runs.</p>
+<pre class="text"><code>[rud1]
+{ defer(say(&quot;d1&quot;));
+  defer(say(&quot;d2&quot;));
+  say(&quot;working&quot;);
+  exit(2, &quot;giving up&quot;);
+  say(&quot;not reached&quot;)
+}</code></pre>
+<p>Output:</p>
+<pre class="text"><code>working
+giving up
+d2
+d1</code></pre>
+<p>Exit status: 2.</p>
+<h2 id="reading-standard-input">Reading standard input</h2>
+<p><code>read_line()</code> gives the input up to and including the next line feed, unchanged, and is not
+defined at the end of input. Run as <code>rud1_run FILE &lt; input</code>.</p>
+<pre class="text"><code>[rud1]
+my(name= str.split(read_line(), &quot;\n&quot;)[0]);
+say(&quot;Hello, &quot;, name, &quot;.&quot;);</code></pre>
+<p>Input:</p>
+<pre class="text"><code>Ada</code></pre>
+<p>Output:</p>
+<pre class="text"><code>Hello, Ada.</code></pre>
+<p>Every line, to the end of input:</p>
+<pre class="text"><code>[rud1]
+mut my(n= 0, total= 0);
+while
+( is_defined(my(line= read_line()))
+, n+= 1;
+  total+= sum([sint(w) | w &lt;- str.split(str.split(line, &quot;\n&quot;)[0], &quot; &quot;), &quot;&quot; != w])
+);
+say(n, &quot; lines, total &quot;, total);</code></pre>
+<p>Input:</p>
+<pre class="text"><code>1 2 3
+40
+
+5 -1</code></pre>
+<p>Output:</p>
+<pre class="text"><code>4 lines, total 50</code></pre>
+<h2 id="templates-and-unpack">Templates and <code>unpack</code></h2>
+<p><code>unpack(t, b)</code> reads a <code>bytes</code> value by a template <code>t{…}</code> and gives a list, with names where
+the template has them. It has to cover the data; a text field is <code>bytes</code>. Every template is
+given a name, <code>tpl_…</code>; the table at the end of the section lists them, with what each one
+reads.
+The examples are sessions, as the REPL shows them: <code>? </code> starts what is typed, <code>&gt; </code>
+the value it shows; an entry that ends in <code>;</code> shows nothing.</p>
+<p><strong>Fixed fields.</strong> <code>C</code> is a byte, <code>n</code> and <code>N</code> are 16 and 32 bits big-endian, <code>v</code> and <code>V</code>
+little-endian; <code>c s l</code> are signed, little-endian; <code>a4</code> is four bytes of text.</p>
+<pre class="text"><code>? my
+  ( tpl_byte_be16_le16= t{C n v}
+  , tpl_signed_8_16_32= t{c s l}
+  , tpl_riff_head=      t{magic:a4 size:V}
+  , tpl_byte_be16=      t{C n}
+  );
+? unpack(tpl_byte_be16_le16, b&quot;\x{ff}\x{01}\x{02}\x{03}\x{00}&quot;)
+&gt; [255,258,3]
+
+? unpack(tpl_signed_8_16_32, b&quot;\x{ff}\x{fe}\x{ff}\x{fd}\x{ff}\x{ff}\x{ff}&quot;)
+&gt; [-1,-2,-3]
+
+? unpack(tpl_riff_head, b&quot;RIFF\x{24}\x{00}\x{00}\x{00}&quot;)
+&gt; [magic:b&quot;RIFF&quot;,size:36]
+
+? guard(unpack(tpl_byte_be16, b&quot;\x{01}&quot;), &quot;too short&quot;)
+&gt; &quot;too short&quot;</code></pre>
+<p><strong>Counts.</strong> A number after a number code gives a list, <code>*</code> runs to the end, <code>x*</code> takes the rest as
+skipped bytes.</p>
+<pre class="text"><code>? my
+  ( tpl_three_bytes_be16s= t{C3 n*}
+  , tpl_two_pairs_rest=    t{(n C)2 x*}
+  );
+? unpack(tpl_three_bytes_be16s, b&quot;\x{01}\x{02}\x{03}\x{00}\x{04}\x{00}\x{05}&quot;)
+&gt; [[1,2,3],[4,5]]
+
+? unpack(tpl_two_pairs_rest, b&quot;\x{00}\x{01}\x{02}\x{00}\x{03}\x{04}zz&quot;)
+&gt; [[[1,2],[3,4]],b&quot;zz&quot;]</code></pre>
+<p><strong>A length-prefixed text.</strong> <code>C/a</code> is a count byte and that many bytes; the count is an item
+of the result too. The other two end a text at a mark.</p>
+<pre class="text"><code>? my
+  ( tpl_name_age=       t{name:C/a age:C}
+  , tpl_cstring_byte=   t{name:a* &quot;\x{0}&quot; n:C}
+  , tpl_two_lines_rest= t{a[&quot;\n&quot;] a[&quot;\n&quot;] a*}
+  );
+? my(r= unpack(tpl_name_age, b&quot;\x{03}Ada\x{24}&quot;));
+? r
+&gt; [3,name:b&quot;Ada&quot;,age:36]
+
+? [str(r.name), r.age]
+&gt; [&quot;Ada&quot;,36]
+
+? unpack(tpl_cstring_byte, b&quot;abc\x{00}\x{07}&quot;)
+&gt; [name:b&quot;abc&quot;,b&quot;\x{00}&quot;,n:7]
+
+? unpack(tpl_two_lines_rest, b&quot;one\ntwo\nlast&quot;)
+&gt; [b&quot;one\x{0a}&quot;,b&quot;two\x{0a}&quot;,b&quot;last&quot;]</code></pre>
+<p><strong>A repeated group.</strong> <code>=n:C</code> names a count, <code>[=n]</code> uses it.</p>
+<pre class="text"><code>? my(tpl_pk_files= t{&quot;PK&quot; =n:C files:(name:C/a size:v)[=n]});
+? my(f= unpack(tpl_pk_files, b&quot;PK\x{02}\x{01}a\x{05}\x{00}\x{02}bc\x{07}\x{00}&quot;));
+? f.n
+&gt; 2
+
+? [str(e.name) | e &lt;- f.files]
+&gt; [&quot;a&quot;,&quot;bc&quot;]
+
+? f.files[1]
+&gt; [2,name:b&quot;bc&quot;,size:7]</code></pre>
+<p><strong>A struct with names.</strong> A struct <code>{…}</code> names every member and reports them in the order of
+the names.</p>
+<pre class="text"><code>? my
+  ( tpl_struct_id_flags= t{{id:n flags:C}}
+  , tpl_head_rest=       t{head:{id:n flags:C} x*}
+  );
+? unpack(tpl_struct_id_flags, b&quot;\x{00}\x{07}\x{01}&quot;)
+&gt; [[flags:1,id:7]]
+
+? unpack(tpl_head_rest, b&quot;\x{00}\x{07}\x{01}abc&quot;).head.id
+&gt; 7</code></pre>
+<p><strong>Bit fields.</strong> <code>B4</code> takes the high bits of a byte first, <code>b4</code> the low bits; bit fields in a
+row share bytes.</p>
+<pre class="text"><code>? my
+  ( tpl_ip_version_ihl= t{version:B4 ihl:B4}
+  , tpl_nibbles=        t{low:b4 high:b4}
+  , tpl_dos_date=       t{day:b5 month:b4 year:b7}
+  );
+? unpack(tpl_ip_version_ihl, b&quot;\x{45}&quot;)
+&gt; [version:4,ihl:5]
+
+? unpack(tpl_nibbles, b&quot;\x{45}&quot;)
+&gt; [low:5,high:4]
+
+? unpack(tpl_dos_date, b&quot;\x{4c}\x{5d}&quot;)
+&gt; [day:12,month:10,year:46]</code></pre>
+<p><strong>A search or jump.</strong> <code>@"PK"</code> searches forward; <code>.</code> marks the start, <code>@[=at]</code> jumps to that
+many bytes after it. A jump leaves the count of bytes passed.</p>
+<pre class="text"><code>? my
+  ( tpl_find_pk= t{@&quot;PK&quot; sig:a2 x*}
+  , tpl_jump_at= t{. =at:C @[=at] v:C @*}
+  );
+? unpack(tpl_find_pk, b&quot;xxPKab&quot;)
+&gt; [2,sig:b&quot;PK&quot;,b&quot;ab&quot;]
+
+? unpack(tpl_jump_at, b&quot;\x{03}\x{00}\x{00}\x{09}\x{08}&quot;)
+&gt; [at:3,2,v:9,1]</code></pre>
+<p><strong>A text pattern with a set.</strong> <code>%[a-z]</code> is one byte of the set, with <code>+</code> or <code>*</code> a run; <code>$dec</code>
+and <code>$hex</code> read digits as a number; <code>&amp;s</code> is a white space byte, <code>&amp;w</code> a word byte.</p>
+<pre class="text"><code>? my
+  ( tpl_key_digits=      t{key:%[a-z]+ &quot;=&quot; value:%[0-9]+}
+  , tpl_rgb_hex=         t{&quot;#&quot; r:$hex[2] g:$hex[2] b:$hex[2]}
+  , tpl_host_header=     t{(?i: &quot;host:&quot;) &amp;s* name:&amp;w+}
+  , tpl_key_value_pairs= t{pairs:(key:%[a-z _]+ &quot;=&quot; value:$dec+ &quot;;&quot;)*}
+  );
+? my(kv= unpack(tpl_key_value_pairs, b&quot;max_w=640;h=480;&quot;));
+? unpack(tpl_key_digits, b&quot;width=640&quot;)
+&gt; [key:b&quot;width&quot;,b&quot;=&quot;,value:b&quot;640&quot;]
+
+? unpack(tpl_rgb_hex, b&quot;#ff8000&quot;)
+&gt; [b&quot;#&quot;,r:255,g:128,b:0]
+
+? unpack(tpl_host_header, b&quot;HOST: example&quot;)
+&gt; [b&quot;HOST:&quot;,b&quot; &quot;,name:b&quot;example&quot;]
+
+? [[str(p.key), p.value] | p &lt;- kv.pairs]
+&gt; [[&quot;max_w&quot;,640],[&quot;h&quot;,480]]</code></pre>
+<p><strong>Alternatives.</strong> <code>|</code> reads the variant that fits; <code>||</code> is "or else"; a test <code>??[…]</code> at the head
+of a variant chooses by a count read before. A pattern <code>&amp;name ::= … ;</code> is defined once and
+used by its name.</p>
+<pre class="text"><code>? my
+  ( tpl_gif_head=       t{kind:(&quot;GIF87a&quot; | &quot;GIF89a&quot;) w:v}
+  , tpl_number_or_word= t{(num:$dec+ || word:&amp;w+)}
+  , tpl_tagged_value=   t{=tag:C ( ??[=tag == 1] num:n | ??[=tag == 2] text:C/a )}
+  , tpl_typed_values=   t{&amp;val ::= int:(&quot;I&quot; n:C) | str:(&quot;S&quot; s:C/a) ; &amp;val*}
+  );
+? unpack(tpl_gif_head, b&quot;GIF89a\x{10}\x{00}&quot;)
+&gt; [kind:[b&quot;GIF89a&quot;],w:16]
+
+? unpack(tpl_number_or_word, b&quot;abc&quot;)
+&gt; [[word:b&quot;abc&quot;]]
+
+? unpack(tpl_tagged_value, b&quot;\x{02}\x{02}hi&quot;)
+&gt; [tag:2,[2,text:b&quot;hi&quot;]]
+
+? unpack(tpl_typed_values, b&quot;I\x{05}S\x{02}hi&quot;)
+&gt; [[[int:[b&quot;I&quot;,n:5]],[str:[b&quot;S&quot;,2,s:b&quot;hi&quot;]]]]</code></pre>
+<h3 id="a-png-signature-and-chunks">A PNG: signature and chunks</h3>
+<p>The bytes are a PNG of 2 by 1 pixels, made with python 3.12.3 (<code>zlib</code>, <code>struct</code>). A template
+may span lines and hold comments, <code>\\</code> as in rud1 code (Perl's <code>#</code> with a blank after it works too).</p>
+<pre class="text"><code>? my
+  ( PNG=
+      b&quot;\x{89}PNG\x{0d}\x{0a}\x{1a}\x{0a}\x{00}\x{00}\x{00}\x{0d}IHDR\x{00}\x{00}\x{00}&quot;
+    ~ b&quot;\x{02}\x{00}\x{00}\x{00}\x{01}\x{08}\x{00}\x{00}\x{00}\x{00}\x{d1}I V\x{00}\x{00}&quot;
+    ~ b&quot;\x{00}\x{10}tEXtTitle\x{00}two pixelsD!.&#39;\x{00}\x{00}\x{00}\x{0b}IDATx\x{9c}c`\x{f8}&quot;
+    ~ b&quot;\x{0f}\x{00}\x{01}\x{02}\x{01}\x{00}B\x{be}\x{bc}h\x{00}\x{00}\x{00}\x{00}IEND\x{ae}&quot;
+    ~ b&quot;B`\x{82}&quot;
+  , tpl_png= t{ &quot;\x{89}PNG\r\n\x{1a}\n&quot;                            \\ the signature
+                =len:N &quot;IHDR&quot;
+                ihdr:([=len] width:N height:N depth:C color:C x*)  \\ a group of len bytes
+                crc:N
+                chunks:(=len:N type:a4 data:a[=len] crc:N)*
+              }
+  , r= unpack(tpl_png, PNG)
+  );
+? [r.ihdr.width, r.ihdr.height, r.ihdr.depth]
+&gt; [2,1,8]
+
+? [str(c.type) | c &lt;- r.chunks]
+&gt; [&quot;tEXt&quot;,&quot;IDAT&quot;,&quot;IEND&quot;]
+
+? [c.len | c &lt;- r.chunks]
+&gt; [16,11,0]
+
+? [c.crc | c &lt;- r.chunks]
+&gt; [1143025191,1119796328,2923585666]
+
+? r.chunks[0].data
+&gt; b&quot;Title\x{00}two pixels&quot;</code></pre>
+<h3 id="a-gzip-member">A gzip member</h3>
+<p>The bytes are <code>hello hello hello</code> and a line feed, 18 bytes, compressed with python 3.12.3
+(<code>gzip.GzipFile</code>, the name <code>hi.txt</code>, <code>mtime=1</code>). The flag bits say which parts follow;
+<code>data:a*</code> leaves the last eight bytes to <code>crc</code> and <code>isize</code>.</p>
+<pre class="text"><code>? my
+  ( GZ=
+      b&quot;\x{1f}\x{8b}\x{08}\x{08}\x{01}\x{00}\x{00}\x{00}\x{02}\x{ff}hi.txt\x{00}\x{cb}H&quot;
+    ~ b&quot;\x{cd}\x{c9}\x{c9}W\x{c8}@\x{90}\x{5c}\x{00};|\x{8a}\x{df}\x{12}\x{00}\x{00}\x{00}&quot;
+  , tpl_gzip_member=
+      t{ &quot;\x{1f}\x{8b}&quot; method:C
+         text:b1 =fhcrc:b1 =fextra:b1 =fname:b1 =fcomment:b1 =rsv:b3 ??[=rsv == 0]
+         mtime:V xfl:C os:C
+         extra:(v/a)[=fextra]
+         name:(a* &quot;\x{0}&quot;)[=fname]
+         comment:(a* &quot;\x{0}&quot;)[=fcomment]
+         hcrc:(v)[=fhcrc]
+         data:a* crc:V isize:V
+       }
+  , r= unpack(tpl_gzip_member, GZ)
+  );
+? [r.method, r.mtime, r.os]
+&gt; [8,1,255]
+
+? str(r.name[0][0])
+&gt; &quot;hi.txt&quot;
+
+? #r.data
+&gt; 11
+
+? [crc: r.crc, isize: r.isize]
+&gt; [crc:3750394939,isize:18]</code></pre>
+<h3 id="the-templates-of-this-section">The templates of this section</h3>
+<p>Every template above, by name, with what it reads.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Template, and what it reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>tpl_byte_be16</code></td>
+<td style="text-align: left;"><code>t{C n}</code><br />Reads a byte, then a 16-bit number (big-endian).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_byte_be16_le16</code></td>
+<td style="text-align: left;"><code>t{C n v}</code><br />Reads a byte, a 16-bit number big-endian, and a 16-bit number little-endian.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_cstring_byte</code></td>
+<td style="text-align: left;"><code>t{name:a* "\x{0}" n:C}</code><br />Reads a text up to a zero byte, which is kept apart, and then a byte.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_dos_date</code></td>
+<td style="text-align: left;"><code>t{day:b5 month:b4 year:b7}</code><br />Reads two bytes of bit fields, low bits first: the day (5 bits), the month (4) and the year (7).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_find_pk</code></td>
+<td style="text-align: left;"><code>t{@"PK" sig:a2 x*}</code><br />Skips ahead to the first "PK", takes those two bytes, and keeps the rest.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_gif_head</code></td>
+<td style="text-align: left;"><code>t{kind:("GIF87a" | "GIF89a") w:v}</code><br />Reads the GIF signature of either version, then the width (16 bits, little-endian).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_gzip_member</code></td>
+<td style="text-align: left;"><code>t{"\x{1f}\x{8b}" method:C text:b1 =fhcrc:b1 =fextra:b1 =fname:b1 =fcomment:b1 =rsv:b3 ??[=rsv == 0] mtime:V xfl:C os:C extra:(v/a)[=fextra] name:(a* "\x{0}")[=fname] comment:(a* "\x{0}")[=fcomment] hcrc:(v)[=fhcrc] data:a* crc:V isize:V}</code><br />Reads a gzip member: the header, whose flag bits say which optional parts follow, then the compressed data, its CRC and its size.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_head_rest</code></td>
+<td style="text-align: left;"><code>t{head:{id:n flags:C} x*}</code><br />Reads a struct "head" of an id (16 bits) and a flags byte, then the rest.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_host_header</code></td>
+<td style="text-align: left;"><code>t{(?i: "host:") &amp;s* name:&amp;w+}</code><br />Reads "host:" in any case, any white space, and then a word as the name.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_ip_version_ihl</code></td>
+<td style="text-align: left;"><code>t{version:B4 ihl:B4}</code><br />Splits one byte in two halves, the high half first: the version and the header length.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_jump_at</code></td>
+<td style="text-align: left;"><code>t{. =at:C @[=at] v:C @*}</code><br />Reads a byte that says where to go, goes there, reads one byte, and skips to the end.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_key_digits</code></td>
+<td style="text-align: left;"><code>t{key:%[a-z]+ "=" value:%[0-9]+}</code><br />Reads lower-case letters, "=", and digits, which are kept as text.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_key_value_pairs</code></td>
+<td style="text-align: left;"><code>t{pairs:(key:%[a-z _]+ "=" value:$dec+ ";")*}</code><br />Reads any number of "key=number;" pairs, each number as a number.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_name_age</code></td>
+<td style="text-align: left;"><code>t{name:C/a age:C}</code><br />Reads a text with its length in a byte before it, then an age byte.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_nibbles</code></td>
+<td style="text-align: left;"><code>t{low:b4 high:b4}</code><br />Splits one byte in two halves, the low half first.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_number_or_word</code></td>
+<td style="text-align: left;"><code>t{(num:$dec+ || word:&amp;w+)}</code><br />Reads a number if digits stand there, and a word otherwise.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_pk_files</code></td>
+<td style="text-align: left;"><code>t{"PK" =n:C files:(name:C/a size:v)[=n]}</code><br />Reads "PK" and a count, then that many files, each a name with its length and a size (16 bits, little-endian).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_png</code></td>
+<td style="text-align: left;"><code>t{"\x{89}PNG\r\n\x{1a}\n" =len:N "IHDR" ihdr:([=len] width:N height:N depth:C color:C x*) crc:N chunks:(=len:N type:a4 data:a[=len] crc:N)*}</code><br />Reads a PNG: the signature, the IHDR chunk with the image's width, height, depth and colour type, then the other chunks up to the end, each with its length, type, data and CRC.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_rgb_hex</code></td>
+<td style="text-align: left;"><code>t{"#" r:$hex[2] g:$hex[2] b:$hex[2]}</code><br />Reads "#" and three colour values of two hex digits each.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_riff_head</code></td>
+<td style="text-align: left;"><code>t{magic:a4 size:V}</code><br />Reads four bytes of text (the magic), then a size (32 bits, little-endian).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_signed_8_16_32</code></td>
+<td style="text-align: left;"><code>t{c s l}</code><br />Reads three signed numbers, little-endian, of 8, 16 and 32 bits.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_struct_id_flags</code></td>
+<td style="text-align: left;"><code>t{{id:n flags:C}}</code><br />Reads a struct of an id (16 bits) and a flags byte, and gives them by name.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_tagged_value</code></td>
+<td style="text-align: left;"><code>t{=tag:C ( ??[=tag == 1] num:n | ??[=tag == 2] text:C/a )}</code><br />Reads a tag byte: tag 1 is followed by a 16-bit number, tag 2 by a text with its length before it.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_three_bytes_be16s</code></td>
+<td style="text-align: left;"><code>t{C3 n*}</code><br />Reads three bytes, then 16-bit numbers up to the end.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_two_lines_rest</code></td>
+<td style="text-align: left;"><code>t{a["\n"] a["\n"] a*}</code><br />Reads two lines, each with its line feed, then the rest.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_two_pairs_rest</code></td>
+<td style="text-align: left;"><code>t{(n C)2 x*}</code><br />Reads two pairs of a 16-bit number and a byte, then skips the rest.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_typed_values</code></td>
+<td style="text-align: left;"><code>t{&amp;val ::= int:("I" n:C) | str:("S" s:C/a) ; &amp;val*}</code><br />Reads values up to the end, each "I" with a byte, or "S" with a text that has its length before it.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="an-exercise-the-mondrian-anagram">An exercise: the Mondrian anagram</h2>
+<p>"Piet Mondrian" and "I paint modern" have the same letters. Ignore case and give the name a
+trailing space, and both are texts of 14 characters: <code>"piet mondrian "</code> and <code>"i paint modern"</code>.
+The exercise: turn the first into the second. Three ways follow, from the most direct to the most
+general; each works on positions only, so it does to any other text of 14 characters what it does
+to the name.</p>
+<h3 id="two-templates">Two templates</h3>
+<p><code>tpl_read</code> cuts the bytes into eleven pieces, each named by the position it starts at
+(<code>p3:a4</code> takes four bytes, <code>"t mo"</code>, which stay together); <code>tpl_write</code> writes the same
+pieces in the order of the target. A text of bytes is written <code>b"…"</code>.</p>
+<pre class="text"><code>? my
+  ( tpl_read=  t{p0:a p1:a p2:a p3:a4 p7:a p8:a p9:a p10:a p11:a p12:a p13:a}
+  , tpl_write= t{p10:a p13:a p0:a p11:a p1:a p7:a p3:a4 p8:a p2:a p9:a p12:a}
+  , anagram(b)= str(pack(tpl_write, unpack(tpl_read, b)))
+  );
+? anagram(b&quot;piet mondrian &quot;)
+&gt; &quot;i paint modern&quot;
+
+? anagram(b&quot;abcdefghijklmn&quot;)
+&gt; &quot;knalbhdefgicjm&quot;</code></pre>
+<h3 id="five-swaps">Five swaps</h3>
+<p><code>v.swap(r1, r2)</code> is <code>swap(v, r1, r2)</code>: the list <code>v</code> with the blocks at the two ranges
+traded, which may differ in length. A <code>str</code> has no slices, so the swaps work on its list of
+characters, and <code>str.join</code> makes a text of them again. A search found no way with four swaps.</p>
+<pre class="text"><code>? my
+  ( c= &quot;piet mondrian &quot;.to_characters()
+    .swap([0..0], [1..1])
+    .swap([1..12], [13..13])
+    .swap([3..3], [4..9])
+    .swap([3..6], [7..7])
+    .swap([3..10], [12..12])
+  );
+? str.join(c)
+&gt; &quot;i paint modern&quot;</code></pre>
+<h3 id="a-pick-and-drop-language">A pick-and-drop language</h3>
+<p>A small language of edits, run by a rud1 program. The text lies on a ring; the cursor stands in a
+gap between two characters, at first the gap before the <code>p</code> (position 0). <code>nR</code> and <code>nL</code>
+move the cursor <code>n</code> gaps right or left, <code>n-</code> picks up the <code>n</code> characters right of the
+cursor, <code>+</code> drops what was picked up at the cursor; a missing <code>n</code> is 1. The number at the
+end says where the result starts: the position of its first character on the ring. While
+characters are picked up, the ring is that much shorter; a pick may run across position 0.</p>
+<p>The program is read with <code>tpl_program</code>; the text is cut and joined with <code>tpl_cut</code>,
+<code>tpl_cut3</code> and <code>tpl_join</code>, whose positions are given when they are called (<code>given:</code>).
+Both programs shown are 20 characters long, the fewest a search found; the last line runs the first
+on the text of the first subsection, with the same result.</p>
+<pre class="text"><code>[rud1]
+my
+( tpl_program= t{ops:(n:%[0-9]* op:%[RL\+\-])* end:$dec+}
+, tpl_cut=     t{(*given: at) head:a[=at] tail:a*}
+, tpl_cut3=    t{(*given: at k) head:a[=at] blk:a[=k] tail:a*}
+, tpl_join=    t{head:a* blk:a* tail:a*}
+);
+my(count(n)= if(&quot;&quot; == str(n), 1, uint(str(n))));
+my
+( run(prog, buf)=
+  { my(len= #buf);
+    mut my(s= buf, c= 0, hand= b&quot;&quot;);
+    my(p= unpack(tpl_program, prog));
+    for
+    ( o &lt;- p.ops
+    , my(k= count(o.n), op= str(o.op));
+      if
+      ( &quot;R&quot; == op, c= (c + k) % (len - #hand)
+      , &quot;L&quot; == op, c= (c - k) % (len - #hand)
+      , &quot;-&quot; == op
+      , if
+        ( c + k &lt;= len
+        , my(r= unpack(tpl_cut3, s, given: [at: c, k: k]));
+          hand= r.blk;
+          s= pack(tpl_join, [head: r.head, blk: b&quot;&quot;, tail: r.tail]);
+          c= c % (len - k)
+        , my(m= c + k - len);
+          my(r= unpack(tpl_cut3, s, given: [at: m, k: c - m]));
+          hand= pack(tpl_join, [head: r.tail, blk: r.head, tail: b&quot;&quot;]);
+          s= r.blk;
+          c= 0
+        )
+      , my(r= unpack(tpl_cut, s, given: [at: c]));
+        s= pack(tpl_join, [head: r.head, blk: hand, tail: r.tail]);
+        c= (c + #hand) % len;
+        hand= b&quot;&quot;
+      )
+    );
+    my(r= unpack(tpl_cut, s, given: [at: p.end]));
+    str(pack(tpl_join, [head: r.tail, blk: r.head, tail: b&quot;&quot;]))
+  }
+);
+for
+( prog &lt;- [b&quot;R10-R+-L+3L9-L+6-L+2&quot;, b&quot;R10-R+-L+2L7-R+4-R+3&quot;]
+, say(str(prog), &quot;  &quot;, run(prog, b&quot;piet mondrian &quot;))
+);
+say(run(b&quot;R10-R+-L+3L9-L+6-L+2&quot;, b&quot;abcdefghijklmn&quot;));</code></pre>
+<p>Output:</p>
+<pre class="text"><code>R10-R+-L+3L9-L+6-L+2  i paint modern
+R10-R+-L+2L7-R+4-R+3  i paint modern
+knalbhdefgicjm</code></pre>
+<h3 id="the-templates-of-this-exercise">The templates of this section</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Template, and what it reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>tpl_cut</code></td>
+<td style="text-align: left;"><code>t{(*given: at) head:a[=at] tail:a*}</code><br />Cuts a text in two at the position <code>at</code>, given when it is called.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_cut3</code></td>
+<td style="text-align: left;"><code>t{(*given: at k) head:a[=at] blk:a[=k] tail:a*}</code><br />Cuts a text in three: <code>at</code> bytes, then <code>k</code> bytes, then the rest; both numbers given when it is called.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_join</code></td>
+<td style="text-align: left;"><code>t{head:a* blk:a* tail:a*}</code><br />Three texts one after the other; used to write them (<code>pack</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_program</code></td>
+<td style="text-align: left;"><code>t{ops:(n:%[0-9]* op:%[RL\+\-])* end:$dec+}</code><br />Reads a program of the pick-and-drop language: steps, each an optional count of digits and one of <code>R</code>, <code>L</code>, <code>+</code>, <code>-</code>, then the closing number.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_read</code></td>
+<td style="text-align: left;"><code>t{p0:a p1:a p2:a p3:a4 p7:a p8:a p9:a p10:a p11:a p12:a p13:a}</code><br />Reads 14 bytes as eleven pieces, each named by its position; <code>p3</code> is four bytes.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tpl_write</code></td>
+<td style="text-align: left;"><code>t{p10:a p13:a p0:a p11:a p1:a p7:a p3:a4 p8:a p2:a p9:a p12:a}</code><br />The same eleven pieces in the order of the target; used to write them (<code>pack</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="classic-programs">Classic programs</h2>
+<p>From the <code>rosetta</code> directory of the rud1 tree, unchanged: <code>basic</code> is written as a coder new to the
+language writes, <code>seasoned</code> as one who knows it.</p>
+<h3 id="fizzbuzz-rosettabasicfizzbuzzrud">FizzBuzz (<code>rosetta/basic/FizzBuzz.rud</code>)</h3>
+<pre class="text"><code>[rud1]
+/* Rosetta Code: FizzBuzz */
+my
+( fizzbuzz(n)= if
+  ( 0 == n % 15, &quot;FizzBuzz&quot;
+  , 0 == n %  5, &quot;Buzz&quot;
+  , 0 == n %  3, &quot;Fizz&quot;
+  , n
+  )
+);
+for(i=1, 100, say(fizzbuzz(i)));
+0;</code></pre>
+<p>Output, the first 15 of 100 lines:</p>
+<pre class="text"><code>1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz</code></pre>
+<h3 id="sieve-of-eratosthenes-rosettabasicsieve_of_eratosthenesrud">Sieve of Eratosthenes (<code>rosetta/basic/Sieve_of_Eratosthenes.rud</code>)</h3>
+<pre class="text"><code>[rud1]
+/* Rosetta Code: Sieve of Eratosthenes */
+my
+( primes(n)=
+  { mut my(s= [1] ~* (n + 1), p= 2);
+    while
+    ( p * p &lt;= n
+    , if(s[p], for(m &lt;- [p * p .. n; p], s[m]= 0));
+      p+= 1
+    );
+    [k | k &lt;- [2..n], s[k]]
+  }
+);
+say(primes(100));</code></pre>
+<p>Output:</p>
+<pre class="text"><code>[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]</code></pre>
+<h3 id="greatest-common-divisor-rosettabasicgreatest_common_divisorrud">Greatest common divisor (<code>rosetta/basic/Greatest_common_divisor.rud</code>)</h3>
+<pre class="text"><code>[rud1]
+/* Rosetta Code: Greatest common divisor */
+my(gcd(a, b)= if(0 == b, a, __SELF__(b, a % b)));
+say([gcd(1071, 462), gcd(462, 1071), gcd(17, 0), gcd(0, 0), gcd(2^64, 6^40)]);</code></pre>
+<p>Output:</p>
+<pre class="text"><code>[21,21,17,0,1099511627776]</code></pre>
+<h3 id="fibonacci-sequence-rosettaseasonedfibonacci_sequencerud">Fibonacci sequence (<code>rosetta/seasoned/Fibonacci_sequence.rud</code>)</h3>
+<pre class="text"><code>[rud1]
+/* Rosetta Code: Fibonacci sequence (fast doubling: about log2(n) steps) */
+my
+( fib2(n)=                                         \\ [F(n), F(n + 1)]
+  if
+  ( 0 == n
+  , [0, 1]
+  , my([a, b]= __SELF__(n // 2), c= a * (2 * b - a), d= a^2 + b^2);
+    if(n % 2, [d, c + d], [c, d])
+  )
+, fib(n)= fib2(n)[0]
+);
+say([fib(n) | n &lt;- [0..20]]);
+say(fib(100));</code></pre>
+<p>Output:</p>
+<pre class="text"><code>[0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765]
+354224848179261915075</code></pre>
+<h3 id="hailstone-sequence-rosettaseasonedhailstone_sequencerud">Hailstone sequence (<code>rosetta/seasoned/Hailstone_sequence.rud</code>)</h3>
+<pre class="text"><code>[rud1]
+/* Rosetta Code: Hailstone sequence */
+my
+( step(n)= if(n % 2, 3 * n + 1, n / 2)
+, hailstone(n)= if(1 == n, [1], [n] ~ __SELF__(step(n)))
+, hlen(n)=
+  { mut my(m= n, k= 1);
+    while(1 != m, m= step(m); k+= 1);
+    k
+  }
+, longest(N)=           /* [n, length] of the longest sequence with n &lt;= N */
+  { mut my(best= [1, 1]);
+    for(n=1, N, my(k= hlen(n)); if(k &gt; best[1], best= [n, k]));
+    best
+  }
+, h= hailstone(27)
+);
+say(#h, &quot; elements: &quot;, h[0..3], &quot; ... &quot;, h[-4 .. -1]);
+say(longest(703));</code></pre>
+<p>Output:</p>
+<pre class="text"><code>112 elements: [27,82,41,124] ... [8,4,2,1]
+[703,171]</code></pre>
+<h3 id="reverse-a-string-rosettaseasonedreverse_a_stringrud">Reverse a string (<code>rosetta/seasoned/Reverse_a_string.rud</code>)</h3>
+<pre class="text"><code>[rud1]
+/* Rosetta Code: Reverse a string (by code points) */
+my(reverse(s)= fold((r, c) -&gt; c ~ r, &quot;&quot;, str.to_characters(s)));
+say(reverse(&quot;asdf&quot;));
+say(reverse(&quot;møøse&quot;));</code></pre>
+<p>Output:</p>
+<pre class="text"><code>fdsa
+esøøm</code></pre>
+<h3 id="ab-rosettaseasonedabrud">A+B (<code>rosetta/seasoned/A+B.rud</code>)</h3>
+<p>Its standard input is <code>rosetta/in/A+B.in</code>.</p>
+<pre class="text"><code>[rud1]
+/* Rosetta Code: A+B */
+my(numbers(s)= [int(w) | w &lt;- str.split(str.split(s, &quot;\n&quot;)[0], &quot; &quot;), &quot;&quot; != w]);
+say(sum(numbers(read_line())));</code></pre>
+<p>Input:</p>
+<pre class="text"><code> 2  -3 </code></pre>
+<p>Output:</p>
+<pre class="text"><code>-1</code></pre>
 </body>
 </html>
