@@ -639,7 +639,7 @@ sorted([3, 1, 2, 3]) \\ [1,2,3,3]</code></pre>
 <tr>
 <td style="text-align: left;"><code>"abc"[0]</code></td>
 <td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>we exited &lt;error("\"abc\"[0]: a str has no positions (str.to_characters(s) lists its characters)")&gt; at 1:1</code> (decided: a compile error that names <code>s.to_characters[i]</code>)</td>
+<td style="text-align: left;"><code>we exited &lt;error("\"abc\"[0]: a str has no positions (str.to_characters(s) lists its characters)")&gt; at 1:1</code> (decided: a compile error that names <code>s.to_characters()[i]</code>)</td>
 <td style="text-align: left;"><code>str.substr("abc", 0, 1) \\ "a"</code></td>
 </tr>
 <tr>
@@ -647,12 +647,6 @@ sorted([3, 1, 2, 3]) \\ [1,2,3,3]</code></pre>
 <td style="text-align: left;">decided</td>
 <td style="text-align: left;"><code>1:1 error not in the core yet: prefixed literal 're"…"'</code> (also <code>match</code>, <code>regex</code>: undeclared)</td>
 <td style="text-align: left;"><code>unpack(t{%[^a]* "a"+ x*}, b"caab") \\ [b"c",[b"a",b"a"],b"b"]</code> (a template)</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>my(s= "ab"); s.to_characters[1]</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>we exited &lt;error("\"ab\".to_characters: a str has no named parts: only a list has")&gt; at 1:14</code> (a call on the value's type; for the type pass)</td>
-<td style="text-align: left;"><code>my(chars= str.to_characters); my(s= "ab"); chars(s)[1] \\ "b"</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>to_characters("ab")</code></td>
