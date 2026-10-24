@@ -458,40 +458,10 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 <td style="text-align: left;">(b) below</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>transpose([[1, 2], [3, 4]])</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'transpose'</code></td>
-<td style="text-align: left;">(c) below</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>dot([1, 2], [3, 4])</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'dot'</code></td>
-<td style="text-align: left;">(d) below</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>col([1, 2])</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'col'</code></td>
-<td style="text-align: left;">(e) below</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>binand(12, 10)</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'binand'</code> (also <code>binor</code>, <code>binxor</code>, <code>binnot</code>)</td>
-<td style="text-align: left;">—</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>shift(1, 10)</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'shift'</code></td>
-<td style="text-align: left;"><code>1 * 2^10 \\ 1024</code> (to the right: <code>1000 // 2^3</code>)</td>
-</tr>
-<tr>
 <td style="text-align: left;"><code>sort([3, 1, 2], (a, b) -&gt; a &lt;=&gt; b)</code></td>
 <td style="text-align: left;">decided</td>
 <td style="text-align: left;"><code>1:1 error undeclared 'sort'</code></td>
-<td style="text-align: left;">(f) below</td>
+<td style="text-align: left;">(c) below</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>my(L= [10, 20, 30]); L[1..]</code></td>
@@ -509,37 +479,13 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 <td style="text-align: left;"><code>my(v= [10, 20, 30]); v[^1]</code></td>
 <td style="text-align: left;">open</td>
 <td style="text-align: left;"><code>1:25 error '^' needs a name, got uint '1'</code></td>
-<td style="text-align: left;">(g) below</td>
+<td style="text-align: left;">(d) below</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>Map(["a", 42; "b", -1])</code></td>
 <td style="text-align: left;">open</td>
 <td style="text-align: left;"><code>1:1 error undeclared 'Map'</code></td>
 <td style="text-align: left;"><code>my(m= [a: 42, b: -1]); m.a \\ 42</code> (a record: fixed names)</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>round(5/2)</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'round'</code> (also <code>round.half_to_even</code> and its family, <code>sgn</code>)</td>
-<td style="text-align: left;"><code>(5/2 + 1/2) // 1 \\ 3</code> (a half towards +oo)</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>floor(7/2)</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'floor'</code></td>
-<td style="text-align: left;"><code>(7/2) // 1 \\ 3</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>ceil(7/2)</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'ceil'</code></td>
-<td style="text-align: left;"><code>-((-7/2) // 1) \\ 4</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>truncate(-7/2)</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'truncate'</code></td>
-<td style="text-align: left;"><code>-((7/2) // 1) \\ -3</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>3 - 5</code></td>
@@ -587,10 +533,7 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 </table>
 <ul>
 <li>(a) <code>[rud1] my(a= [1, 2], b= [10, 20]); [a[i] + b[i] | i &lt;- [0..#a-1]] \\ [11,22]</code></li>
-<li>(c) <code>[rud1] my(M= [[1, 2], [3, 4]]); [[r[j] | r &lt;- M] | j &lt;- [0..#M[0]-1]] \\ [[1,3],[2,4]]</code></li>
-<li>(d) <code>[rud1] my(v= [1, 2], w= [3, 4]); sum([v[i] * w[i] | i &lt;- [0..#v-1]]) \\ 11</code></li>
-<li>(e) <code>[rud1] [[x] | x &lt;- [1, 2]] \\ [[1],[2]]</code></li>
-<li>(g) <code>[rud1] my(v= [10, 20, 30]); [v[i] | i &lt;- [0..#v-1], 1 != i] \\ [10,30]</code></li>
+<li>(d) <code>[rud1] my(v= [10, 20, 30]); [v[i] | i &lt;- [0..#v-1], 1 != i] \\ [10,30]</code></li>
 </ul>
 <p>(b):</p>
 <pre class="text"><code>[rud1]
@@ -601,7 +544,7 @@ my
 , P= #B[0]
 );
 [[sum([r[k] * B[k][j] | k &lt;- [0..N-1]]) | j &lt;- [0..P-1]] | r &lt;- A] \\ [[19,22],[43,50]]</code></pre>
-<p>(f):</p>
+<p>(c):</p>
 <pre class="text"><code>[rud1]
 my
 ( sorted(L)=

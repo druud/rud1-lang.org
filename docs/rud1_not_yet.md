@@ -97,20 +97,11 @@ The names of the binary operators are built: `[rud1] _+_(1, 2) \\ 3`.
 |---|---|---|---|
 | `[1, 2] + [10, 20]` | decided | `we exited <error("[1, 2] + [10, 20]: no '+' for a list and a list")> at 1:1` | \(a\) below |
 | `[[1, 2], [3, 4]] * [[5, 6], [7, 8]]` | decided | `we exited <error("[[1, 2], [3, 4]] * [[5, 6], [7, 8]]: no '*' for a list and a list")> at 1:1` | \(b\) below |
-| `transpose([[1, 2], [3, 4]])` | decided | `1:1 error undeclared 'transpose'` | \(c\) below |
-| `dot([1, 2], [3, 4])` | decided | `1:1 error undeclared 'dot'` | \(d\) below |
-| `col([1, 2])` | decided | `1:1 error undeclared 'col'` | \(e\) below |
-| `binand(12, 10)` | decided | `1:1 error undeclared 'binand'` (also `binor`, `binxor`, `binnot`) | — |
-| `shift(1, 10)` | decided | `1:1 error undeclared 'shift'` | `1 * 2^10 \\ 1024` (to the right: `1000 // 2^3`) |
-| `sort([3, 1, 2], (a, b) -> a <=> b)` | decided | `1:1 error undeclared 'sort'` | \(f\) below |
+| `sort([3, 1, 2], (a, b) -> a <=> b)` | decided | `1:1 error undeclared 'sort'` | \(c\) below |
 | `my(L= [10, 20, 30]); L[1..]` | open | `1:27 error unexpected punct ']'` | `my(L= [10, 20, 30]); L[1..#L-1] \\ [20,30]` |
 | `[0..^3]` | open | `1:6 error '^' needs a name, got uint '3'` | `[0..2] \\ [0,1,2]` |
-| `my(v= [10, 20, 30]); v[^1]` | open | `1:25 error '^' needs a name, got uint '1'` | \(g\) below |
+| `my(v= [10, 20, 30]); v[^1]` | open | `1:25 error '^' needs a name, got uint '1'` | \(d\) below |
 | `Map(["a", 42; "b", -1])` | open | `1:1 error undeclared 'Map'` | `my(m= [a: 42, b: -1]); m.a \\ 42` (a record: fixed names) |
-| `round(5/2)` | decided | `1:1 error undeclared 'round'` (also `round.half_to_even` and its family, `sgn`) | `(5/2 + 1/2) // 1 \\ 3` (a half towards +oo) |
-| `floor(7/2)` | decided | `1:1 error undeclared 'floor'` | `(7/2) // 1 \\ 3` |
-| `ceil(7/2)` | decided | `1:1 error undeclared 'ceil'` | `-((-7/2) // 1) \\ 4` |
-| `truncate(-7/2)` | decided | `1:1 error undeclared 'truncate'` | `-((7/2) // 1) \\ -3` |
 | `3 - 5` | decided | `we exited <underflow> at 1:1` (the state built in generation 38; decided: under `{underflow: keep}` its payload is the `sint` result) | `+3 - 5 \\ -2` |
 | `sint(5/2)` | open | `we exited <error("sint(5/2): a urat is not cast to a whole number")> at 1:1` (also `sint(2.5)`, `uint(2.5)`) | — |
 | `2^0.5` | open | `we exited <error("2 ^ 0.500000000000000: the exponent is a whole number")> at 1:1` (a float exponent) | — |
@@ -120,10 +111,7 @@ The names of the binary operators are built: `[rud1] _+_(1, 2) \\ 3`.
 | `my(pow(str s, uint k)= s ~* k); "2"^3` | decided | `we exited <error("\"2\" ^ 3: no '^' for a str and a uint")> at 1:33` (dispatch through the lexical scope) | `"2" ~* 3 \\ "222"` |
 
 - \(a\) `[rud1] my(a= [1, 2], b= [10, 20]); [a[i] + b[i] | i <- [0..#a-1]] \\ [11,22]`
-- \(c\) `[rud1] my(M= [[1, 2], [3, 4]]); [[r[j] | r <- M] | j <- [0..#M[0]-1]] \\ [[1,3],[2,4]]`
-- \(d\) `[rud1] my(v= [1, 2], w= [3, 4]); sum([v[i] * w[i] | i <- [0..#v-1]]) \\ 11`
-- \(e\) `[rud1] [[x] | x <- [1, 2]] \\ [[1],[2]]`
-- \(g\) `[rud1] my(v= [10, 20, 30]); [v[i] | i <- [0..#v-1], 1 != i] \\ [10,30]`
+- \(d\) `[rud1] my(v= [10, 20, 30]); [v[i] | i <- [0..#v-1], 1 != i] \\ [10,30]`
 
 (b):
 
@@ -138,7 +126,7 @@ my
 [[sum([r[k] * B[k][j] | k <- [0..N-1]]) | j <- [0..P-1]] | r <- A] \\ [[19,22],[43,50]]
 ```
 
-(f):
+(c):
 
 ```
 [rud1]
