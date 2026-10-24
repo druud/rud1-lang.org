@@ -634,7 +634,7 @@ sorted([3, 1, 2, 3]) \\ [1,2,3,3]</code></pre>
 <td style="text-align: left;"><code>str.uc("a")</code></td>
 <td style="text-align: left;">proposed</td>
 <td style="text-align: left;"><code>1:1 error no function 'str.uc'</code> (short names: a module, which needs <code>use</code>)</td>
-<td style="text-align: left;"><code>my(uc= str.to_uppercase); uc("a") \\ "A"</code></td>
+<td style="text-align: left;"><code>alias {uc: to_uppercase}; str.uc("a") \\ "A"</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>"abc"[0]</code></td>
