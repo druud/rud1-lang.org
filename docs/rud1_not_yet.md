@@ -177,14 +177,9 @@ The comprehensions with `#a-1` are an `error` for an empty list (`uint - uint` b
 | `re"a+"` | decided | `1:1 error not in the core yet: prefixed literal 're"…"'` (also `match`, `regex`: undeclared) | `unpack(t{%[^a]* "a"+ x*}, b"caab") \\ [b"c",[b"a",b"a"],b"b"]` (a template) |
 | `my(s= "ab"); s.to_characters[1]` | decided | `we exited <error("\"ab\".to_characters: a str has no named parts: only a list has")> at 1:14` (a call on the value's type; for the type pass) | `my(chars= str.to_characters); my(s= "ab"); chars(s)[1] \\ "b"` |
 | `to_characters("ab")` | decided | `1:1 error undeclared 'to_characters'` (dispatch on the type of the first argument; for the type pass) | `str.to_characters("ab") \\ ["a","b"]` |
-| `bytes("abc")` | decided | `1:1 error undeclared 'bytes'` | `b"abc" \\ b"abc"` (a literal only) |
-| `b"ab" ~* 2` | decided | `we exited <error("b\"ab\" ~* 2: no '~*' for a bytes value and a uint")> at 1:1` | `b"ab" ~ b"ab" \\ b"abab"` |
-| `for(x <- b"ab", say(x)); 0` | decided | `we exited <error("… <- b\"ab\": a bytes value is no list (a generator, a loop or a spread walks a list)")> at 1:1` | \(a\) below |
-| `uint.split(91, base: 2)` | open | `1:1 error undeclared 'uint'` | \(b\) below |
+| `uint.split(91, base: 2)` | open | `1:1 error undeclared 'uint'` | \(a\) below |
 
-- \(a\) `[rud1] my(b= b"ab"); [b[i] | i <- [0..#b-1]] \\ [97,98]`
-
-(b):
+(a):
 
 ```
 [rud1]
@@ -203,7 +198,6 @@ Built: `read_line()` on standard input, `say` and `print` on standard output, `e
 | `stdout.say("x")` | open | `1:1 error undeclared 'stdout'` | `say("x"); \\ x` |
 | `my(f= open("data.txt")); read(f)` | open | `1:7 error undeclared 'open'` | the shell: `rud1 file.rud < data.txt > out.txt`, and (a) below |
 | `read_line(1)` | open | `1:1 error call of 'read_line': too many arguments` (the other read verbs, timeouts, layers: their names are open) | — |
-| `-p.kept_bytes.max=N` (a switch of `rud1_run`) | decided | `usage: rud1_run [-c] [-f FUEL] [-e SRC \| FILE...]` (and the other lines of the help, status 2; decided: a cap on the bytes kept of standard input when it is a pipe, also a template header) | — |
 | `now()`, `today()`, `time()`, `process.…` in a function not marked `impure`, or a hook | decided | (runs: effects are not inferred yet; decided: the function inferred impure, in a hook a compile error, spec §2, generation 53) | — |
 | a mark from pure code: a fire-and-forget write to a logging pipe | decided | (no form to try; its name and the pipe are open) | — |
 

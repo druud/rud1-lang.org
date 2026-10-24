@@ -718,35 +718,14 @@ sorted([3, 1, 2, 3]) \\ [1,2,3,3]</code></pre>
 <td style="text-align: left;"><code>str.to_characters("ab") \\ ["a","b"]</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>bytes("abc")</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'bytes'</code></td>
-<td style="text-align: left;"><code>b"abc" \\ b"abc"</code> (a literal only)</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>b"ab" ~* 2</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>we exited &lt;error("b\"ab\" ~* 2: no '~*' for a bytes value and a uint")&gt; at 1:1</code></td>
-<td style="text-align: left;"><code>b"ab" ~ b"ab" \\ b"abab"</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>for(x &lt;- b"ab", say(x)); 0</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>we exited &lt;error("… &lt;- b\"ab\": a bytes value is no list (a generator, a loop or a spread walks a list)")&gt; at 1:1</code></td>
-<td style="text-align: left;">(a) below</td>
-</tr>
-<tr>
 <td style="text-align: left;"><code>uint.split(91, base: 2)</code></td>
 <td style="text-align: left;">open</td>
 <td style="text-align: left;"><code>1:1 error undeclared 'uint'</code></td>
-<td style="text-align: left;">(b) below</td>
+<td style="text-align: left;">(a) below</td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li>(a) <code>[rud1] my(b= b"ab"); [b[i] | i &lt;- [0..#b-1]] \\ [97,98]</code></li>
-</ul>
-<p>(b):</p>
+<p>(a):</p>
 <pre class="text"><code>[rud1]
 my(BASE= 2, digits(n)= if(n &lt; BASE, [n], digits(n // BASE) ~ [n % BASE]));
 digits(91) \\ [1,0,1,1,0,1,1]</code></pre>
@@ -785,12 +764,6 @@ digits(91) \\ [1,0,1,1,0,1,1]</code></pre>
 <td style="text-align: left;"><code>read_line(1)</code></td>
 <td style="text-align: left;">open</td>
 <td style="text-align: left;"><code>1:1 error call of 'read_line': too many arguments</code> (the other read verbs, timeouts, layers: their names are open)</td>
-<td style="text-align: left;">—</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>-p.kept_bytes.max=N</code> (a switch of <code>rud1_run</code>)</td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>usage: rud1_run [-c] [-f FUEL] [-e SRC | FILE...]</code> (and the other lines of the help, status 2; decided: a cap on the bytes kept of standard input when it is a pipe, also a template header)</td>
 <td style="text-align: left;">—</td>
 </tr>
 <tr>
