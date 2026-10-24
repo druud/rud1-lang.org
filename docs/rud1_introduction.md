@@ -202,15 +202,15 @@ expression.
 ## Functions
 
 A function is declared in `my(…)` as `name(parameters)= body`. A lambda is `x -> body` or
-`(a, b) -> body`, a value like any other. A function can call itself, and functions that
-follow one another in a `my(…)` can call each other.
+`(a, b) -> body`, a value like any other. A function calls itself as `__SELF__(…)`, and the functions
+of one `my(…)` call each other by name.
 
 ```
 ? my(sq(x)= x^2, cube= x -> x^3, add= (a, b) -> a + b);
 ? [sq(5), cube(2), add(1, 2)]
 > [25,8,3]
 
-? my(fact(n)= if(n < 2, 1, n * fact(n - 1)));
+? my(fact(n)= if(n < 2, 1, n * __SELF__(n - 1)));
 ? fact(30)
 > 265252859812191058636308480000000
 ```

@@ -15,7 +15,7 @@ lists the question as open, or two of its lines disagree). A rule that the spec 
 without a mark counts as decided here. A dash in Status: the spec has no plan for the form
 as written; the note in Today says more.
 
-The prototype is the one written in Lean, rud1 version 0.1.59; there is no other implementation.
+The prototype is the one written in Lean, rud1 version 0.1.60; there is no other implementation.
 Its executable is named `rud1_run` and files end in `.rud`; `rud1 'code'` and
 `rud1 file.rud` below stand for a shell function around it.
 
@@ -26,7 +26,7 @@ How to read the tables:
 - `L:C error …` is a compile error. `we exited <state> at L:C` is a run that ended in a
   failed result, with its message in the brackets. Both end with exit
   status 1.
-- Meanwhile is a program that works today, with its result after `\\`. A dash: nothing
+- Meanwhile is a program that works today, with its result after `\\>`. A dash: nothing
   shorter than writing it out yourself.
 - A form without a row is not thereby built: the list follows the audit of generation 30
   and the spec's own marks.
@@ -64,7 +64,7 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 The check that `my(uint x= -1)` does not make, written out:
 
 ```
-[rud1] my(x= uint(-1)); x \\ we exited <error("uint(-1): -1 is negative")> at 1:7
+[rud1] my(x= uint(-1)); x  \\> we exited <error("uint(-1): -1 is negative")> at 1:7
 ```
 
 ## Functions (spec §4a, §8)
@@ -123,7 +123,7 @@ my
 , N= #B
 , P= #B[0]
 );
-[[sum([r[k] * B[k][j] | k <- [0..N-1]]) | j <- [0..P-1]] | r <- A] \\ [[19,22],[43,50]]
+[[sum([r[k] * B[k][j] | k <- [0..N-1]]) | j <- [0..P-1]] | r <- A]  \\> [[19,22],[43,50]]
 ```
 
 (c):
@@ -136,11 +136,11 @@ my
     ( #L < 2
     , L
     , { my(p= L[0]);
-        sorted([x | x <- L, x < p]) ~ [x | x <- L, p == x] ~ sorted([x | x <- L, p < x])
+        __SELF__([x | x <- L, x < p]) ~ [x | x <- L, p == x] ~ __SELF__([x | x <- L, p < x])
       }
     )
 );
-sorted([3, 1, 2, 3]) \\ [1,2,3,3]
+sorted([3, 1, 2, 3])  \\> [1,2,3,3]
 ```
 
 The comprehensions with `#a-1` are an `error` for an empty list (`uint - uint` below 0).
@@ -170,8 +170,8 @@ The comprehensions with `#a-1` are an `error` for an empty list (`uint - uint` b
 
 ```
 [rud1]
-my(BASE= 2, digits(n)= if(n < BASE, [n], digits(n // BASE) ~ [n % BASE]));
-digits(91) \\ [1,0,1,1,0,1,1]
+my(BASE= 2, digits(n)= if(n < BASE, [n], __SELF__(n // BASE) ~ [n % BASE]));
+digits(91)  \\> [1,0,1,1,0,1,1]
 ```
 
 ## Input and output (spec §5a, §5c)
@@ -199,7 +199,7 @@ while
 , total+= sint(str.split(line, "\n")[0]);
   line= read_line()
 );
-total \\ 12
+total  \\> 12
 ```
 
 ## Templates (spec §5d)
@@ -231,7 +231,7 @@ strict; `||` ("or else") says that the first one wins:
 ```
 
 ```
-[rud1] unpack(t{&hex ::= %[0-9A-Fa-f]+ ; &dec ::= %[0-9]+ ; &hex || &dec}, b"15") \\ [[b"15"]]
+[rud1] unpack(t{&hex ::= %[0-9A-Fa-f]+ ; &dec ::= %[0-9]+ ; &hex || &dec}, b"15")  \\> [[b"15"]]
 ```
 
 ## Modules (spec §9a, §9b)
@@ -270,7 +270,7 @@ policy that can be asked for today stands in the header of a template:
 ```
 
 ```
-[rud1] unpack(t{(*policy.punctuation.bare: 2) %[.]}, b".") \\ [b"."]
+[rud1] unpack(t{(*policy.punctuation.bare: 2) %[.]}, b".")  \\> [b"."]
 ```
 
 ## Concurrency (spec §9a)

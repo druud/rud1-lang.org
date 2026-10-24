@@ -202,7 +202,7 @@ and what to write meanwhile.</p>
 lists the question as open, or two of its lines disagree). A rule that the spec states
 without a mark counts as decided here. A dash in Status: the spec has no plan for the form
 as written; the note in Today says more.</p>
-<p>The prototype is the one written in Lean, rud1 version 0.1.59; there is no other implementation.
+<p>The prototype is the one written in Lean, rud1 version 0.1.60; there is no other implementation.
 Its executable is named <code>rud1_run</code> and files end in <code>.rud</code>; <code>rud1 'code'</code> and
 <code>rud1 file.rud</code> below stand for a shell function around it.</p>
 <p>How to read the tables:</p>
@@ -212,7 +212,7 @@ a position <code>1:1</code> shows as <code>file.rud:1:1</code>.</li>
 <li><code>L:C error …</code> is a compile error. <code>we exited &lt;state&gt; at L:C</code> is a run that ended in a
 failed result, with its message in the brackets. Both end with exit
 status 1.</li>
-<li>Meanwhile is a program that works today, with its result after <code>\\</code>. A dash: nothing
+<li>Meanwhile is a program that works today, with its result after <code>\\&gt;</code>. A dash: nothing
 shorter than writing it out yourself.</li>
 <li>A form without a row is not thereby built: the list follows the audit of generation 30
 and the spec's own marks.</li>
@@ -317,7 +317,7 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 </tbody>
 </table>
 <p>The check that <code>my(uint x= -1)</code> does not make, written out:</p>
-<pre class="text"><code>[rud1] my(x= uint(-1)); x \\ we exited &lt;error(&quot;uint(-1): -1 is negative&quot;)&gt; at 1:7</code></pre>
+<pre class="text"><code>[rud1] my(x= uint(-1)); x  \\&gt; we exited &lt;error(&quot;uint(-1): -1 is negative&quot;)&gt; at 1:7</code></pre>
 <h2 id="functions-spec-4a-8">Functions (spec §4a, §8)</h2>
 <table>
 <thead>
@@ -543,7 +543,7 @@ my
 , N= #B
 , P= #B[0]
 );
-[[sum([r[k] * B[k][j] | k &lt;- [0..N-1]]) | j &lt;- [0..P-1]] | r &lt;- A] \\ [[19,22],[43,50]]</code></pre>
+[[sum([r[k] * B[k][j] | k &lt;- [0..N-1]]) | j &lt;- [0..P-1]] | r &lt;- A]  \\&gt; [[19,22],[43,50]]</code></pre>
 <p>(c):</p>
 <pre class="text"><code>[rud1]
 my
@@ -552,11 +552,11 @@ my
     ( #L &lt; 2
     , L
     , { my(p= L[0]);
-        sorted([x | x &lt;- L, x &lt; p]) ~ [x | x &lt;- L, p == x] ~ sorted([x | x &lt;- L, p &lt; x])
+        __SELF__([x | x &lt;- L, x &lt; p]) ~ [x | x &lt;- L, p == x] ~ __SELF__([x | x &lt;- L, p &lt; x])
       }
     )
 );
-sorted([3, 1, 2, 3]) \\ [1,2,3,3]</code></pre>
+sorted([3, 1, 2, 3])  \\&gt; [1,2,3,3]</code></pre>
 <p>The comprehensions with <code>#a-1</code> are an <code>error</code> for an empty list (<code>uint - uint</code> below 0).
 §8.1 of the spec gives rules for <code>inf</code>; its §11 lists the <code>inf</code> algebra as open.</p>
 <h2 id="strings-spec-7a-5a">Strings (spec §7a, §5a)</h2>
@@ -664,8 +664,8 @@ sorted([3, 1, 2, 3]) \\ [1,2,3,3]</code></pre>
 </table>
 <p>(a):</p>
 <pre class="text"><code>[rud1]
-my(BASE= 2, digits(n)= if(n &lt; BASE, [n], digits(n // BASE) ~ [n % BASE]));
-digits(91) \\ [1,0,1,1,0,1,1]</code></pre>
+my(BASE= 2, digits(n)= if(n &lt; BASE, [n], __SELF__(n // BASE) ~ [n % BASE]));
+digits(91)  \\&gt; [1,0,1,1,0,1,1]</code></pre>
 <h2 id="input-and-output-spec-5a-5c">Input and output (spec §5a, §5c)</h2>
 <p>Built: <code>read_line()</code> on standard input, <code>say</code> and <code>print</code> on standard output, <code>exit(n)</code> and
 <code>exit(n, msg)</code> (the message goes to standard error). Nothing else.</p>
@@ -726,7 +726,7 @@ while
 , total+= sint(str.split(line, &quot;\n&quot;)[0]);
   line= read_line()
 );
-total \\ 12</code></pre>
+total  \\&gt; 12</code></pre>
 <h2 id="templates-spec-5d">Templates (spec §5d)</h2>
 <p>Built: <code>unpack(t, b)</code> and <code>unpack(t, b, given: g)</code> on a <code>bytes</code> value, with every form that
 the template parser reads; <code>pack(t, r)</code>, the simple version (generation 41, spec §5d "The writer's rules");
@@ -808,7 +808,7 @@ Sentences of the spec that still say "<code>unpack</code> is not built" are olde
 strict; <code>||</code> ("or else") says that the first one wins:</p>
 <pre class="text"><code>[rud1] unpack(t{&amp;hex ::= %[0-9A-Fa-f]+ ; &amp;dec ::= %[0-9]+ ; &amp;hex | &amp;dec}, b&quot;15&quot;)
 \\ 1:8 error template 1:45: variants 1 and 2 can read the same text, &quot;1&quot;: make one of them narrower, or write &#39;||&#39; where the first is to win</code></pre>
-<pre class="text"><code>[rud1] unpack(t{&amp;hex ::= %[0-9A-Fa-f]+ ; &amp;dec ::= %[0-9]+ ; &amp;hex || &amp;dec}, b&quot;15&quot;) \\ [[b&quot;15&quot;]]</code></pre>
+<pre class="text"><code>[rud1] unpack(t{&amp;hex ::= %[0-9A-Fa-f]+ ; &amp;dec ::= %[0-9]+ ; &amp;hex || &amp;dec}, b&quot;15&quot;)  \\&gt; [[b&quot;15&quot;]]</code></pre>
 <h2 id="modules-spec-9a-9b">Modules (spec §9a, §9b)</h2>
 <p>All of §9a is proposed. A program is one file; the startup module (<code>sum</code>, <code>max</code>,
 <code>say</code>, …) is the only module, and it is always there.</p>
@@ -891,7 +891,7 @@ are not built: <code>rud1_run</code> has no option for one (<code>rud1_run -h</c
 policy that can be asked for today stands in the header of a template:</p>
 <pre class="text"><code>[rud1] unpack(t{%[.]}, b&quot;.&quot;)
 \\ 1:8 error template 1:3: the byte &#39;.&#39; of a set is escaped (\.) or stands in an inner bracket ([.])</code></pre>
-<pre class="text"><code>[rud1] unpack(t{(*policy.punctuation.bare: 2) %[.]}, b&quot;.&quot;) \\ [b&quot;.&quot;]</code></pre>
+<pre class="text"><code>[rud1] unpack(t{(*policy.punctuation.bare: 2) %[.]}, b&quot;.&quot;)  \\&gt; [b&quot;.&quot;]</code></pre>
 <h2 id="concurrency-spec-9a">Concurrency (spec §9a)</h2>
 <p>Proposed, all of it: <code>async</code> and <code>await</code>, the state <code>pending</code>, the parallel
 forms with gp's names.</p>

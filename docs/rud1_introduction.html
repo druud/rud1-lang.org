@@ -388,13 +388,13 @@ expression.</p>
 &gt; 7</code></pre>
 <h2 id="functions">Functions</h2>
 <p>A function is declared in <code>my(…)</code> as <code>name(parameters)= body</code>. A lambda is <code>x -&gt; body</code> or
-<code>(a, b) -&gt; body</code>, a value like any other. A function can call itself, and functions that
-follow one another in a <code>my(…)</code> can call each other.</p>
+<code>(a, b) -&gt; body</code>, a value like any other. A function calls itself as <code>__SELF__(…)</code>, and the functions
+of one <code>my(…)</code> call each other by name.</p>
 <pre class="text"><code>? my(sq(x)= x^2, cube= x -&gt; x^3, add= (a, b) -&gt; a + b);
 ? [sq(5), cube(2), add(1, 2)]
 &gt; [25,8,3]
 
-? my(fact(n)= if(n &lt; 2, 1, n * fact(n - 1)));
+? my(fact(n)= if(n &lt; 2, 1, n * __SELF__(n - 1)));
 ? fact(30)
 &gt; 265252859812191058636308480000000</code></pre>
 <p>A parameter can have a default, which sees the parameters before it. An empty argument
