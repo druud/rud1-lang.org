@@ -103,7 +103,6 @@ The names of the binary operators are built: `[rud1] _+_(1, 2) \\ 3`.
 | `binand(12, 10)` | decided | `1:1 error undeclared 'binand'` (also `binor`, `binxor`, `binnot`) | — |
 | `shift(1, 10)` | decided | `1:1 error undeclared 'shift'` | `1 * 2^10 \\ 1024` (to the right: `1000 // 2^3`) |
 | `sort([3, 1, 2], (a, b) -> a <=> b)` | decided | `1:1 error undeclared 'sort'` | \(f\) below |
-| `mut my(v= [1, 2, 3]); v[0..1]= [8, 9]; v` | decided | `1:23 error not in the core yet: range in a scatter target` | `mut my(v= [1, 2, 3]); v[0, 1]= [8, 9]; v \\ [8,9,3]` |
 | `my(L= [10, 20, 30]); L[1..]` | open | `1:27 error unexpected punct ']'` | `my(L= [10, 20, 30]); L[1..#L-1] \\ [20,30]` |
 | `[0..^3]` | open | `1:6 error '^' needs a name, got uint '3'` | `[0..2] \\ [0,1,2]` |
 | `my(v= [10, 20, 30]); v[^1]` | open | `1:25 error '^' needs a name, got uint '1'` | \(g\) below |

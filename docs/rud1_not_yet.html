@@ -494,12 +494,6 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 <td style="text-align: left;">(f) below</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>mut my(v= [1, 2, 3]); v[0..1]= [8, 9]; v</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:23 error not in the core yet: range in a scatter target</code></td>
-<td style="text-align: left;"><code>mut my(v= [1, 2, 3]); v[0, 1]= [8, 9]; v \\ [8,9,3]</code></td>
-</tr>
-<tr>
 <td style="text-align: left;"><code>my(L= [10, 20, 30]); L[1..]</code></td>
 <td style="text-align: left;">open</td>
 <td style="text-align: left;"><code>1:27 error unexpected punct ']'</code></td>
