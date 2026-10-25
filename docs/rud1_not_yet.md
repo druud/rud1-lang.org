@@ -366,13 +366,15 @@ each with what it prints now:
 
 ## Known limits of the prototype
 
-- Fuel. A run has a budget of evaluation depth, 100000 by default. A loop of about
-  100000 rounds uses it up, and what was written before is lost with it.\
-  `[rud1] say("start"); mut my(n= 0); while(n < 200000, n+= 1); n \\ out of fuel`
-- `rud1_run -f N` sets the budget. The same program with `-f 1000000`:\
-  `[rud1] say("start"); mut my(n= 0); while(n < 200000, n+= 1); n`\
+- Fuel and steps. A run has a budget of evaluation depth, 100000 by default, and one of steps,
+  1000000000 by default: a round of a loop and a call take a step each. A loop and a chain of tail
+  calls take no depth; a recursion that is not a tail call does, and about 15000 levels of it use
+  the budget up, and what was written before is lost with it.\
+  `[rud1] say("start"); my(f(n)= if(0 == n, 0, 1 + __SELF__(n - 1))); f(20000) \\ out of fuel`
+- `rud1_run -f N` sets the depth, `rud1_run -s N` the steps. The same program with `-f 1000000`:\
+  `[rud1] say("start"); my(f(n)= if(0 == n, 0, 1 + __SELF__(n - 1))); f(20000)`\
   `\\ start`\
-  `\\ 200000`
+  `\\ 20000`
 - Indexing a list is linear in the index, and a list made by a range or a
   comprehension is by name: it is computed again at each use (decided: memoized).
   So a loop over the indices is quadratic.\
