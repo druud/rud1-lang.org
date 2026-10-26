@@ -15,7 +15,7 @@ lists the question as open, or two of its lines disagree). A rule that the spec 
 without a mark counts as decided here. A dash in Status: the spec has no plan for the form
 as written; the note in Today says more.
 
-The prototype is the one written in Lean, rud1 version 0.1.60; there is no other implementation.
+The prototype is the one written in Lean, rud1 version 0.1.61; there is no other implementation.
 Its executable is named `rud1_run` and files end in `.rud`; `rud1 'code'` and
 `rud1 file.rud` below stand for a shell function around it.
 
