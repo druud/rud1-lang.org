@@ -15,7 +15,7 @@ lists the question as open, or two of its lines disagree). A rule that the spec 
 without a mark counts as decided here. A dash in Status: the spec has no plan for the form
 as written; the note in Today says more.
 
-The prototype is the one written in Lean, rud1 version 0.1.61; there is no other implementation.
+The prototype is the one written in Lean, rud1 version 0.1.62; there is no other implementation.
 Its executable is named `rud1_run` and files end in `.rud`; `rud1 'code'` and
 `rud1 file.rud` below stand for a shell function around it.
 
@@ -302,7 +302,6 @@ forms with gp's names.
 
 | Form | Status | Today | Meanwhile |
 |---|---|---|---|
-| a formatter to the one preferred layout (spec §10a) | backlog | no executable (the tree has `rud1_lex`, `rud1_parse`, `rud1_run`, `rud1_template`) | `rud1_template -e 'T'` normalizes a template |
 | a compiler mode that writes the standard version of a program | backlog | no such mode | `rud1_run -c`: the core term, (a) below |
 | a tool that finds holes in templates (two templates that read one text differently, bytes that do not come back) | backlog: not designed | nothing | the compile error for two variants that read one text (Templates, (a)) |
 | a REPL (spec §4a: `x= 1` at its top level declares) | decided | no executable | `rud1 'code'` |
