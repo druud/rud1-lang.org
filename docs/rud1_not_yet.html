@@ -520,7 +520,7 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 <tr>
 <td style="text-align: left;"><code>#[x | x &lt;- [1..oo]]</code></td>
 <td style="text-align: left;">open</td>
-<td style="text-align: left;"><code>out of fuel</code> (only a range without an end has the length <code>+oo</code>; a list made from it, a range of floats, a list of steps are walked)</td>
+<td style="text-align: left;"><code>out of steps</code>, at <code>-s 100000</code> (the walk takes a step a cell; only a range without an end has the length <code>+oo</code>; a list made from it, a range of floats, a list of steps are walked)</td>
 <td style="text-align: left;"><code>#[1..oo] &gt; 1000 \\ 1</code></td>
 </tr>
 <tr>
