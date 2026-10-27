@@ -184,7 +184,7 @@
 <link rel="stylesheet" href="site.css" />
 </head>
 <body>
-<nav class="site"><a href="index.html"><img src="rud1_logo.svg" alt="rud1"></a><a href="rud1_introduction.html">Introduction</a><a href="rud1_examples.html" class="here">Examples</a><a href="rud1_differences.html">Differences</a><a href="rud1_gotchas.html">Gotchas</a><a href="rud1_not_yet.html">Not yet</a><a href="rud1_spec.pdf">Spec (PDF)</a><a href="https://github.com/isolution-nl/rud1-lang.org">GitHub</a></nav>
+<nav class="site"><a href="index.html"><img src="rud1_logo.svg" alt="rud1"></a><a href="rud1_introduction.html">Introduction</a><a href="rud1_examples.html" class="here">Examples</a><a href="rud1_better_best.html">Good, better, best</a><a href="rud1_gotchas.html">Gotchas</a><a href="rud1_not_yet.html">Not yet</a><a href="rud1_spec.pdf">Spec (PDF)</a><a href="https://github.com/isolution-nl/rud1-lang.org">GitHub</a></nav>
 <header id="title-block-header">
 <h1 class="title">rud1_examples</h1>
 </header>
@@ -243,7 +243,7 @@ see each other, in any order, and call each other by name (<code>ev</code> and <
 my
 ( is_prime(n)=
   { mut my(d= 2);
-    while(d * d &lt;= n, if(0 == n % d, leave(2, 0)); d+= 1);
+    while(d * d &lt;= n, if(0 == n % d, leave(2, false)); d+= 1);
     n &gt; 1
   }
 );
@@ -295,11 +295,11 @@ second element, the reverse.</p>
 <h2 id="loops">Loops</h2>
 <p>A script that ends in a loop is ended with <code>0;</code>: a loop that ran no round has no value.</p>
 <p><strong><code>for</code>.</strong></p>
-<pre class="text"><code>[rud1] mut my(s= 0); for(i=1, 100, s+= i); s  \\&gt; 5050
+<pre class="text"><code>[rud1] mut my(s= 0); for(i= 1, 100, s+= i); s  \\&gt; 5050
 [rud1] mut my(s= 0); for([a, b] &lt;- [[1, 2], [3, 4]], s+= a * b); s  \\&gt; 14</code></pre>
 <pre class="text"><code>[rud1]
 my(N= 3);
-for(i=1, N, say(str.join([str(i * j) | j &lt;- [1..N]], &quot; &quot;)));
+for(i= 1, N, say(str.join([str(i * j) | j &lt;- [1..N]], &quot; &quot;)));
 0;</code></pre>
 <p>Output:</p>
 <pre class="text"><code>1 2 3
@@ -307,14 +307,14 @@ for(i=1, N, say(str.join([str(i * j) | j &lt;- [1..N]], &quot; &quot;)));
 3 6 9</code></pre>
 <p><strong><code>while</code> and <code>until</code>.</strong> <code>until</code> tests after the body, so its body runs at least once.</p>
 <pre class="text"><code>[rud1] mut my(i= 0, s= 0); while(i &lt; 5, i+= 1; s+= i); [i, s]  \\&gt; [5,15]
-[rud1] mut my(n= 27, k= 0); while(1 != n, n= if(n % 2, 3 * n + 1, n / 2); k+= 1); k  \\&gt; 111
+[rud1] mut my(n= 27, k= 0); while(1 != n, n= if(0 != n % 2, 3 * n + 1, n / 2); k+= 1); k  \\&gt; 111
 [rud1] mut my(n= 1234); until(n &gt; 1000, n*= 2); n  \\&gt; 2468</code></pre>
 <p><strong><code>leave</code>.</strong> <code>leave(, v)</code> ends the loop with the value <code>v</code>; <code>leave(2, v)</code> ends two levels.</p>
 <pre class="text"><code>[rud1] my(first(L, p)= for(x &lt;- L, if(p(x), leave(, x)))); first([3, 8, 12, 5], _1 &gt; 10)  \\&gt; 12
-[rud1] mut my(k= 0); while(1, k+= 1; if(k^2 &gt; 50, leave())); k  \\&gt; 8
+[rud1] mut my(k= 0); while(true, k+= 1; if(k^2 &gt; 50, leave())); k  \\&gt; 8
 [rud1] my(f(L)= { for(x &lt;- L, if(x &gt; 1, leave(2, x))); 0 }); [f([1, 2, 3]), f([1, 1])]  \\&gt; [2,0]</code></pre>
 <p><strong><code>next</code>.</strong> <code>next()</code> goes to the next round of its loop, <code>next(2)</code> to the next round of the loop one level up.</p>
-<pre class="text"><code>[rud1] mut my(s= 0); for(i=1, 10, if(0 == i % 2, next()); s+= i); s  \\&gt; 25
+<pre class="text"><code>[rud1] mut my(s= 0); for(i= 1, 10, if(0 == i % 2, next()); s+= i); s  \\&gt; 25
 [rud1] mut my(s= 0); for(x &lt;- [1, 2], for(y &lt;- [10, 20], if(20 == y, next(2)); s+= x + y)); s  \\&gt; 23</code></pre>
 <h2 id="strings-and-unicode">Strings and Unicode</h2>
 <p><strong>The <code>str.</code> family.</strong> A <code>str</code> has no index; <code>str.to_characters</code> splits it into its code points, each a
@@ -345,15 +345,15 @@ for(i=1, N, say(str.join([str(i * j) | j &lt;- [1..N]], &quot; &quot;)));
 [rud1] my(v= [1, 2]); guard(v[5], &quot;none&quot;)  \\&gt; &quot;none&quot;
 [rud1] my(safe_div(a, b)= guard(a / b, 0)); [safe_div(6, 3), safe_div(1, 0)]  \\&gt; [2,0]</code></pre>
 <p><strong><code>error(msg)</code>.</strong> An <code>error</code> that nothing guards ends the program, with status 1.</p>
-<pre class="text"><code>[rud1] my(half(n)= if(n % 2, error(&quot;odd&quot;), n / 2)); [half(8), guard(half(7), -1)]  \\&gt; [4,-1]</code></pre>
+<pre class="text"><code>[rud1] my(half(n)= if(0 != n % 2, error(&quot;odd&quot;), n / 2)); [half(8), guard(half(7), -1)]  \\&gt; [4,-1]</code></pre>
 <pre class="text"><code>[rud1]
-my(half(n)= if(n % 2, error(&quot;odd: &quot; ~ str(n)), n / 2));
+my(half(n)= if(0 != n % 2, error(&quot;odd: &quot; ~ str(n)), n / 2));
 say(half(8));
 say(half(7));
 say(&quot;not reached&quot;);</code></pre>
 <p>Output:</p>
 <pre class="text"><code>4
-we exited &lt;error(&quot;odd: 7&quot;)&gt; at 091.rud:1:23
+we exited &lt;error(&quot;odd: 7&quot;)&gt; at 091.rud:1:28
   in half at 091.rud:3:5</code></pre>
 <p>Exit status: 1.</p>
 <p><strong><code>is_defined</code>.</strong> A name declared without a value, <code>max</code> of an empty list and <code>read_line()</code>
@@ -874,7 +874,7 @@ my
   , n
   )
 );
-for(i=1, 100, say(fizzbuzz(i)));
+for(i= 1, 100, say(fizzbuzz(i)));
 0;</code></pre>
 <p>Output, the first 15 of 100 lines:</p>
 <pre class="text"><code>1
@@ -897,10 +897,10 @@ FizzBuzz</code></pre>
 /* Rosetta Code: Sieve of Eratosthenes */
 my
 ( primes(n)=
-  { mut my(s= [1] ~* (n + 1), p= 2);
+  { mut my(s= [true] ~* (n + 1), p= 2);
     while
     ( p * p &lt;= n
-    , if(s[p], for(m &lt;- [p * p .. n; p], s[m]= 0));
+    , if(s[p], for(m &lt;- [p * p .. n; p], s[m]= false));
       p+= 1
     );
     [k | k &lt;- [2..n], s[k]]
@@ -925,7 +925,7 @@ my
   ( 0 == n
   , [0, 1]
   , my([a, b]= __SELF__(n // 2), c= a * (2 * b - a), d= a^2 + b^2);
-    if(n % 2, [d, c + d], [c, d])
+    if(0 != n % 2, [d, c + d], [c, d])
   )
 , fib(n)= fib2(n)[0]
 );
@@ -938,7 +938,7 @@ say(fib(100));</code></pre>
 <pre class="text"><code>[rud1]
 /* Rosetta Code: Hailstone sequence */
 my
-( step(n)= if(n % 2, 3 * n + 1, n / 2)
+( step(n)= if(0 != n % 2, 3 * n + 1, n / 2)
 , hailstone(n)= if(1 == n, [1], [n] ~ __SELF__(step(n)))
 , hlen(n)=
   { mut my(m= n, k= 1);
@@ -947,7 +947,7 @@ my
   }
 , longest(N)=           /* [n, length] of the longest sequence with n &lt;= N */
   { mut my(best= [1, 1]);
-    for(n=1, N, my(k= hlen(n)); if(k &gt; best[1], best= [n, k]));
+    for(n= 1, N, my(k= hlen(n)); if(k &gt; best[1], best= [n, k]));
     best
   }
 , h= hailstone(27)

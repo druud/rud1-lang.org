@@ -35,7 +35,7 @@ How to read the tables:
 
 | Form | Status | Today | Meanwhile |
 |---|---|---|---|
-| `0x1F` | — | `1:1 error malformed number '0x1F'` (stays an error: no hex or binary literals, spec §1) | `unpack(t{$hex+}, b"1F")[0] \\ 31` |
+| `0x1F` | — | `1:1 error malformed number '0x1F': no hexadecimal or binary numbers; 0_ starts an octal number` (stays an error, spec §1) | `unpack(t{$hex+}, b"1F")[0] \\ 31` |
 | `[1, 2] >>+<< [3, 4]` | decided | `1:1 error not in the core yet: '>>+<<'` | a comprehension: Lists and numbers, (a) |
 | `my(_<+>_ : _+_ = (a, b) -> a + b); 1 <+> 2` | decided | `1:5 error expected ')', got op '<'` | `my(plus(a, b)= a + b); plus(1, 2) \\ 3` |
 | `my(x= 5); f"x = {x}"` | proposed | `1:11 error not in the core yet: prefixed literal 'f"…"'` | `my(x= 5); "x = " ~ str(x) \\ "x = 5"` |
@@ -158,7 +158,7 @@ The comprehensions with `#a-1` are an `error` for an empty list (`uint - uint` b
 | `str.printf("%5d", 42)` | decided | `1:1 error no function 'str.printf'` (the format language: open) | `my(s= str(42)); " " ~* (5 - #s) ~ s \\ "   42"` |
 | `printf("%d\n", 42)` | decided | `1:1 error undeclared 'printf'` (also `sayf`) | `say(42); \\ 42` |
 | `str.pretty([1, 2])` | decided | `1:1 error no function 'str.pretty'` | `str([1, 2]) \\ "[1,2]"` |
-| `str.substr("hello", 1, 2, "XX")` | decided | `1:1 error call of 'str.substr': 'n' takes 0 to 1 arguments, got 2` | `my(s= "hello"); str.substr(s, 0, 1) ~ "XX" ~ str.substr(s, 3) \\ "hXXlo"` |
+| `str.substr("hello", 1, 2, "XX")` | decided | `1:1 error call of 'str.substr': takes 2 to 3 arguments, got 4` | `my(s= "hello"); str.substr(s, 0, 1) ~ "XX" ~ str.substr(s, 3) \\ "hXXlo"` |
 | `my(f= str.is_cased); f("a")` | decided | `1:7 error undeclared 'str'` (a startup `str.` function as a value) | `my(f(s)= str.is_cased(s)); f("a") \\ 1` |
 | `str.uc("a")` | proposed | `1:1 error no function 'str.uc'` (short names: a module, which needs `use`) | `alias {uc: to_uppercase}; str.uc("a") \\ "A"` |
 | `"abc"[0]` | decided | `we exited <error("\"abc\"[0]: a str has no positions (str.to_characters(s) lists its characters)")> at 1:1` (decided: a compile error that names `s.to_characters()[i]`) | `str.substr("abc", 0, 1) \\ "a"` |

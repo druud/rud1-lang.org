@@ -147,7 +147,7 @@ number, `===` asks for the same kind as well. Comparisons chain. There is no `&&
 are `0`, `0.0` and `false`; an empty list and an empty string are true.
 
 ```
-? [1 == 1.0, 1 === 1.0, 1 < 2 <= 2, 1 <=> 2, and(1, 0), or(0, 3), !0]
+? [1 == 1.0, 1 === 1.0, 1 < 2 <= 2, 1 <=> 2, and(true, false), or(false, true), !false]
 > [1,0,1,-1,0,1,1]
 ```
 
@@ -284,11 +284,11 @@ An `if` without an "else" whose condition is false has no value: its result is `
 ("Errors are states").
 
 `while(c, body)` runs `body` as long as `c` is true; `until(c, body)` runs it and then
-tests. `for(i=a, b, body)` counts from `a` to `b`, both included; `for(x <- L, body)` walks a
-list. The counter is immutable in the body (`for(mut i=a, b, …)` makes it changeable).
+tests. `for(i= a, b, body)` counts from `a` to `b`, both included; `for(x <- L, body)` walks a
+list. The counter is immutable in the body (`for(mut i= a, b, …)` makes it changeable).
 
 ```
-? my(step(n)= if(n % 2, 3 * n + 1, n // 2));
+? my(step(n)= if(0 != n % 2, 3 * n + 1, n // 2));
 ? mut my(n= 27, k= 0);
 ? while
   ( 1 != n
@@ -303,7 +303,7 @@ list. The counter is immutable in the body (`for(mut i=a, b, …)` makes it chan
 `leave(2)` ends two; `next()` goes to the next round.
 
 ```
-? mut my(r= []); for(i=1, 9, if(3 == i, next()); if(6 == i, leave()); r~= [i]); r
+? mut my(r= []); for(i= 1, 9, if(3 == i, next()); if(6 == i, leave()); r~= [i]); r
 > [1,2,4,5]
 ```
 
@@ -316,7 +316,7 @@ a value, which is a failure ("Errors are states"). The compiler warns on every r
 
 ```
 [rud1]
-for(i=1, 99, if(i^2 > 200, leave(, i)))
+for(i= 1, 99, if(i^2 > 200, leave(, i)))
 ```
 
 Output:
@@ -523,8 +523,7 @@ Output:
 ```
 6
 we exited <error("no such item: milk")> at 030.rud:2:37
-  in price at 030.rud:3:53
-  in total at 030.rud:6:5
+  in (price at 030.rud:3:53, total at 030.rud:6:5)
 ```
 
 The exit status of that run is 1. `exit(n)` ends the program at once with status `n` (0 to
@@ -690,7 +689,7 @@ writes.
 
 | Document | Content |
 |---|---|
-| `rud1_differences.md` | rud1 beside other languages |
+| `rud1_better_best.md` | good, better, best: rud1's choices beside other languages |
 | `rud1_examples.md` | longer programs |
 | `rud1_gotchas.md` | what might surprise a coder who comes from Perl or gp |
 | `rud1_not_yet.md` | what is decided or proposed and not yet built |

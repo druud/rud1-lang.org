@@ -111,7 +111,7 @@ named arguments, lazy lists.
 | [The language](docs/rud1_spec.pdf) | the specification, written as of the first full release (PDF, 69 pages) |
 | [Not yet](docs/rud1_not_yet.md) | what is decided or proposed and not yet built |
 
-An introduction, the differences from other languages and the gotchas are coming soon. Each example in the documents is run again before a document is published.
+An introduction, "Good, better, best" (rud1's choices beside other languages) and the gotchas are coming soon. Each example in the documents is run again before a document is published.
 
 ## Licence
 

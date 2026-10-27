@@ -93,7 +93,7 @@ A body of several steps is a block; `leave(2, 0)` leaves the loop and the block 
 my
 ( is_prime(n)=
   { mut my(d= 2);
-    while(d * d <= n, if(0 == n % d, leave(2, 0)); d+= 1);
+    while(d * d <= n, if(0 == n % d, leave(2, false)); d+= 1);
     n > 1
   }
 );
@@ -192,14 +192,14 @@ A script that ends in a loop is ended with `0;`: a loop that ran no round has no
 **`for`.**
 
 ```
-[rud1] mut my(s= 0); for(i=1, 100, s+= i); s  \\> 5050
+[rud1] mut my(s= 0); for(i= 1, 100, s+= i); s  \\> 5050
 [rud1] mut my(s= 0); for([a, b] <- [[1, 2], [3, 4]], s+= a * b); s  \\> 14
 ```
 
 ```
 [rud1]
 my(N= 3);
-for(i=1, N, say(str.join([str(i * j) | j <- [1..N]], " ")));
+for(i= 1, N, say(str.join([str(i * j) | j <- [1..N]], " ")));
 0;
 ```
 
@@ -215,7 +215,7 @@ Output:
 
 ```
 [rud1] mut my(i= 0, s= 0); while(i < 5, i+= 1; s+= i); [i, s]  \\> [5,15]
-[rud1] mut my(n= 27, k= 0); while(1 != n, n= if(n % 2, 3 * n + 1, n / 2); k+= 1); k  \\> 111
+[rud1] mut my(n= 27, k= 0); while(1 != n, n= if(0 != n % 2, 3 * n + 1, n / 2); k+= 1); k  \\> 111
 [rud1] mut my(n= 1234); until(n > 1000, n*= 2); n  \\> 2468
 ```
 
@@ -223,14 +223,14 @@ Output:
 
 ```
 [rud1] my(first(L, p)= for(x <- L, if(p(x), leave(, x)))); first([3, 8, 12, 5], _1 > 10)  \\> 12
-[rud1] mut my(k= 0); while(1, k+= 1; if(k^2 > 50, leave())); k  \\> 8
+[rud1] mut my(k= 0); while(true, k+= 1; if(k^2 > 50, leave())); k  \\> 8
 [rud1] my(f(L)= { for(x <- L, if(x > 1, leave(2, x))); 0 }); [f([1, 2, 3]), f([1, 1])]  \\> [2,0]
 ```
 
 **`next`.** `next()` goes to the next round of its loop, `next(2)` to the next round of the loop one level up.
 
 ```
-[rud1] mut my(s= 0); for(i=1, 10, if(0 == i % 2, next()); s+= i); s  \\> 25
+[rud1] mut my(s= 0); for(i= 1, 10, if(0 == i % 2, next()); s+= i); s  \\> 25
 [rud1] mut my(s= 0); for(x <- [1, 2], for(y <- [10, 20], if(20 == y, next(2)); s+= x + y)); s  \\> 23
 ```
 
@@ -287,12 +287,12 @@ Output:
 **`error(msg)`.** An `error` that nothing guards ends the program, with status 1.
 
 ```
-[rud1] my(half(n)= if(n % 2, error("odd"), n / 2)); [half(8), guard(half(7), -1)]  \\> [4,-1]
+[rud1] my(half(n)= if(0 != n % 2, error("odd"), n / 2)); [half(8), guard(half(7), -1)]  \\> [4,-1]
 ```
 
 ```
 [rud1]
-my(half(n)= if(n % 2, error("odd: " ~ str(n)), n / 2));
+my(half(n)= if(0 != n % 2, error("odd: " ~ str(n)), n / 2));
 say(half(8));
 say(half(7));
 say("not reached");
@@ -302,7 +302,7 @@ Output:
 
 ```
 4
-we exited <error("odd: 7")> at 091.rud:1:23
+we exited <error("odd: 7")> at 091.rud:1:28
   in half at 091.rud:3:5
 ```
 
@@ -828,7 +828,7 @@ my
   , n
   )
 );
-for(i=1, 100, say(fizzbuzz(i)));
+for(i= 1, 100, say(fizzbuzz(i)));
 0;
 ```
 
@@ -859,10 +859,10 @@ FizzBuzz
 /* Rosetta Code: Sieve of Eratosthenes */
 my
 ( primes(n)=
-  { mut my(s= [1] ~* (n + 1), p= 2);
+  { mut my(s= [true] ~* (n + 1), p= 2);
     while
     ( p * p <= n
-    , if(s[p], for(m <- [p * p .. n; p], s[m]= 0));
+    , if(s[p], for(m <- [p * p .. n; p], s[m]= false));
       p+= 1
     );
     [k | k <- [2..n], s[k]]
@@ -903,7 +903,7 @@ my
   ( 0 == n
   , [0, 1]
   , my([a, b]= __SELF__(n // 2), c= a * (2 * b - a), d= a^2 + b^2);
-    if(n % 2, [d, c + d], [c, d])
+    if(0 != n % 2, [d, c + d], [c, d])
   )
 , fib(n)= fib2(n)[0]
 );
@@ -924,7 +924,7 @@ Output:
 [rud1]
 /* Rosetta Code: Hailstone sequence */
 my
-( step(n)= if(n % 2, 3 * n + 1, n / 2)
+( step(n)= if(0 != n % 2, 3 * n + 1, n / 2)
 , hailstone(n)= if(1 == n, [1], [n] ~ __SELF__(step(n)))
 , hlen(n)=
   { mut my(m= n, k= 1);
@@ -933,7 +933,7 @@ my
   }
 , longest(N)=           /* [n, length] of the longest sequence with n <= N */
   { mut my(best= [1, 1]);
-    for(n=1, N, my(k= hlen(n)); if(k > best[1], best= [n, k]));
+    for(n= 1, N, my(k= hlen(n)); if(k > best[1], best= [n, k]));
     best
   }
 , h= hailstone(27)
