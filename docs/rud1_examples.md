@@ -711,8 +711,8 @@ pieces in the order of the target. A text of bytes is written `b"…"`.
 ### Five swaps
 
 `v.swap(r1, r2)` is `swap(v, r1, r2)`: the list `v` with the blocks at the two ranges
-traded, which may differ in length. A `str` has no slices, so the swaps work on its list of
-characters, and `str.join` makes a text of them again. A search found no way with four swaps.
+traded, which may differ in length. Here the swaps work on the list of characters, and
+`str.join` makes a text of them again; a `str` takes the same swaps by code point. A search found no way with four swaps.
 
 ```
 ? my

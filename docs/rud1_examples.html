@@ -751,8 +751,8 @@ pieces in the order of the target. A text of bytes is written <code>b"…"</code
 &gt; &quot;knalbhdefgicjm&quot;</code></pre>
 <h3 id="five-swaps">Five swaps</h3>
 <p><code>v.swap(r1, r2)</code> is <code>swap(v, r1, r2)</code>: the list <code>v</code> with the blocks at the two ranges
-traded, which may differ in length. A <code>str</code> has no slices, so the swaps work on its list of
-characters, and <code>str.join</code> makes a text of them again. A search found no way with four swaps.</p>
+traded, which may differ in length. Here the swaps work on the list of characters, and
+<code>str.join</code> makes a text of them again; a <code>str</code> takes the same swaps by code point. A search found no way with four swaps.</p>
 <pre class="text"><code>? my
   ( c= &quot;piet mondrian &quot;.to_characters()
     .swap([0..0], [1..1])
