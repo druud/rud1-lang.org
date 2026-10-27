@@ -458,12 +458,6 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 <td style="text-align: left;">(b) below</td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>sort([3, 1, 2], (a, b) -&gt; a &lt;=&gt; b)</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'sort'</code></td>
-<td style="text-align: left;">(c) below</td>
-</tr>
-<tr>
 <td style="text-align: left;"><code>my(L= [10, 20, 30]); L[1..]</code></td>
 <td style="text-align: left;">open</td>
 <td style="text-align: left;"><code>1:27 error unexpected punct ']'</code></td>
@@ -479,7 +473,7 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 <td style="text-align: left;"><code>my(v= [10, 20, 30]); v[^1]</code></td>
 <td style="text-align: left;">open</td>
 <td style="text-align: left;"><code>1:25 error '^' needs a name, got uint '1'</code></td>
-<td style="text-align: left;">(d) below</td>
+<td style="text-align: left;">(c) below</td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>Map(["a", 42; "b", -1])</code></td>
@@ -533,7 +527,7 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 </table>
 <ul>
 <li>(a) <code>[rud1] my(a= [1, 2], b= [10, 20]); [a[i] + b[i] | i &lt;- [0..#a-1]] \\ [11,22]</code></li>
-<li>(d) <code>[rud1] my(v= [10, 20, 30]); [v[i] | i &lt;- [0..#v-1], 1 != i] \\ [10,30]</code></li>
+<li>(c) <code>[rud1] my(v= [10, 20, 30]); [v[i] | i &lt;- [0..#v-1], 1 != i] \\ [10,30]</code></li>
 </ul>
 <p>(b):</p>
 <pre class="text"><code>[rud1]
@@ -544,19 +538,6 @@ my
 , P= #B[0]
 );
 [[sum([r[k] * B[k][j] | k &lt;- [0..N-1]]) | j &lt;- [0..P-1]] | r &lt;- A]  \\&gt; [[19,22],[43,50]]</code></pre>
-<p>(c):</p>
-<pre class="text"><code>[rud1]
-my
-( sorted(L)=
-    if
-    ( #L &lt; 2
-    , L
-    , { my(p= L[0]);
-        __SELF__([x | x &lt;- L, x &lt; p]) ~ [x | x &lt;- L, p == x] ~ __SELF__([x | x &lt;- L, p &lt; x])
-      }
-    )
-);
-sorted([3, 1, 2, 3])  \\&gt; [1,2,3,3]</code></pre>
 <p>The comprehensions with <code>#a-1</code> are an <code>error</code> for an empty list (<code>uint - uint</code> below 0).
 §8.1 of the spec gives rules for <code>inf</code>; its §11 lists the <code>inf</code> algebra as open.</p>
 <h2 id="strings-spec-7a-5a">Strings (spec §7a, §5a)</h2>
