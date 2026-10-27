@@ -358,10 +358,11 @@ number, <code>===</code> asks for the same kind as well. Comparisons chain. Ther
 are <code>0</code>, <code>0.0</code> and <code>false</code>; an empty list and an empty string are true.</p>
 <pre class="text"><code>? [1 == 1.0, 1 === 1.0, 1 &lt; 2 &lt;= 2, 1 &lt;=&gt; 2, and(true, false), or(false, true), !false]
 &gt; [1,0,1,-1,0,1,1]</code></pre>
-<p>A number never becomes text by itself, nor text a number: the casts are <code>str(x)</code>, <code>uint(s)</code>
-and <code>sint(s)</code>.</p>
-<pre class="text"><code>? [str(42), uint(&quot;42&quot;), sint(&quot;-7&quot;), &quot;n = &quot; ~ str(5)]
-&gt; [&quot;42&quot;,42,-7,&quot;n = 5&quot;]</code></pre>
+<p>A number never becomes text by itself, nor text a number: <code>str(x)</code> writes a number,
+<code>uint.read(s)</code> and <code>sint.read(s)</code> read one, the whole text. A cast such as <code>uint(s)</code> goes
+element by element: over a <code>str</code> it gives the code points.</p>
+<pre class="text"><code>? [str(42), uint.read(&quot;42&quot;), sint.read(&quot;-7&quot;), &quot;n = &quot; ~ str(5), uint(&quot;42&quot;)]
+&gt; [&quot;42&quot;,42,-7,&quot;n = 5&quot;,[52,50]]</code></pre>
 <h2 id="names">Names</h2>
 <p><code>my(…)</code> declares names. A name is immutable unless it is declared with <code>mut my(…)</code>; an
 assignment to an immutable name is refused when the program is compiled. The initializers
@@ -548,12 +549,12 @@ family:</p>
 <code>str.unicode_version</code>. Three more names exist and give an <code>error</code> that says "not built
 yet": <code>str.is_casefolded</code>, <code>str.is_titlecase</code>, <code>str.to_titlecase</code>.</p>
 <p><code>bytes</code> is the type of raw bytes, written <code>b"…"</code>, with <code>\x{89}</code> for a byte in hex. <code>#b</code> counts
-bytes, <code>b[i]</code> is one byte, a <code>bytes</code> value (<code>uint(b[i])</code> its number), <code>b[1..2]</code> is a <code>bytes</code> value of two, and <code>str(b)</code> is the text when the bytes are well-formed
+bytes, <code>b[i]</code> is one byte, a <code>bytes</code> value (<code>uint(b)</code> the numbers of the bytes), <code>b[1..2]</code> is a <code>bytes</code> value of two, and <code>str(b)</code> is the text when the bytes are well-formed
 UTF-8 (an <code>error</code> when they are not). A <code>str</code> and a <code>bytes</code> value do not mix under <code>~</code> or a
 comparison.</p>
 <pre class="text"><code>? my(b= b&quot;\x{c3}\x{a9}t&quot;);
-? [b, #b, b[0], uint(b[-1])]
-&gt; [b&quot;\x{c3}\x{a9}t&quot;,3,b&quot;\x{c3}&quot;,116]
+? [b, #b, b[0], uint(b)]
+&gt; [b&quot;\x{c3}\x{a9}t&quot;,3,b&quot;\x{c3}&quot;,[195,169,116]]
 
 ? [str(b), #str(b), b ~ b&quot;!&quot;]
 &gt; [&quot;ét&quot;,2,b&quot;\x{c3}\x{a9}t!&quot;]</code></pre>
@@ -582,7 +583,7 @@ without a round, <code>max([])</code>, <code>read_line()</code> at the end of th
 <li><code>underflow</code>: a <code>uint</code> that would go below 0, or a read that runs short at the end of
 the input.</li>
 <li><code>error</code>: something went wrong. <code>1/0</code>, a position outside a list, a text
-that is no number in <code>uint(s)</code>, and <code>error("message")</code> in your own code.</li>
+that is no number in <code>uint.read(s)</code>, and <code>error("message")</code> in your own code.</li>
 </ul>
 <p>A state is no value: there is no literal for one and no <code>==</code> against one. An <code>error</code> ends
 the sequence, the loop and the call it occurs in, and so travels outward until something
@@ -593,7 +594,7 @@ is there, for the states below <code>error</code>; an <code>error</code> passes 
 <pre class="text"><code>? my(half(n)= if(0 == n % 2, n // 2)); [half(10), guard(half(7), &quot;odd&quot;)]
 &gt; [5,&quot;odd&quot;]
 
-? my(v= [1, 2, 3]); [guard(v[5], -1), guard(1/0, 0), guard(uint(&quot;12x&quot;), 0)]
+? my(v= [1, 2, 3]); [guard(v[5], -1), guard(1/0, 0), guard(uint.read(&quot;12x&quot;), 0)]
 &gt; [-1,0,0]
 
 ? [is_defined(max([])), guard(is_defined(1/0), &quot;an error&quot;)]
@@ -617,7 +618,7 @@ we exited &lt;error(&quot;no such item: milk&quot;)&gt; at 030.rud:2:37
 255), and <code>exit(n, message)</code> writes the message to standard error first. This one ends with
 status 2:</p>
 <pre class="text"><code>[rud1]
-my(n= guard(uint(&quot;12x&quot;), -1)); if(n &lt; 0, exit(2, &quot;not a number&quot;)); n</code></pre>
+my(n= guard(uint.read(&quot;12x&quot;), -1)); if(n &lt; 0, exit(2, &quot;not a number&quot;)); n</code></pre>
 <p>Output:</p>
 <pre class="text"><code>not a number</code></pre>
 <p>The spec's section 8 has every state (also <code>missing</code>, <code>inf</code>, <code>overflow</code> and <code>pending</code>), and
@@ -627,7 +628,7 @@ an overview of which object can carry which state and how each spreads.</p>
 <code>undef</code> when the input has ended. A program takes the line feed off and converts the text
 itself. With the input <code>12 30</code>, a line feed, <code>7 -8 1</code> and a line feed:</p>
 <pre class="text"><code>[rud1]
-my(numbers(s)= [sint(w) | w &lt;- str.split(str.split(s, &quot;\n&quot;)[0], &quot; &quot;), &quot;&quot; != w]);
+my(numbers(s)= [sint.read(w) | w &lt;- str.split(str.split(s, &quot;\n&quot;)[0], &quot; &quot;), &quot;&quot; != w]);
 mut my(line= read_line());
 while
 ( is_defined(line)

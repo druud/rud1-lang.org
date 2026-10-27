@@ -151,12 +151,13 @@ are `0`, `0.0` and `false`; an empty list and an empty string are true.
 > [1,0,1,-1,0,1,1]
 ```
 
-A number never becomes text by itself, nor text a number: the casts are `str(x)`, `uint(s)`
-and `sint(s)`.
+A number never becomes text by itself, nor text a number: `str(x)` writes a number,
+`uint.read(s)` and `sint.read(s)` read one, the whole text. A cast such as `uint(s)` goes
+element by element: over a `str` it gives the code points.
 
 ```
-? [str(42), uint("42"), sint("-7"), "n = " ~ str(5)]
-> ["42",42,-7,"n = 5"]
+? [str(42), uint.read("42"), sint.read("-7"), "n = " ~ str(5), uint("42")]
+> ["42",42,-7,"n = 5",[52,50]]
 ```
 
 ## Names
@@ -434,14 +435,14 @@ The family, in full: `str.eq_caseless`, `str.from_codepoints`, `str.is_cased`,
 yet": `str.is_casefolded`, `str.is_titlecase`, `str.to_titlecase`.
 
 `bytes` is the type of raw bytes, written `b"…"`, with `\x{89}` for a byte in hex. `#b` counts
-bytes, `b[i]` is one byte, a `bytes` value (`uint(b[i])` its number), `b[1..2]` is a `bytes` value of two, and `str(b)` is the text when the bytes are well-formed
+bytes, `b[i]` is one byte, a `bytes` value (`uint(b)` the numbers of the bytes), `b[1..2]` is a `bytes` value of two, and `str(b)` is the text when the bytes are well-formed
 UTF-8 (an `error` when they are not). A `str` and a `bytes` value do not mix under `~` or a
 comparison.
 
 ```
 ? my(b= b"\x{c3}\x{a9}t");
-? [b, #b, b[0], uint(b[-1])]
-> [b"\x{c3}\x{a9}t",3,b"\x{c3}",116]
+? [b, #b, b[0], uint(b)]
+> [b"\x{c3}\x{a9}t",3,b"\x{c3}",[195,169,116]]
 
 ? [str(b), #str(b), b ~ b"!"]
 > ["ét",2,b"\x{c3}\x{a9}t!"]
@@ -483,7 +484,7 @@ Every result has a state. A value is a result in the state `def`. The states met
 - `underflow`: a `uint` that would go below 0, or a read that runs short at the end of
   the input.
 - `error`: something went wrong. `1/0`, a position outside a list, a text
-  that is no number in `uint(s)`, and `error("message")` in your own code.
+  that is no number in `uint.read(s)`, and `error("message")` in your own code.
 
 A state is no value: there is no literal for one and no `==` against one. An `error` ends
 the sequence, the loop and the call it occurs in, and so travels outward until something
@@ -496,7 +497,7 @@ is there, for the states below `error`; an `error` passes through it.
 ? my(half(n)= if(0 == n % 2, n // 2)); [half(10), guard(half(7), "odd")]
 > [5,"odd"]
 
-? my(v= [1, 2, 3]); [guard(v[5], -1), guard(1/0, 0), guard(uint("12x"), 0)]
+? my(v= [1, 2, 3]); [guard(v[5], -1), guard(1/0, 0), guard(uint.read("12x"), 0)]
 > [-1,0,0]
 
 ? [is_defined(max([])), guard(is_defined(1/0), "an error")]
@@ -532,7 +533,7 @@ status 2:
 
 ```
 [rud1]
-my(n= guard(uint("12x"), -1)); if(n < 0, exit(2, "not a number")); n
+my(n= guard(uint.read("12x"), -1)); if(n < 0, exit(2, "not a number")); n
 ```
 
 Output:
@@ -552,7 +553,7 @@ itself. With the input `12 30`, a line feed, `7 -8 1` and a line feed:
 
 ```
 [rud1]
-my(numbers(s)= [sint(w) | w <- str.split(str.split(s, "\n")[0], " "), "" != w]);
+my(numbers(s)= [sint.read(w) | w <- str.split(str.split(s, "\n")[0], " "), "" != w]);
 mut my(line= read_line());
 while
 ( is_defined(line)

@@ -66,11 +66,11 @@ with its result after `\\>` or in a block headed "Output:".
 [rud1] [max(3, 9, 4), min([5, 2, 8]), fold(max, [3, 9, 4])]  \\> [9,2,9]
 ```
 
-**Strings.** `~` joins, `~*` repeats, `#` counts code points; `str` gives the text of a number.
+**Strings.** `~` joins, `~*` repeats, `#` counts code points; `str` gives the text of a number, `T.read` reads one.
 
 ```
 [rud1] ["abc" ~ "def", "ab" ~* 3, #"héllo"]  \\> ["abcdef","ababab",5]
-[rud1] [str(42) ~ "!", sint("42") + 1]  \\> ["42!",43]
+[rud1] [str(42) ~ "!", sint.read("42") + 1]  \\> ["42!",43]
 [rud1] str.split("a,b,c", ",")  \\> ["a","b","c"]
 [rud1] str.join(["a", "b", "c"], "-")  \\> "a-b-c"
 [rud1] say("x = ", 5);  \\> x = 5
@@ -265,12 +265,12 @@ Output:
 ```
 
 **`bytes`.** Written `b"…"`; `str(b)` decodes it as UTF-8, or is an `error`. A slice of it is a `bytes` value, and a slice can be replaced
-(`b[0..0]= b"zz"`); `bytes(s)` encodes a `str` as UTF-8; an index gives one byte, a `bytes` value, `uint` of it its
-number, and a walk gives the bytes as numbers.
+(`b[0..0]= b"zz"`); `bytes(s)` encodes a `str` as UTF-8; an index gives one byte, a `bytes` value, `uint` of a `bytes`
+value the numbers of its bytes, and a walk gives the bytes as numbers.
 
 ```
 [rud1] [#"hé", #b"h\x{c3}\x{a9}", str(b"h\x{c3}\x{a9}")]  \\> [2,3,"hé"]
-[rud1] [b"abc"[0], uint(b"abc"[-1]), b"abc"[0..1], b"abc"[0, 2]]  \\> [b"a",99,b"ab",b"ac"]
+[rud1] [b"abc"[0], uint(b"abc"), b"abc"[0..1], b"abc"[0, 2]]  \\> [b"a",[97,98,99],b"ab",b"ac"]
 [rud1] b"\x{89}PNG" ~ b"\r\n"  \\> b"\x{89}PNG\x{0d}\x{0a}"
 [rud1] [b"ab" == b"ab", b"ab" < b"b", guard(str(b"\x{ff}"), "not UTF-8")]  \\> [1,1,"not UTF-8"]
 ```
@@ -373,7 +373,7 @@ mut my(n= 0, total= 0);
 while
 ( is_defined(my(line= read_line()))
 , n+= 1;
-  total+= sum([sint(w) | w <- str.split(str.split(line, "\n")[0], " "), "" != w])
+  total+= sum([sint.read(w) | w <- str.split(str.split(line, "\n")[0], " "), "" != w])
 );
 say(n, " lines, total ", total);
 ```
@@ -750,7 +750,7 @@ my
 , tpl_cut3=    t{(*given: at k) head:a[=at] blk:a[=k] tail:a*}
 , tpl_join=    t{head:a* blk:a* tail:a*}
 );
-my(count(n)= if("" == str(n), 1, uint(str(n))));
+my(count(n)= if("" == str(n), 1, uint.read(str(n))));
 my
 ( run(prog, buf)=
   { my(len= #buf);
@@ -974,7 +974,7 @@ Its standard input is `rosetta/in/A+B.in`.
 ```
 [rud1]
 /* Rosetta Code: A+B */
-my(numbers(s)= [int(w) | w <- str.split(str.split(s, "\n")[0], " "), "" != w]);
+my(numbers(s)= [int.read(w) | w <- str.split(str.split(s, "\n")[0], " "), "" != w]);
 say(sum(numbers(read_line())));
 ```
 

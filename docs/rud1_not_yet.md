@@ -145,7 +145,7 @@ The comprehensions with `#a-1` are an `error` for an empty list (`uint - uint` b
 | `str.uc("a")` | proposed | `1:1 error no function 'str.uc'` (short names: a module, which needs `use`) | `alias {uc: to_uppercase}; str.uc("a") \\ "A"` |
 | `re"a+"` | decided | `1:1 error not in the core yet: prefixed literal 're"…"'` (also `match`, `regex`: undeclared) | `unpack(t{%[^a]* "a"+ x*}, b"caab") \\ [b"c",[b"a",b"a"],b"b"]` (a template) |
 | `to_characters("ab")` | decided | `1:1 error undeclared 'to_characters'` (dispatch on the type of the first argument; for the type pass) | `str.to_characters("ab") \\ ["a","b"]` |
-| `uint.split(91, base: 2)` | open | `1:1 error undeclared 'uint'` | \(a\) below |
+| `uint.split(91, base: 2)` | open | `1:1 error no function 'uint.split'` | \(a\) below |
 
 (a):
 
@@ -177,7 +177,7 @@ mut my(total= 0);
 mut my(line= read_line());
 while
 ( is_defined(line)
-, total+= sint(str.split(line, "\n")[0]);
+, total+= sint.read(str.split(line, "\n")[0]);
   line= read_line()
 );
 total  \\> 12

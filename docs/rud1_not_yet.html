@@ -632,7 +632,7 @@ my
 <tr>
 <td style="text-align: left;"><code>uint.split(91, base: 2)</code></td>
 <td style="text-align: left;">open</td>
-<td style="text-align: left;"><code>1:1 error undeclared 'uint'</code></td>
+<td style="text-align: left;"><code>1:1 error no function 'uint.split'</code></td>
 <td style="text-align: left;">(a) below</td>
 </tr>
 </tbody>
@@ -698,7 +698,7 @@ mut my(total= 0);
 mut my(line= read_line());
 while
 ( is_defined(line)
-, total+= sint(str.split(line, &quot;\n&quot;)[0]);
+, total+= sint.read(str.split(line, &quot;\n&quot;)[0]);
   line= read_line()
 );
 total  \\&gt; 12</code></pre>
