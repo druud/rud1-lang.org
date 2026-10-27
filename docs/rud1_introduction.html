@@ -548,12 +548,12 @@ family:</p>
 <code>str.unicode_version</code>. Three more names exist and give an <code>error</code> that says "not built
 yet": <code>str.is_casefolded</code>, <code>str.is_titlecase</code>, <code>str.to_titlecase</code>.</p>
 <p><code>bytes</code> is the type of raw bytes, written <code>b"…"</code>, with <code>\x{89}</code> for a byte in hex. <code>#b</code> counts
-bytes, <code>b[i]</code> is a byte as a number, <code>b[1..2]</code> is a <code>bytes</code> value of two, and <code>str(b)</code> is the text when the bytes are well-formed
+bytes, <code>b[i]</code> is one byte, a <code>bytes</code> value (<code>uint(b[i])</code> its number), <code>b[1..2]</code> is a <code>bytes</code> value of two, and <code>str(b)</code> is the text when the bytes are well-formed
 UTF-8 (an <code>error</code> when they are not). A <code>str</code> and a <code>bytes</code> value do not mix under <code>~</code> or a
 comparison.</p>
 <pre class="text"><code>? my(b= b&quot;\x{c3}\x{a9}t&quot;);
-? [b, #b, b[0], b[-1]]
-&gt; [b&quot;\x{c3}\x{a9}t&quot;,3,195,116]
+? [b, #b, b[0], uint(b[-1])]
+&gt; [b&quot;\x{c3}\x{a9}t&quot;,3,b&quot;\x{c3}&quot;,116]
 
 ? [str(b), #str(b), b ~ b&quot;!&quot;]
 &gt; [&quot;ét&quot;,2,b&quot;\x{c3}\x{a9}t!&quot;]</code></pre>

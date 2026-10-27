@@ -618,12 +618,6 @@ my
 <td style="text-align: left;"><code>alias {uc: to_uppercase}; str.uc("a") \\ "A"</code></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>"abc"[0]</code></td>
-<td style="text-align: left;">decided</td>
-<td style="text-align: left;"><code>we exited &lt;error("\"abc\"[0]: a str has no single positions: a slice s[a..b] takes code points (str.to_characters(s) lists the characters)")&gt; at 1:1</code> (decided: a compile error that names <code>s.to_characters()[i]</code>)</td>
-<td style="text-align: left;"><code>"abc"[0..0] \\ "a"</code></td>
-</tr>
-<tr>
 <td style="text-align: left;"><code>re"a+"</code></td>
 <td style="text-align: left;">decided</td>
 <td style="text-align: left;"><code>1:1 error not in the core yet: prefixed literal 're"…"'</code> (also <code>match</code>, <code>regex</code>: undeclared)</td>

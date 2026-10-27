@@ -143,7 +143,6 @@ The comprehensions with `#a-1` are an `error` for an empty list (`uint - uint` b
 | `str.substr("hello", 1, 2, "XX")` | decided | `1:1 error call of 'str.substr': takes 2 to 3 arguments, got 4` | `my(s= "hello"); str.substr(s, 0, 1) ~ "XX" ~ str.substr(s, 3) \\ "hXXlo"` |
 | `my(f= str.is_cased); f("a")` | decided | `1:7 error undeclared 'str'` (a startup `str.` function as a value) | `my(f(s)= str.is_cased(s)); f("a") \\ 1` |
 | `str.uc("a")` | proposed | `1:1 error no function 'str.uc'` (short names: a module, which needs `use`) | `alias {uc: to_uppercase}; str.uc("a") \\ "A"` |
-| `"abc"[0]` | decided | `we exited <error("\"abc\"[0]: a str has no single positions: a slice s[a..b] takes code points (str.to_characters(s) lists the characters)")> at 1:1` (decided: a compile error that names `s.to_characters()[i]`) | `"abc"[0..0] \\ "a"` |
 | `re"a+"` | decided | `1:1 error not in the core yet: prefixed literal 're"…"'` (also `match`, `regex`: undeclared) | `unpack(t{%[^a]* "a"+ x*}, b"caab") \\ [b"c",[b"a",b"a"],b"b"]` (a template) |
 | `to_characters("ab")` | decided | `1:1 error undeclared 'to_characters'` (dispatch on the type of the first argument; for the type pass) | `str.to_characters("ab") \\ ["a","b"]` |
 | `uint.split(91, base: 2)` | open | `1:1 error undeclared 'uint'` | \(a\) below |
