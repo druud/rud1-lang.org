@@ -231,8 +231,8 @@ and the spec's own marks.</li>
 <tr>
 <td style="text-align: left;"><code>0x1F</code></td>
 <td style="text-align: left;">—</td>
-<td style="text-align: left;"><code>1:1 error malformed number '0x1F': no hexadecimal or binary numbers; 0_ starts an octal number</code> (stays an error, spec §1)</td>
-<td style="text-align: left;"><code>unpack(t{$hex+}, b"1F")[0] \\ 31</code></td>
+<td style="text-align: left;"><code>1:1 error malformed number '0x1F': a number in a base is \x{1F}</code> (stays an error, spec §1)</td>
+<td style="text-align: left;"><code>\x{1F} \\ 31</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>[1, 2] &gt;&gt;+&lt;&lt; [3, 4]</code></td>

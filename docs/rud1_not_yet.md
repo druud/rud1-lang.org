@@ -35,7 +35,7 @@ How to read the tables:
 
 | Form | Status | Today | Meanwhile |
 |---|---|---|---|
-| `0x1F` | — | `1:1 error malformed number '0x1F': no hexadecimal or binary numbers; 0_ starts an octal number` (stays an error, spec §1) | `unpack(t{$hex+}, b"1F")[0] \\ 31` |
+| `0x1F` | — | `1:1 error malformed number '0x1F': a number in a base is \x{1F}` (stays an error, spec §1) | `\x{1F} \\ 31` |
 | `[1, 2] >>+<< [3, 4]` | decided | `1:1 error not in the core yet: '>>+<<'` | a comprehension: Lists and numbers, (a) |
 | `my(_<+>_ : _+_ = (a, b) -> a + b); 1 <+> 2` | decided | `1:5 error expected ')', got op '<'` | `my(plus(a, b)= a + b); plus(1, 2) \\ 3` |
 | `my(x= 5); f"x = {x}"` | proposed | `1:11 error not in the core yet: prefixed literal 'f"…"'` | `my(x= 5); "x = " ~ str(x) \\ "x = 5"` |
