@@ -139,7 +139,7 @@ The comprehensions with `#a-1` are an `error` for an empty list (`uint - uint` b
 | `str.to_graphemes("x")` | decided | `1:1 error no function 'str.to_graphemes'` | `str.to_characters("x") \\ ["x"]` (code points) |
 | `str.printf("%5d", 42)` | decided | `1:1 error no function 'str.printf'` (the format language: open) | `my(s= str(42)); " " ~* (5 - #s) ~ s \\ "   42"` |
 | `printf("%d\n", 42)` | decided | `1:1 error undeclared 'printf'` (also `sayf`) | `say(42); \\ 42` |
-| `str.pretty([1, 2])` | decided | `1:1 error no function 'str.pretty'` | `str([1, 2]) \\ "[1,2]"` |
+| `str.pretty([1, 2])` | decided | `1:1 error no function 'str.pretty'` | `str.to_text([1, 2]) \\ "[1,2]"` |
 | `str.substr("hello", 1, 2, "XX")` | decided | `1:1 error call of 'str.substr': takes 2 to 3 arguments, got 4` | `my(s= "hello"); str.substr(s, 0, 1) ~ "XX" ~ str.substr(s, 3) \\ "hXXlo"` |
 | `my(f= str.is_cased); f("a")` | decided | `1:7 error undeclared 'str'` (a startup `str.` function as a value) | `my(f(s)= str.is_cased(s)); f("a") \\ 1` |
 | `str.uc("a")` | proposed | `1:1 error no function 'str.uc'` (short names: a module, which needs `use`) | `alias {uc: to_uppercase}; str.uc("a") \\ "A"` |
