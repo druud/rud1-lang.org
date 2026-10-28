@@ -435,14 +435,15 @@ The family, in full: `str.eq_caseless`, `str.from_codepoints`, `str.is_cased`,
 yet": `str.is_casefolded`, `str.is_titlecase`, `str.to_titlecase`.
 
 `bytes` is the type of raw bytes, written `b"…"`, with `\x{89}` for a byte in hex. `#b` counts
-bytes, `b[i]` is one byte, a `bytes` value (`uint(b)` the numbers of the bytes), `b[1..2]` is a `bytes` value of two, and `str(b)` is the text when the bytes are well-formed
+bytes, `b[i]` is one byte, a number (`uint(b)` the numbers of all the bytes), `b[1..2]` is a `bytes` value of two, and `str(b)` is the text when the bytes are well-formed
 UTF-8 (an `error` when they are not). A `str` and a `bytes` value do not mix under `~` or a
 comparison.
 
 ```
 ? my(b= b"\x{c3}\x{a9}t");
 ? [b, #b, b[0], uint(b)]
-> [b"\x{c3}\x{a9}t",3,b"\x{c3}",[195,169,116]]
+> [b"\x{c3}\x{a9}t",3,195,[195,169,116]]
+
 
 ? [str(b), #str(b), b ~ b"!"]
 > ["ét",2,b"\x{c3}\x{a9}t!"]

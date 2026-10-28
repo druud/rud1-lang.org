@@ -265,12 +265,13 @@ Output:
 ```
 
 **`bytes`.** Written `b"…"`; `str(b)` decodes it as UTF-8, or is an `error`. A slice of it is a `bytes` value, and a slice can be replaced
-(`b[0..0]= b"zz"`); `bytes(s)` encodes a `str` as UTF-8; an index gives one byte, a `bytes` value, `uint` of a `bytes`
-value the numbers of its bytes, and a walk gives the bytes as numbers.
+(`b[0..0]= b"zz"`); `bytes(s)` encodes a `str` as UTF-8; an index gives one byte, a number, as a walk does, and a fold goes over them
+(`sum(b)`, `int.sum(b)` for the bytes as `sint`); `bytes(L)` makes one of numbers from 0 to 255.
 
 ```
 [rud1] [#"hé", #b"h\x{c3}\x{a9}", str(b"h\x{c3}\x{a9}")]  \\> [2,3,"hé"]
-[rud1] [b"abc"[0], uint(b"abc"), b"abc"[0..1], b"abc"[0, 2]]  \\> [b"a",[97,98,99],b"ab",b"ac"]
+[rud1] [b"abc"[0], uint(b"abc"), b"abc"[0..1], b"abc"[0, 2]]  \\> [97,[97,98,99],b"ab",b"ac"]
+
 [rud1] b"\x{89}PNG" ~ b"\r\n"  \\> b"\x{89}PNG\x{0d}\x{0a}"
 [rud1] [b"ab" == b"ab", b"ab" < b"b", guard(str(b"\x{ff}"), "not UTF-8")]  \\> [1,1,"not UTF-8"]
 ```
