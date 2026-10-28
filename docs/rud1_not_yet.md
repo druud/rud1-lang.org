@@ -53,9 +53,9 @@ the type pass of spec §10 adds beyond that (dispatch, variants, binding by type
 
 | Form | Status | Today | Meanwhile |
 |---|---|---|---|
-| `type T = uint {default: none}; my(T dn); dn= 1` | decided | `1:6 error expected ';', got ident 'T'` (decided: a compile error at `my(T dn)`, the value is given at the declaration) | `my(dn= 1); dn \\ 1` |
+| `type T = uint {default: none}; my(T dn); dn= 1` | decided | `1:16 error a range of a type takes whole numbers: got ident 'default'` (decided: a compile error at `my(T dn)`, the value is given at the declaration) | `my(dn= 1); dn \\ 1` |
 | `my(x); x= 1; x` | decided | `1:8 error assignment to immutable 'x'` (late init) | `mut my(x); x= 1; x \\ 1` |
-| `type Pct = uint {0..100}; 1` | decided | `1:6 error expected ';', got ident 'Pct'` | — |
+| `type Pct = uint {0..100}; my(f(uint a)= a); f(Pct(5))` | decided | `5` (the type is built, generation 65; a `Pct` passes where a `uint` is wanted until the type pass of spec §10 refuses it, H1) | — |
 | `i64(5)` | decided | `1:1 error undeclared 'i64'` (also `f64`) | — |
 | `#bool()` | decided | `1:2 error wrong number of arguments to 'bool'` (multis and index types, spec §6.4) | — |
 | `my(r); state(r)` | decided | `1:8 error undeclared 'state'` | `my(r); is_defined(r) \\ 0` |
