@@ -15,7 +15,7 @@ lists the question as open, or two of its lines disagree). A rule that the spec 
 without a mark counts as decided here. A dash in Status: the spec has no plan for the form
 as written; the note in Today says more.
 
-The prototype is the one written in Lean, rud1 version 0.1.65; there is no other implementation.
+The prototype is the one written in Lean, rud1 version 0.1.66; there is no other implementation.
 Its executable is named `rud1_run` and files end in `.rud`; `rud1 'code'` and
 `rud1 file.rud` below stand for a shell function around it.
 
@@ -135,7 +135,7 @@ The comprehensions with `#a-1` are an `error` for an empty list (`uint - uint` b
 | `str.to_titlecase("o'neil")` | decided | `we exited <error("str.to_titlecase(\"o'neil\"): not built yet (it waits for the word boundaries of UAX #29)")> at 1:1` | `str.to_titlecase_first("o'neil") \\ "O'neil"` |
 | `str.is_titlecase("A")` | decided | `we exited <error("str.is_titlecase(\"A\"): not built yet (it waits for the word boundaries of UAX #29)")> at 1:1` | — |
 | `str.is_casefolded("a")` | decided | `we exited <error("str.is_casefolded(\"a\"): not built yet (it waits for normalization)")> at 1:1` | `"a" == str.to_casefold("a") \\ 1` (without normalization) |
-| `str.eq_canonical("a", "a")` | proposed | `1:1 error no function 'str.eq_canonical'` (no normalization function exists; the names are proposed) | — |
+| `"é" == str([101, 769])` | decided | `0` (code points; YA: `==` follows canonical equivalence, true) | — |
 | `str.to_graphemes("x")` | decided | `1:1 error no function 'str.to_graphemes'` | `str.to_characters("x") \\ ["x"]` (code points) |
 | `str.printf("%5d", 42)` | decided | `1:1 error no function 'str.printf'` (the format language: open) | `my(s= str(42)); " " ~* (5 - #s) ~ s \\ "   42"` |
 | `printf("%d\n", 42)` | decided | `1:1 error undeclared 'printf'` (also `sayf`) | `say(42); \\ 42` |
