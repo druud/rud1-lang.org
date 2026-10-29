@@ -539,14 +539,18 @@ family:</p>
 ? [str.to_characters(&quot;hé&quot;), str.to_codepoints(&quot;hé&quot;)]
 &gt; [[&quot;h&quot;,&quot;é&quot;],[104,233]]
 
+? my(s= str([101, 769])); [#s, str.length_codepoints(s), str.length_codepoints(s, &quot;NFC&quot;), str.length_bytes(s)]
+&gt; [1,2,1,3]
+
 ? [str.from_codepoints([104, 233]), str.to_titlecase_first(&quot;ada&quot;)]
 &gt; [&quot;hé&quot;,&quot;Ada&quot;]
 
 ? [str.to_uppercase(&quot;straße&quot;), str.to_lowercase(&quot;ABC&quot;)]
 &gt; [&quot;STRASSE&quot;,&quot;abc&quot;]</code></pre>
 <p>The family, in full: <code>str.eq_caseless</code>, <code>str.from_codepoints</code>, <code>str.is_cased</code>,
-<code>str.is_lowercase</code>, <code>str.is_uppercase</code>, <code>str.join</code>, <code>str.split</code>, <code>str.substr</code>,
-<code>str.to_casefold</code>, <code>str.to_characters</code>, <code>str.to_codepoints</code>, <code>str.to_lowercase</code>,
+<code>str.is_lowercase</code>, <code>str.is_uppercase</code>, <code>str.join</code>, <code>str.length_bytes</code>,
+<code>str.length_codepoints</code>, <code>str.split</code>, <code>str.substr</code>, <code>str.to_casefold</code>,
+<code>str.to_characters</code>, <code>str.to_codepoints</code>, <code>str.to_graphemes</code>, <code>str.to_lowercase</code>,
 <code>str.to_lowercase_first</code>, <code>str.to_titlecase_first</code>, <code>str.to_uppercase</code>,
 <code>str.unicode_version</code>. Three more names exist and give an <code>error</code> that says "not built
 yet": <code>str.is_casefolded</code>, <code>str.is_titlecase</code>, <code>str.to_titlecase</code>.</p>

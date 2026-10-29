@@ -422,6 +422,9 @@ family:
 ? [str.to_characters("hé"), str.to_codepoints("hé")]
 > [["h","é"],[104,233]]
 
+? my(s= str([101, 769])); [#s, str.length_codepoints(s), str.length_codepoints(s, "NFC"), str.length_bytes(s)]
+> [1,2,1,3]
+
 ? [str.from_codepoints([104, 233]), str.to_titlecase_first("ada")]
 > ["hé","Ada"]
 
@@ -430,8 +433,9 @@ family:
 ```
 
 The family, in full: `str.eq_caseless`, `str.from_codepoints`, `str.is_cased`,
-`str.is_lowercase`, `str.is_uppercase`, `str.join`, `str.split`, `str.substr`,
-`str.to_casefold`, `str.to_characters`, `str.to_codepoints`, `str.to_lowercase`,
+`str.is_lowercase`, `str.is_uppercase`, `str.join`, `str.length_bytes`,
+`str.length_codepoints`, `str.split`, `str.substr`, `str.to_casefold`,
+`str.to_characters`, `str.to_codepoints`, `str.to_graphemes`, `str.to_lowercase`,
 `str.to_lowercase_first`, `str.to_titlecase_first`, `str.to_uppercase`,
 `str.unicode_version`. Three more names exist and give an `error` that says "not built
 yet": `str.is_casefolded`, `str.is_titlecase`, `str.to_titlecase`.
