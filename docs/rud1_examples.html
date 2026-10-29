@@ -332,7 +332,7 @@ for(i= 1, N, say(str.join([str(i * j) | j &lt;- [1..N]], &quot; &quot;)));
 <p><strong>Code points.</strong></p>
 <pre class="text"><code>[rud1] str.to_codepoints(&quot;hé&quot;)  \\&gt; [104,233]
 [rud1] str.from_codepoints([c + 1 | c &lt;- str.to_codepoints(&quot;HAL&quot;)])  \\&gt; &quot;IBM&quot;
-[rud1] [&quot;\u{e9}&quot; == &quot;é&quot;, #&quot;e\u{301}&quot;, &quot;a\tb&quot;]  \\&gt; [1,2,&quot;a\x{09}b&quot;]</code></pre>
+[rud1] [&quot;\u{e9}&quot; == &quot;é&quot;, #&quot;e\u{301}&quot;, &quot;a\tb&quot;]  \\&gt; [1,1,&quot;a\x{09}b&quot;]</code></pre>
 <p><strong><code>bytes</code>.</strong> Written <code>b"…"</code>; <code>str(b)</code> decodes it as UTF-8, or is an <code>error</code>. A slice of it is a <code>bytes</code> value, and a slice can be replaced
 (<code>b[0..0]= b"zz"</code>); <code>bytes(s)</code> encodes a <code>str</code> as UTF-8; an index gives one byte, a number, as a walk does, and a fold goes over them
 (<code>sum(b)</code>, <code>int.sum(b)</code> for the bytes as <code>sint</code>); <code>bytes(L)</code> makes one of numbers from 0 to 255.</p>

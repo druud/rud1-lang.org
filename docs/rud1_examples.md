@@ -261,7 +261,7 @@ Output:
 ```
 [rud1] str.to_codepoints("hé")  \\> [104,233]
 [rud1] str.from_codepoints([c + 1 | c <- str.to_codepoints("HAL")])  \\> "IBM"
-[rud1] ["\u{e9}" == "é", #"e\u{301}", "a\tb"]  \\> [1,2,"a\x{09}b"]
+[rud1] ["\u{e9}" == "é", #"e\u{301}", "a\tb"]  \\> [1,1,"a\x{09}b"]
 ```
 
 **`bytes`.** Written `b"…"`; `str(b)` decodes it as UTF-8, or is an `error`. A slice of it is a `bytes` value, and a slice can be replaced

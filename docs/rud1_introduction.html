@@ -520,7 +520,8 @@ written with <code>;</code> between the rows.</p>
 <h2 id="strings-and-bytes">Strings and bytes</h2>
 <p>A <code>str</code> is text, always well-formed UTF-8, written between double quotes with the escapes
 <code>\n \t \r \e \" \\</code> and <code>\u{…}</code> for a code point in hex. <code>~</code> joins, <code>~*</code> repeats, <code>#s</code> is the
-length in code points, and the comparisons follow Unicode's canonical equivalence: an
+length in characters as Unicode counts them (extended grapheme clusters: a flag or an
+<code>é</code> with a combining accent is one), <code>s[i]</code> is one of them, and the comparisons follow Unicode's canonical equivalence: an
 <code>é</code> written as one code point or as <code>e</code> and a combining accent is equal under <code>==</code>.</p>
 <pre class="text"><code>? my(s= &quot;héllo&quot;); [#s, s ~ &quot; world&quot;, &quot;&quot; != s]
 &gt; [5,&quot;héllo world&quot;,1]
