@@ -355,14 +355,15 @@ each with what it prints now:
   `[rud1] say("start"); my(f(n)= if(0 == n, 0, 1 + __SELF__(n - 1))); f(20000)`\
   `\\ start`\
   `\\ 20000`
-- Indexing a list is linear in the index, and a list made by a range or a
-  comprehension is by name: it is computed again at each use (decided: memoized).
-  So a loop over the indices is quadratic.\
+- Indexing a list is linear in the index. A list made by a range or a comprehension keeps
+  the cells and the elements it reached (a memo of the last 8 lists indexed), so a loop over the
+  indices is linear, as a walk is; a loop that takes turns over more than 8 such lists
+  computes them again.\
   `[rud1] my(N= 2000, L= [1..N]); mut my(s= 0); for(i <- [0..N-1], s+= L[i]); s \\ 2001000`
 - A walk is linear.\
   `[rud1] my(N= 2000, L= [1..N]); mut my(s= 0); for(x <- L, s+= x); s \\ 2001000`\
-  On the machine of this run the first took 6.1 s and the second 0.02 s; with
-  `N= 4000` the first took 22 s.
+  On the machine of this run, beyond the startup of 0.14 s, the first took 0.04 s and the
+  second 0.02 s; with `N= 4000` the first took 0.09 s (22 s before the memo).
 - `read_line()` in a loop is quadratic in the number of lines. On 4000 lines
   `abcdefghij` (`yes abcdefghij | head -4000`):\
   `[rud1] mut my(n= 0, l= read_line()); while(is_defined(l), n+= 1; l= read_line()); n \\ 4000`\

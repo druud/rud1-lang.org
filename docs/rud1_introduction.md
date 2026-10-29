@@ -644,8 +644,8 @@ Written so that each round needs its own first byte, the same template passes:
 ```
 
 This check covers repeats; a bound for every template, as RE2 gives one for its regular
-expressions, is not claimed. For the repeats the check cannot see into, the reader is to
-keep a memo of each place and item (decided, not built).
+expressions, is not claimed. For the repeats the check cannot see into, the reader keeps
+a memo of each place and item.
 
 ## Status words and regions
 
