@@ -432,13 +432,14 @@ family:
 > ["STRASSE","abc"]
 ```
 
-The family, in full: `str.eq_caseless`, `str.from_codepoints`, `str.is_cased`,
-`str.is_lowercase`, `str.is_uppercase`, `str.join`, `str.length_bytes`,
+The family, in full: `str.eq_canonical_caseless`, `str.eq_caseless`,
+`str.from_codepoints`, `str.is_cased`, `str.is_casefolded`, `str.is_lowercase`, `str.is_uppercase`, `str.join`, `str.length_bytes`,
 `str.length_codepoints`, `str.split`, `str.substr`, `str.to_casefold`,
 `str.to_characters`, `str.to_codepoints`, `str.to_graphemes`, `str.to_lowercase`,
-`str.to_lowercase_first`, `str.to_titlecase_first`, `str.to_uppercase`,
-`str.unicode_version`. Three more names exist and give an `error` that says "not built
-yet": `str.is_casefolded`, `str.is_titlecase`, `str.to_titlecase`.
+`str.to_lowercase_first`, `str.to_NFC`, `str.to_NFD`, `str.to_NFKC`,
+`str.to_NFKD`, `str.to_titlecase_first`, `str.to_uppercase`,
+`str.unicode_version`. Two more names exist and give an `error` that says "not built
+yet": `str.is_titlecase`, `str.to_titlecase`.
 
 `bytes` is the type of raw bytes, written `b"…"`, with `\x{89}` for a byte in hex. `#b` counts
 bytes, `b[i]` is one byte, a number (`uint(b)` the numbers of all the bytes), `b[1..2]` is a `bytes` value of two, and `str(b)` is the text when the bytes are well-formed

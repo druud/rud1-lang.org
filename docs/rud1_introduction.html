@@ -547,13 +547,14 @@ family:</p>
 
 ? [str.to_uppercase(&quot;straße&quot;), str.to_lowercase(&quot;ABC&quot;)]
 &gt; [&quot;STRASSE&quot;,&quot;abc&quot;]</code></pre>
-<p>The family, in full: <code>str.eq_caseless</code>, <code>str.from_codepoints</code>, <code>str.is_cased</code>,
-<code>str.is_lowercase</code>, <code>str.is_uppercase</code>, <code>str.join</code>, <code>str.length_bytes</code>,
+<p>The family, in full: <code>str.eq_canonical_caseless</code>, <code>str.eq_caseless</code>,
+<code>str.from_codepoints</code>, <code>str.is_cased</code>, <code>str.is_casefolded</code>, <code>str.is_lowercase</code>, <code>str.is_uppercase</code>, <code>str.join</code>, <code>str.length_bytes</code>,
 <code>str.length_codepoints</code>, <code>str.split</code>, <code>str.substr</code>, <code>str.to_casefold</code>,
 <code>str.to_characters</code>, <code>str.to_codepoints</code>, <code>str.to_graphemes</code>, <code>str.to_lowercase</code>,
-<code>str.to_lowercase_first</code>, <code>str.to_titlecase_first</code>, <code>str.to_uppercase</code>,
-<code>str.unicode_version</code>. Three more names exist and give an <code>error</code> that says "not built
-yet": <code>str.is_casefolded</code>, <code>str.is_titlecase</code>, <code>str.to_titlecase</code>.</p>
+<code>str.to_lowercase_first</code>, <code>str.to_NFC</code>, <code>str.to_NFD</code>, <code>str.to_NFKC</code>,
+<code>str.to_NFKD</code>, <code>str.to_titlecase_first</code>, <code>str.to_uppercase</code>,
+<code>str.unicode_version</code>. Two more names exist and give an <code>error</code> that says "not built
+yet": <code>str.is_titlecase</code>, <code>str.to_titlecase</code>.</p>
 <p><code>bytes</code> is the type of raw bytes, written <code>b"…"</code>, with <code>\x{89}</code> for a byte in hex. <code>#b</code> counts
 bytes, <code>b[i]</code> is one byte, a number (<code>uint(b)</code> the numbers of all the bytes), <code>b[1..2]</code> is a <code>bytes</code> value of two, and <code>str(b)</code> is the text when the bytes are well-formed
 UTF-8 (an <code>error</code> when they are not). A <code>str</code> and a <code>bytes</code> value do not mix under <code>~</code> or a

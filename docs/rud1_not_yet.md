@@ -134,7 +134,7 @@ The comprehensions with `#a-1` are an `error` for an empty list (`uint - uint` b
 |---|---|---|---|
 | `str.to_titlecase("o'neil")` | decided | `we exited <error("str.to_titlecase(\"o'neil\"): not built yet (it waits for the word boundaries of UAX #29)")> at 1:1` | `str.to_titlecase_first("o'neil") \\ "O'neil"` |
 | `str.is_titlecase("A")` | decided | `we exited <error("str.is_titlecase(\"A\"): not built yet (it waits for the word boundaries of UAX #29)")> at 1:1` | — |
-| `str.is_casefolded("a")` | decided | `we exited <error("str.is_casefolded(\"a\"): not built yet (it waits for normalization)")> at 1:1` | `"a" == str.to_casefold("a") \\ 1` (without normalization) |
+| `str.is_casefolded("a")` | decided | `1` (built in generation 67, YN: D142, on the NFD form) | `"a" == str.to_casefold("a") \\ 1` (without normalization) |
 | `"é" == str([101, 769])` | decided | `1` (built in generation 66, YA; `===` stays false) | — |
 | `str.to_graphemes("x")` | decided | `["x"]` (built in generation 67, YD, YG: `#s` and `s[i]` count these) | `str.to_characters("x") \\ ["x"]` (the same since YK) |
 | `str.printf("%5d", 42)` | decided | `1:1 error no function 'str.printf'` (the format language: open) | `my(s= str(42)); " " ~* (5 - #s) ~ s \\ "   42"` |
