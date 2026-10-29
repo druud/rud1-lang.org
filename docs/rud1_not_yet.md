@@ -356,8 +356,8 @@ each with what it prints now:
   `\\ start`\
   `\\ 20000`
 - Indexing a list is linear in the index. A list made by a range or a comprehension keeps
-  the cells and the elements it reached (a memo of the last 8 lists indexed), so a loop over the
-  indices is linear, as a walk is; a loop that takes turns over more than 8 such lists
+  the cells and the elements it reached from its second index on (a memo of the last 8 lists
+  indexed), so a loop over the indices is linear, as a walk is; a loop that takes turns over more than 8 such lists
   computes them again.\
   `[rud1] my(N= 2000, L= [1..N]); mut my(s= 0); for(i <- [0..N-1], s+= L[i]); s \\ 2001000`
 - A walk is linear.\
