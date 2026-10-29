@@ -7,7 +7,7 @@
 **Exact numbers, errors as states of a value, and one checked template language that reads
 and writes binary and text formats.**
 
-rud1 (`.rud`) started out inspired by pari/gp, Perl and C++, and keeps their terse one-liners.
+rud1 (pronounced Rudi; `.rud`) started out inspired by pari/gp, Perl and C++, and keeps their terse one-liners.
 It has grown its own character: what can be decided before a program runs is decided then, a result that
 went wrong is a state that travels with it, and reading and writing data share one
 description. The prototype is written in [Lean 4](https://lean-lang.org), with proofs of
