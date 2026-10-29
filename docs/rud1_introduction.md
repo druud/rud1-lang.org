@@ -397,7 +397,8 @@ written with `;` between the rows.
 
 A `str` is text, always well-formed UTF-8, written between double quotes with the escapes
 `\n \t \r \e \" \\` and `\u{…}` for a code point in hex. `~` joins, `~*` repeats, `#s` is the
-length in code points, and the comparisons compare by code point.
+length in code points, and the comparisons follow Unicode's canonical equivalence: an
+`é` written as one code point or as `e` and a combining accent is equal under `==`.
 
 ```
 ? my(s= "héllo"); [#s, s ~ " world", "" != s]
