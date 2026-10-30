@@ -538,7 +538,7 @@ family:</p>
 &gt; [&quot;éll&quot;,&quot;lo&quot;]
 
 ? [str.to_characters(&quot;hé&quot;), str.to_codepoints(&quot;hé&quot;)]
-&gt; [[&quot;h&quot;,&quot;é&quot;],[104,233]]
+&gt; [[&quot;h&quot;,&quot;é&quot;],[\x{68},\x{e9}]]
 
 ? my(s= str([101, 769])); [#s, str.length_codepoints(s), str.length_codepoints(s, &quot;NFC&quot;), str.length_bytes(s)]
 &gt; [1,2,1,3]
@@ -562,7 +562,7 @@ UTF-8 (an <code>error</code> when they are not). A <code>str</code> and a <code>
 comparison.</p>
 <pre class="text"><code>? my(b= b&quot;\x{c3}\x{a9}t&quot;);
 ? [b, #b, b[0], uint(b)]
-&gt; [b&quot;\x{c3}\x{a9}t&quot;,3,195,[195,169,116]]
+&gt; [b&quot;\x{c3}\x{a9}t&quot;,3,\x{c3},[195,169,116]]
 
 
 ? [str(b), #str(b), b ~ b&quot;!&quot;]

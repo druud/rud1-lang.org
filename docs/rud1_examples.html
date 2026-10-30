@@ -330,14 +330,14 @@ for(i= 1, N, say(str.join([str(i * j) | j &lt;- [1..N]], &quot; &quot;)));
 [rud1] [str.eq_caseless(&quot;Straße&quot;, &quot;STRASSE&quot;), &quot;Straße&quot; == &quot;STRASSE&quot;]  \\&gt; [1,0]
 [rud1] [str.is_lowercase(&quot;abc&quot;), str.is_uppercase(&quot;abc&quot;), str.unicode_version()]  \\&gt; [1,0,[17,0,0]]</code></pre>
 <p><strong>Code points.</strong></p>
-<pre class="text"><code>[rud1] str.to_codepoints(&quot;hé&quot;)  \\&gt; [104,233]
+<pre class="text"><code>[rud1] str.to_codepoints(&quot;hé&quot;)  \\&gt; [\x{68},\x{e9}]
 [rud1] str.from_codepoints([c + 1 | c &lt;- str.to_codepoints(&quot;HAL&quot;)])  \\&gt; &quot;IBM&quot;
 [rud1] [&quot;\u{e9}&quot; == &quot;é&quot;, #&quot;e\u{301}&quot;, &quot;a\tb&quot;]  \\&gt; [1,1,&quot;a\x{09}b&quot;]</code></pre>
 <p><strong><code>bytes</code>.</strong> Written <code>b"…"</code>; <code>str(b)</code> decodes it as UTF-8, or is an <code>error</code>. A slice of it is a <code>bytes</code> value, and a slice can be replaced
 (<code>b[0..0]= b"zz"</code>); <code>bytes(s)</code> encodes a <code>str</code> as UTF-8; an index gives one byte, a number, as a walk does, and a fold goes over them
 (<code>sum(b)</code>, <code>int.sum(b)</code> for the bytes as <code>sint</code>); <code>bytes(L)</code> makes one of numbers from 0 to 255.</p>
 <pre class="text"><code>[rud1] [#&quot;hé&quot;, #b&quot;h\x{c3}\x{a9}&quot;, str(b&quot;h\x{c3}\x{a9}&quot;)]  \\&gt; [2,3,&quot;hé&quot;]
-[rud1] [b&quot;abc&quot;[0], uint(b&quot;abc&quot;), b&quot;abc&quot;[0..1], b&quot;abc&quot;[0, 2]]  \\&gt; [97,[97,98,99],b&quot;ab&quot;,b&quot;ac&quot;]
+[rud1] [b&quot;abc&quot;[0], uint(b&quot;abc&quot;), b&quot;abc&quot;[0..1], b&quot;abc&quot;[0, 2]]  \\&gt; [\x{61},[97,98,99],b&quot;ab&quot;,b&quot;ac&quot;]
 
 [rud1] b&quot;\x{89}PNG&quot; ~ b&quot;\r\n&quot;  \\&gt; b&quot;\x{89}PNG\x{0d}\x{0a}&quot;
 [rud1] [b&quot;ab&quot; == b&quot;ab&quot;, b&quot;ab&quot; &lt; b&quot;b&quot;, guard(str(b&quot;\x{ff}&quot;), &quot;not UTF-8&quot;)]  \\&gt; [1,1,&quot;not UTF-8&quot;]</code></pre>

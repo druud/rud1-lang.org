@@ -421,7 +421,7 @@ family:
 > ["éll","lo"]
 
 ? [str.to_characters("hé"), str.to_codepoints("hé")]
-> [["h","é"],[104,233]]
+> [["h","é"],[\x{68},\x{e9}]]
 
 ? my(s= str([101, 769])); [#s, str.length_codepoints(s), str.length_codepoints(s, "NFC"), str.length_bytes(s)]
 > [1,2,1,3]
@@ -450,7 +450,7 @@ comparison.
 ```
 ? my(b= b"\x{c3}\x{a9}t");
 ? [b, #b, b[0], uint(b)]
-> [b"\x{c3}\x{a9}t",3,195,[195,169,116]]
+> [b"\x{c3}\x{a9}t",3,\x{c3},[195,169,116]]
 
 
 ? [str(b), #str(b), b ~ b"!"]

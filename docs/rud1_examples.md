@@ -259,7 +259,7 @@ Output:
 **Code points.**
 
 ```
-[rud1] str.to_codepoints("hé")  \\> [104,233]
+[rud1] str.to_codepoints("hé")  \\> [\x{68},\x{e9}]
 [rud1] str.from_codepoints([c + 1 | c <- str.to_codepoints("HAL")])  \\> "IBM"
 [rud1] ["\u{e9}" == "é", #"e\u{301}", "a\tb"]  \\> [1,1,"a\x{09}b"]
 ```
@@ -270,7 +270,7 @@ Output:
 
 ```
 [rud1] [#"hé", #b"h\x{c3}\x{a9}", str(b"h\x{c3}\x{a9}")]  \\> [2,3,"hé"]
-[rud1] [b"abc"[0], uint(b"abc"), b"abc"[0..1], b"abc"[0, 2]]  \\> [97,[97,98,99],b"ab",b"ac"]
+[rud1] [b"abc"[0], uint(b"abc"), b"abc"[0..1], b"abc"[0, 2]]  \\> [\x{61},[97,98,99],b"ab",b"ac"]
 
 [rud1] b"\x{89}PNG" ~ b"\r\n"  \\> b"\x{89}PNG\x{0d}\x{0a}"
 [rud1] [b"ab" == b"ab", b"ab" < b"b", guard(str(b"\x{ff}"), "not UTF-8")]  \\> [1,1,"not UTF-8"]
