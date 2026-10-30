@@ -360,7 +360,8 @@ are <code>0</code>, <code>0.0</code> and <code>false</code>; an empty list and a
 &gt; [1,0,1,-1,0,1,1]</code></pre>
 <p>A number never becomes text by itself, nor text a number: <code>str(x)</code> writes a number,
 <code>uint.read(s)</code> and <code>sint.read(s)</code> read one, the whole text. A cast such as <code>uint(s)</code> goes
-element by element: over a <code>str</code> it gives the code points.</p>
+element by element: over a <code>str</code> by cluster, each the number of its one code point (a
+cluster of more is an <code>error</code>; <code>str.to_codepoints(s)</code> gives every code point).</p>
 <pre class="text"><code>? [str(42), uint.read(&quot;42&quot;), sint.read(&quot;-7&quot;), &quot;n = &quot; ~ str(5), uint(&quot;42&quot;)]
 &gt; [&quot;42&quot;,42,-7,&quot;n = 5&quot;,[52,50]]</code></pre>
 <h2 id="names">Names</h2>

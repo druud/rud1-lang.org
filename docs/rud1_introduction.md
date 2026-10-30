@@ -153,7 +153,8 @@ are `0`, `0.0` and `false`; an empty list and an empty string are true.
 
 A number never becomes text by itself, nor text a number: `str(x)` writes a number,
 `uint.read(s)` and `sint.read(s)` read one, the whole text. A cast such as `uint(s)` goes
-element by element: over a `str` it gives the code points.
+element by element: over a `str` by cluster, each the number of its one code point (a
+cluster of more is an `error`; `str.to_codepoints(s)` gives every code point).
 
 ```
 ? [str(42), uint.read("42"), sint.read("-7"), "n = " ~ str(5), uint("42")]
