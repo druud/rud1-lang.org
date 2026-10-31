@@ -812,6 +812,42 @@ knalbhdefgicjm
 | `tpl_read` | `t{p0:a p1:a p2:a p3:a4 p7:a p8:a p9:a p10:a p11:a p12:a p13:a}`<br>Reads 14 bytes as eleven pieces, each named by its position; `p3` is four bytes. |
 | `tpl_write` | `t{p10:a p13:a p0:a p11:a p1:a p7:a p3:a4 p8:a p2:a p9:a p12:a}`<br>The same eleven pieces in the order of the target; used to write them (`pack`). |
 
+## Many ways to one result: is_odd
+
+One question, many spellings: the remainder, the low bit, the bit a shift drops, a view of the bits, a power, recursion. A condition takes a `bool`, so each one compares; the result of `v % 2` is a number. `is_even` is any of them negated.
+
+```
+[rud1]
+my
+( odd(v)= if(0 == v, false, even(v - 1))
+, even(v)= if(0 == v, true, odd(v - 1))
+);
+my(ways=
+[ v -> 1 == v % 2                       /* the remainder */
+, v -> 0 != v % 2
+, v -> [false, true][v % 2]
+, v -> 1 == binand(v, 1)                /* the low bit */
+, v -> 1 == binand(1, v)
+, v -> v == binor(v, 1)
+, v -> binxor(v, 1) < v
+, v -> 1 == v - 2 * (v // 2)            /* the bit a shift by 1 drops */
+, v -> v != v // 2 * 2
+, v -> 1 == uint1(pack(t{C}, [v]))[0]   /* the first bit of its byte, v below 256 */
+, v -> -1 == (-1)^v                     /* the sign of a power */
+, v -> odd(v)                           /* by recursion, with even */
+, v -> !even(v)
+]);
+say(#ways);
+say([[f(v) | v <- [6, 7]] | f <- ways]);
+```
+
+Output (`false` and `true` of 6 and 7 for each way):
+
+```
+13
+[[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1]]
+```
+
 ## Classic programs
 
 From the `rosetta` directory of the rud1 tree, unchanged: `basic` is written as a coder new to the

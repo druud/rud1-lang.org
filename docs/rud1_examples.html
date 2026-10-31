@@ -862,6 +862,33 @@ knalbhdefgicjm</code></pre>
 </tr>
 </tbody>
 </table>
+<h2 id="many-ways-is-odd">Many ways to one result: is_odd</h2>
+<p>One question, many spellings: the remainder, the low bit, the bit a shift drops, a view of the bits, a power, recursion. A condition takes a <code>bool</code>, so each one compares; the result of <code>v % 2</code> is a number. <code>is_even</code> is any of them negated.</p>
+<pre class="text"><code>[rud1]
+my
+( odd(v)= if(0 == v, false, even(v - 1))
+, even(v)= if(0 == v, true, odd(v - 1))
+);
+my(ways=
+[ v -&gt; 1 == v % 2                       /* the remainder */
+, v -&gt; 0 != v % 2
+, v -&gt; [false, true][v % 2]
+, v -&gt; 1 == binand(v, 1)                /* the low bit */
+, v -&gt; 1 == binand(1, v)
+, v -&gt; v == binor(v, 1)
+, v -&gt; binxor(v, 1) &lt; v
+, v -&gt; 1 == v - 2 * (v // 2)            /* the bit a shift by 1 drops */
+, v -&gt; v != v // 2 * 2
+, v -&gt; 1 == uint1(pack(t{C}, [v]))[0]   /* the first bit of its byte, v below 256 */
+, v -&gt; -1 == (-1)^v                     /* the sign of a power */
+, v -&gt; odd(v)                           /* by recursion, with even */
+, v -&gt; !even(v)
+]);
+say(#ways);
+say([[f(v) | v &lt;- [6, 7]] | f &lt;- ways]);</code></pre>
+<p>Output (<code>false</code> and <code>true</code> of 6 and 7 for each way):</p>
+<pre class="text"><code>13
+[[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1]]</code></pre>
 <h2 id="classic-programs">Classic programs</h2>
 <p>From the <code>rosetta</code> directory of the rud1 tree, unchanged: <code>basic</code> is written as a coder new to the
 language writes, <code>seasoned</code> as one who knows it.</p>
