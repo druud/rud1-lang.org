@@ -814,7 +814,7 @@ knalbhdefgicjm
 
 ## Many ways to one result: is_odd
 
-One question, many spellings: the remainder, the low bit, the bit a shift drops, a view of the bits, a power, recursion. A condition takes a `bool`, so each one compares; the result of `v % 2` is a number. `is_even` is any of them negated.
+One question, many spellings: `v % 2`, the low bit, the bit a shift by 1 drops, a view of the bits, a power, recursion. A condition takes a `bool`, so each one compares; the result of `v % 2` is a number. `is_even` is any of them negated.
 
 ```
 [rud1]
@@ -828,9 +828,12 @@ my(ways=
 , v -> [false, true][v % 2]
 , v -> 1 == binand(v, 1)                /* the low bit */
 , v -> 1 == binand(1, v)
+, v -> bitand(1, v) == 1
+, v -> bittest(v, 0)
 , v -> v == binor(v, 1)
 , v -> binxor(v, 1) < v
-, v -> 1 == v - 2 * (v // 2)            /* the bit a shift by 1 drops */
+, v -> 1 == v - 2 * (v >> 1)            /* the bit a shift by 1 drops */
+, v -> v != (v >> 1) << 1
 , v -> v != v // 2 * 2
 , v -> 1 == uint1(pack(t{C}, [v]))[0]   /* the first bit of its byte, v below 256 */
 , v -> -1 == (-1)^v                     /* the sign of a power */
@@ -838,14 +841,42 @@ my(ways=
 , v -> !even(v)
 ]);
 say(#ways);
-say([[f(v) | v <- [6, 7]] | f <- ways]);
+say([f(6) | f <- ways]);
+say([f(7) | f <- ways]);
 ```
 
-Output (`false` and `true` of 6 and 7 for each way):
+Output (the number of ways, then each way of 6, false, and of 7, true):
 
 ```
-13
-[[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1]]
+16
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+```
+
+## A bit vector: the sieve
+
+A whole number holds a bit vector: `bitset`, `bitclear`, `bitflip` give it with one bit changed, `bittest` reads one. It has no highest bit to keep, as a sentinel, so the last bit clears like any other.
+
+```
+[rud1]
+my
+( sieve(N)=
+  { mut my(V= (1 << (N + 1)) - 1);   /* bit j for the number j, in 0 .. N */
+    V= bitclear(bitclear(V, 0), 1);
+    for
+    ( p <- [2 .. N]
+    , if(and(p * p <= N, bittest(V, p)), for(j <- [2 * p .. N; p], V= bitclear(V, j)))
+    );
+    [j | j <- [0 .. N], bittest(V, j)]
+  }
+);
+say(sieve(100));
+```
+
+Output:
+
+```
+[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
 ```
 
 ## Classic programs

@@ -863,7 +863,7 @@ knalbhdefgicjm</code></pre>
 </tbody>
 </table>
 <h2 id="many-ways-is-odd">Many ways to one result: is_odd</h2>
-<p>One question, many spellings: the remainder, the low bit, the bit a shift drops, a view of the bits, a power, recursion. A condition takes a <code>bool</code>, so each one compares; the result of <code>v % 2</code> is a number. <code>is_even</code> is any of them negated.</p>
+<p>One question, many spellings: <code>v % 2</code>, the low bit, the bit a shift by 1 drops, a view of the bits, a power, recursion. A condition takes a <code>bool</code>, so each one compares; the result of <code>v % 2</code> is a number. <code>is_even</code> is any of them negated.</p>
 <pre class="text"><code>[rud1]
 my
 ( odd(v)= if(0 == v, false, even(v - 1))
@@ -875,9 +875,12 @@ my(ways=
 , v -&gt; [false, true][v % 2]
 , v -&gt; 1 == binand(v, 1)                /* the low bit */
 , v -&gt; 1 == binand(1, v)
+, v -&gt; bitand(1, v) == 1
+, v -&gt; bittest(v, 0)
 , v -&gt; v == binor(v, 1)
 , v -&gt; binxor(v, 1) &lt; v
-, v -&gt; 1 == v - 2 * (v // 2)            /* the bit a shift by 1 drops */
+, v -&gt; 1 == v - 2 * (v &gt;&gt; 1)            /* the bit a shift by 1 drops */
+, v -&gt; v != (v &gt;&gt; 1) &lt;&lt; 1
 , v -&gt; v != v // 2 * 2
 , v -&gt; 1 == uint1(pack(t{C}, [v]))[0]   /* the first bit of its byte, v below 256 */
 , v -&gt; -1 == (-1)^v                     /* the sign of a power */
@@ -885,10 +888,29 @@ my(ways=
 , v -&gt; !even(v)
 ]);
 say(#ways);
-say([[f(v) | v &lt;- [6, 7]] | f &lt;- ways]);</code></pre>
-<p>Output (<code>false</code> and <code>true</code> of 6 and 7 for each way):</p>
-<pre class="text"><code>13
-[[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1]]</code></pre>
+say([f(6) | f &lt;- ways]);
+say([f(7) | f &lt;- ways]);</code></pre>
+<p>Output (the number of ways, then each way of 6, false, and of 7, true):</p>
+<pre class="text"><code>16
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]</code></pre>
+<h2 id="bit-vector-sieve">A bit vector: the sieve</h2>
+<p>A whole number holds a bit vector: <code>bitset</code>, <code>bitclear</code>, <code>bitflip</code> give it with one bit changed, <code>bittest</code> reads one. It has no highest bit to keep, as a sentinel, so the last bit clears like any other.</p>
+<pre class="text"><code>[rud1]
+my
+( sieve(N)=
+  { mut my(V= (1 &lt;&lt; (N + 1)) - 1);   /* bit j for the number j, in 0 .. N */
+    V= bitclear(bitclear(V, 0), 1);
+    for
+    ( p &lt;- [2 .. N]
+    , if(and(p * p &lt;= N, bittest(V, p)), for(j &lt;- [2 * p .. N; p], V= bitclear(V, j)))
+    );
+    [j | j &lt;- [0 .. N], bittest(V, j)]
+  }
+);
+say(sieve(100));</code></pre>
+<p>Output:</p>
+<pre class="text"><code>[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]</code></pre>
 <h2 id="classic-programs">Classic programs</h2>
 <p>From the <code>rosetta</code> directory of the rud1 tree, unchanged: <code>basic</code> is written as a coder new to the
 language writes, <code>seasoned</code> as one who knows it.</p>
